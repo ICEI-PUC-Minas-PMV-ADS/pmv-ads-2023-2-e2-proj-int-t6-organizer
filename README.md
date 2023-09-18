@@ -702,19 +702,94 @@ Botão Excluir Meta: Se os usuários decidirem excluir a meta durante o processo
 
 
 
-1.2
 
 ## <a name="planoteste">Plano de Testes de Usabilidade</a>
-1
 
-### <a name="planoteste">Plano de Testes de Usabilidade</a>
-1.1
+O planejamento dos testes de usabilidade a serem realizados com usuários são descritos abaixo.
+
+
+1.	Teste de Navegação:
+•	Tarefa: O usuário deve poder criar uma lista de tarefas.
+•	Métrica: Tempo necessário para concluir a tarefa, número de cliques e etapas seguidas.
+2.	Teste de Adição de Tarefas:
+•	Tarefa: O usuário deve poder adicionar tarefas a uma lista existente.
+•	Métrica: Precisão na adição de tarefas, facilidade de uso do formulário de entrada.
+3.	Teste de Organização de Tarefas:
+•	Tarefa: O usuário deve poder organizar as tarefas por prioridade, data de vencimento ou categorias.
+•	Métrica: Facilidade de reorganização, satisfação do usuário com as opções de organização.
+4.	Teste de Edição de Tarefas:
+•	Tarefa: O usuário deve poder editar uma tarefa existente, modificando seu título, data ou descrição.
+•	Métrica: Eficiência da edição, clareza das opções de edição.
+5.	Teste de Exclusão de Tarefas:
+•	Tarefa: O usuário deve poder excluir uma tarefa da lista.
+•	Métrica: Facilidade de exclusão, feedback após a exclusão.
+
 
 ## <a name="planosoftware">Plano de Testes de Software</a>
-1
 
-### <a name="planosoftware">Plano de Testes de Software</a>
-1.1
+Os testes funcionais a serem realizados no aplicativo são descritos a seguir.
+
+Requisito Funcional RF-01: Gerenciar o acesso do usuário
+
+Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.
+
+Etapas do Plano de Teste:
+Criar um usuário e verificar se o sistema permite a criação de contas com sucesso.
+Testar o login com o usuário criado anteriormente e verificar se o sistema permite o acesso apenas a contas válidas.
+Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.
+Testar a funcionalidade de exclusão de usuário e verificar se a conta é removida com sucesso.
+
+Requisito Funcional RF-02: Gerenciar metas
+
+Objetivo do teste: Verificar se o sistema permite o gerenciamento correto de metas.
+
+Etapas do Plano de Teste:
+Criar uma meta e verificar se os detalhes da meta são registrados corretamente.
+Editar uma meta existente e verificar se as alterações são salvas adequadamente.
+Excluir uma meta e verificar se ela é removida com sucesso.
+
+Requisito Funcional RF-03: Gerenciar tarefas
+
+Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado de tarefas.
+
+Etapas do Plano de Teste:
+
+Criar uma tarefa e verificar se os detalhes da tarefa são registrados corretamente.
+Editar uma tarefa existente e verificar se as alterações são salvas adequadamente.
+Excluir uma tarefa e verificar se ela é removida com sucesso.
+
+Requisito Funcional RF-04: O sistema deve permitir o usuário atualizar o status da tarefa
+
+Objetivo do teste: Verificar se o sistema permite que os usuários atualizem o status das tarefas corretamente.
+
+Etapas do Plano de Teste:
+Criar uma tarefa com status "Em andamento" e verificar se é possível alterar o status para "Concluída".
+Criar uma tarefa com status "Pendente" e verificar se é possível alterar o status para "Em andamento".
+
+Requisito Funcional RF-05: O sistema deve emitir o status atual da meta
+
+Objetivo do teste: Verificar se o sistema exibe o status atual das metas corretamente.
+
+Etapas do Plano de Teste:
+Criar uma meta com um status específico e verificar se o sistema exibe o status corretamente na tela de detalhes da meta.
+Atualizar o status da meta e verificar se a tela de detalhes é atualizada para refletir o novo status.
+
+Requisito Funcional RF-06: O sistema deve gerar relatórios com as metas e tarefas cadastradas
+
+Objetivo do teste: Verificar se o sistema gera relatórios com metas e tarefas cadastradas corretamente.
+
+Etapas do Plano de Teste:
+Criar várias metas e tarefas no sistema.
+Gerar um relatório de metas e tarefas cadastradas e verificar se todas as informações são exibidas corretamente.
+
+Requisito Funcional RF-07: O sistema deve gerar relatórios das metas e tarefas concluídas
+
+Objetivo do teste: Verificar se o sistema gera relatórios das metas e tarefas concluídas corretamente.
+
+Etapas do Plano de Teste:
+Concluir algumas metas e tarefas no sistema.
+Gerar um relatório de metas e tarefas concluídas e verificar se apenas as informações das metas e tarefas concluídas são exibidas.
+
 
 
 ## <a name="codigo">Código</a>
