@@ -341,26 +341,20 @@ O modelo ER é aplicado de forma conceitual para representar as entidades, atrib
    - Senha: Senha de acesso ao sistema.
    - Data de Registro: Data de registro do usuário no sistema.
  
-* Categorias:
-   - ID (Chave Primária): Identificador único da categoria.
-   - Nome: Nome da categoria.
-   - ID_Usuário (Chave Estrangeira): Chave estrangeira que associa o usuário a uma categoria.
-   - Data de Registro: Data de registro da categoria no sistema.
-
 * Metas:
    - ID (Chave Primária): Identificador único da meta.
    - Nome: Nome da meta.
    - Data de Início: Data de início planejada para a meta.
    - Data de Conclusão: Data de conclusão planejada para a meta.
-   - Status: Estado atual da meta (por exemplo, em andamento, concluída, etc.).
-   - ID_Catergoria (Chave Estrangeira): Chave estrangeira que associa a meta a uma categoria.
+   - Status: Estado atual da meta.
+   - Categoria: Categoria da meta, sé é Pessoal, Profissional ou Acadêmica.
    - DataRegistro: Data de registro da meta no sistema.
 
 * Tarefas:
    - ID (Chave Primária): Identificador único da tarefa.
    - Nome: Nome da tarefa.
    - Data de Vencimento: Data limite para a conclusão da tarefa.
-   - Status: Estado atual da tarefa (por exemplo, pendente, concluída, etc.).
+   - Status: Estado atual da tarefa.
    - ID_Meta (Chave Estrangeira): Chave estrangeira que associa a tarefa a uma meta.
    - DataRegistro: Data de registro da tarefa no sistema.
  
@@ -384,7 +378,7 @@ Nesta seção, apresentaremos o projeto da base de dados, incluindo o modelo ló
 
 ##### Modelo Lógico
 
-Nossa aplicação de gerenciamento de tarefas utiliza um banco de dados MySQL¹ para armazenar informações sobre usuários, metas e tarefas. O modelo lógico do banco de dados é descrito da seguinte forma:
+Nossa aplicação de gerenciamento de tarefas utiliza o sistema de gerenciamento de banco de dados "SQL Server 2022 Express"¹ para armazenar informações sobre usuários, metas e tarefas. O modelo lógico do banco de dados é descrito da seguinte forma:
 
 * Tabela **Usuarios**
 	- ID (Chave Primária): Identificador único do usuário.
@@ -393,19 +387,13 @@ Nossa aplicação de gerenciamento de tarefas utiliza um banco de dados MySQL¹ 
 	- Senha: Senha de acesso ao sistema (criptografada).
 	- DataRegistro: Data de registro do usuário no sistema.
 
-* Tabela **Categorias**
-   	- ID (Chave Primária): Identificador único da categoria.
-   	- Nome: Nome da categoria.
-  	- ID_Usuário (Chave Estrangeira): Chave estrangeira que associa o usuário a uma categoria.
-   	- Data de Registro: Data de registro da categoria no sistema.
-
 * Tabela **Metas**
 	- ID (Chave Primária): Identificador único da meta.
 	- Nome: Nome da meta.
 	- DataInicio: Data de início planejada para a meta.
 	- DataConclusao: Data de conclusão planejada para a meta.
 	- Status: Estado atual da meta (por exemplo, em andamento, concluída, etc.).
-	- ID_Categoria (Chave Estrangeira): Chave estrangeira que associa a meta a uma categoria.
+	- Categoria: Categoria da meta, sé é Pessoal, Profissional ou Acadêmica.
 	- DataRegistro: Data de registro da meta no sistema.
 
 * Tabela **Tarefas**
@@ -416,7 +404,7 @@ Nossa aplicação de gerenciamento de tarefas utiliza um banco de dados MySQL¹ 
 	- ID_Meta (Chave Estrangeira): Chave estrangeira que associa a tarefa a uma meta.
 	- DataRegistro: Data de registro da tarefa no sistema.
 
-> ¹<sub>MySQL é um SGBD de código aberto que é amplamente utilizado em muitos contextos, incluindo ambientes educacionais, aplicativos da web e projetos de pequena escala. Ele atende aos critérios de gratuidade e é adequado para um trabalho escolar. (DEVMEDIA;2023)</sub>
+> ¹<sub>SQL Server 2022 ExpressL é uma edição gratuita do SQL Server, ideal para desenvolvimento e produção de aplicações de área de trabalho, Web e pequenos servidores.. (Microsoft;2023)</sub>
 
 
 
@@ -427,54 +415,37 @@ A implementação do banco de dados foi feita usando o Sistema de Gerenciamento 
 * Tabela **Usuarios**
 ```
 CREATE TABLE Usuarios (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nome VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Senha VARCHAR(255) NOT NULL,
-    DataRegistro DATE NOT NULL
+	ID (Chave Primária): INT (Autoincremento, não nulo)
+	Nome: VARCHAR(255) (Não nulo)
+	Email: VARCHAR(255) (Único, não nulo)
+	Senha: VARCHAR(255) (Não nulo)
+	DataRegistro: DATETIME (Não nulo)
 );
 
 ```
-* Tabela **Categorias**
-```
-CREATE TABLE Categorias (
-    CategoriaID INT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL
-);
-
--- Inserir valores fixos na tabela de Categorias
-INSERT INTO Categorias (CategoriaID, Nome) VALUES
-(1, 'Categoria 1'),
-(2, 'Categoria 2'),
-(3, 'Categoria 3');
-
-```
-
 * Tabela **Metas**
 ```
 CREATE TABLE Metas (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nome VARCHAR(255) NOT NULL,
-    DataInicio DATE NOT NULL,
-    DataConclusao DATE NOT NULL,
-    Status VARCHAR(50) NOT NULL,
-    ID_Usuario INT NOT NULL,
-    FOREIGN KEY (CategoriaID) REFERENCES Categorias(CategoriaID),
-    Categoria VARCHAR(50) NOT NULL,
-    DataRegistro DATE NOT NULL
+	ID (Chave Primária): INT (Autoincremento, não nulo)
+	Nome: VARCHAR(255) (Não nulo)
+	DataInicio: DATE (Não nulo)
+	DataConclusao: DATE (Não nulo)
+	Status: VARCHAR(50) (Não nulo)
+	Categoria: ENUM('Profissional', 'Acadêmico', 'Pessoal') (Não nulo)
+	DataRegistro: DATETIME (Não nulo)
+	UsuarioID (Chave Estrangeira): INT (Não nulo)
 );
 ```
 
 * Tabela **Tarefas**
 ```
 CREATE TABLE Tarefas (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nome VARCHAR(255) NOT NULL,
-    DataVencimento DATE NOT NULL,
-    Status VARCHAR(50) NOT NULL,
-    ID_Meta INT NOT NULL,
-    FOREIGN KEY (ID_Meta) REFERENCES Metas(ID)
-    DataRegistro DATE NOT NULL
+	ID (Chave Primária): INT (Autoincremento, não nulo)
+	Nome: VARCHAR(255) (Não nulo)
+	DataVencimento: DATE (Não nulo)
+	Status: VARCHAR(50) (Não nulo)
+	ID_Meta (Chave Estrangeira): INT (Não nulo)
+	DataRegistro: DATETIME (Não nulo)
 );
 ```
 
@@ -484,18 +455,18 @@ A segurança dos dados é uma prioridade em nosso projeto. Aqui estão algumas r
 
 * Autenticação de Usuários:
 	- A autenticação de usuários é obrigatória para acessar o sistema.
-	- As senhas são armazenadas no banco de dados de forma criptografada usando algoritmos seguros.
+	- As senhas são armazenadas no banco de dados de forma **criptografada** usando algoritmos seguros.
   
 * Controle de Acesso:
-   	- Apenas usuários autenticados têm acesso às informações cadastradas, visando o sigilo/confidencialidade dos dados.
-	- O tópico integridade está sendo tratado ao garantirmos que os usuários só possam editar ou excluir informações que pertencem a eles.
+   	- Apenas usuários autenticados têm acesso às informações cadastradas, visando o **sigilo/confidencialidade** dos dados.
+	- O tópico **integridade** está sendo tratado ao garantirmos que os usuários só possam editar ou excluir informações que pertencem a eles.
 
-* Restrições de Dados (Disponibilidade):
+* Restrições de Dados - **Disponibilidade**):
    	- Restrições de integridade referencial são aplicadas para manter a consistência dos dados.
 	- A utilização de consultas parametrizadas ajuda a evitar injeção de SQL (ataque cibernético).
   
 * Auditoria de Acesso:
-   	- Implementamos logs de auditoria para rastrear acessos e atividades no sistema (recurso nativo mySQL).
+   	- Implementamos **logs de auditoria** para rastrear acessos e atividades no sistema (recurso nativo mySQL).
 	  
 Garantir a segurança e integridade dos dados é fundamental para o sucesso do nosso projeto de gerenciamento de tarefas.
 
@@ -779,3 +750,5 @@ A lista a seguir traz as referências utilizadas nesse trabalho. são elas:
 * Blog Impacta (2017). Como elaborar um projeto de banco de dados. Disponível em: https://www.impacta.com.br/blog/veja-como-elaborar-um-projeto-de-banco-de-dados/. Acesso em: 07/09/2023
 
 * DEVMIDEA (2008). Projeto de Banco de Dados - Parte 1. Disponível em: https://www.devmedia.com.br/projeto-de-banco-de-dados-parte-1/10923. Acessado em 08/09/2023.
+
+* Microsoft (2023). Experimente o SQL Server na infraestrutura local ou na nuvem. Disponível em: https://www.microsoft.com/pt-br/sql-server/sql-server-downloads#:~:text=Express,trabalho%2C%20Web%20e%20pequenos%20servidores. Acesso em 17/09/2023.
