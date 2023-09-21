@@ -780,21 +780,49 @@ Figura 13 - Tela Editar Meta
 O planejamento dos testes de usabilidade a serem realizados com usuários são descritos abaixo.
 
 
-1.	Teste de Navegação:
-•	Tarefa: O usuário deve poder criar uma lista de tarefas.
-•	Métrica: Tempo necessário para concluir a tarefa, número de cliques e etapas seguidas.
-2.	Teste de Adição de Tarefas:
-•	Tarefa: O usuário deve poder adicionar tarefas a uma lista existente.
-•	Métrica: Precisão na adição de tarefas, facilidade de uso do formulário de entrada.
-3.	Teste de Organização de Tarefas:
-•	Tarefa: O usuário deve poder organizar as tarefas por prioridade, data de vencimento ou categorias.
-•	Métrica: Facilidade de reorganização, satisfação do usuário com as opções de organização.
-4.	Teste de Edição de Tarefas:
-•	Tarefa: O usuário deve poder editar uma tarefa existente, modificando seu título, data ou descrição.
-•	Métrica: Eficiência da edição, clareza das opções de edição.
-5.	Teste de Exclusão de Tarefas:
-•	Tarefa: O usuário deve poder excluir uma tarefa da lista.
-•	Métrica: Facilidade de exclusão, feedback após a exclusão.
+Teste de Registro de Conta:
+
+Tarefa: O usuário deve poder criar uma nova conta no sistema, fornecendo seu nome, sobrenome, endereço de email e senha.</br>
+Métrica: Facilidade de registro, clareza nas instruções, velocidade de conclusão do processo.
+
+
+Teste de Criação de Metas:
+
+Tarefa: O usuário deve poder criar uma meta, fornecendo um título, descrição e data de conclusão.</br>
+Métrica: Facilidade de criar metas, clareza nas opções de entrada de dados.</br>
+
+Teste de Criação de Tarefas:</br>
+
+Tarefa: Peça ao usuário para criar uma nova tarefa, atribuindo-a a uma meta, especificando título, descrição e data de vencimento.</br>
+Métrica: Facilidade de criação de tarefas, facilidade de associação a metas, clareza nas opções de entrada.</br>
+
+Teste de Edição de Metas e Tarefas:</br>
+
+Tarefa: O usuário deve poder editar o título, descrição ou data de conclusão de uma meta e uma tarefa existente.</br>
+Métrica: Facilidade e eficiência na edição, feedback após a edição.</br>
+
+Teste de Exclusão de Metas e Tarefas:</br>
+
+Tarefa: O usuário deve poder excluir uma meta e uma tarefa.</br>
+Métrica: Facilidade de exclusão, feedback após a exclusão.</br>
+
+Teste de Usabilidade para Editar Perfil e Senha:</br>
+
+Teste de Edição de Perfil:</br>
+
+Tarefa: O usuário deve poder editar seu perfil, atualizando informações pessoais como nome.</br>
+Métrica: Facilidade e eficiência na edição de perfil, feedback após a edição.</br>
+
+Teste de Alteração de Senha:</br>
+
+Tarefa: O usuário deve poder alterar sua senha atual por uma nova.</br>
+Métrica: Facilidade de alterar a senha, clareza nas etapas de segurança.</br>
+
+Teste de Recuperação de Senha: </br>
+
+Tarefa: Simular uma situação em que o usuário esqueceu sua senha e precisa recuperá-la.</br>
+Métrica: Facilidade de iniciar o processo de recuperação, clareza nas instruções e eficiência na recuperação.
+
 
 
 ## <a name="planosoftware">Plano de Testes de Software</a>
