@@ -320,7 +320,7 @@ O diagrama de classes ilustra graficamente como será a estrutura do software, e
 
 Figura 2 - Diagrama de classes
 
-![Diagrama_classes](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/7100feea-e5b1-41eb-8679-2f9563fb4a6e)
+![Diagrama_classes](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/5597b21d-8bdb-4997-ab3d-4879ad821cdc)
 
 </div>
 
