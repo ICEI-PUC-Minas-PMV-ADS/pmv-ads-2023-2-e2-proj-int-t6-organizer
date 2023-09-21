@@ -601,6 +601,8 @@ Botão "Login": Ao clicar neste botão, o sistema verifica as credenciais inseri
 
 Botão "Esqueci Minha Senha": Esta opção é fornecida para que o usuário possa redefinir a senha em caso de esquecimento. Ao clicar nela, o sistema direciona o usuário para uma página ou modal onde ele pode solicitar a redefinição da senha.
 
+Caso o usuario ainda não tenha cadastro é possível criar uma conta para acesso ao clicar em crie sua conta
+
 <div align="center">
 
 Figura 7 - Tela Login
