@@ -581,7 +581,6 @@ As telas do sistema seguem uma estrutura padrão, conforme ilustrado na Figura X
 Conteúdo: exibe o conteúdo da tela em questão;
 Barra lateral: mostra os elementos de navegação disponíveis, que estão associados aos elementos do bloco de conteúdo.
 
-![padrao](src/padrao.png)
 
 
 ### Tela Login
