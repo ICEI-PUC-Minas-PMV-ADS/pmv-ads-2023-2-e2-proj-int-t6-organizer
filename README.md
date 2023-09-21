@@ -301,23 +301,29 @@ As questões que limitam a execução desse projeto e que se configuram como obr
 
 ### Diagramas de Casos de Uso
 
-O diagrama de caso de uso está representado na figura 1, a seguir:
+O diagrama de casos de uso é o próximo passo após a elicitação de requisitos, que utiliza um modelo gráfico e uma tabela com as descrições sucintas dos casos de uso e dos atores. Ele contempla a fronteira do sistema e o detalhamento dos requisitos funcionais com a indicação dos atores, casos de uso e seus relacionamentos.
 
 <div align="center">
 
 Figura 1 - Diagrama de caso de uso
 
-![Diagrama](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/Diagrma_Caso_de_Uso.png)
+![Diagarama_uso](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/5dfd0a8d-ee44-4780-8ad3-5ac92625b13b)
 
 </div>
-
 
 ##  <a name="analise">Análise</a>
 
 ### <a name="diagramaclasse">Diagrama de Classes</a>
 
-...
+O diagrama de classes ilustra graficamente como será a estrutura do software, e como cada uma das classes da sua estrutura estarão interligadas.
+<div align="center">
 
+Figura 2 - Diagrama de classes
+
+![Diagrama_classes](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/43c0c60e-4b01-4f11-b511-6899a006afd7)
+
+
+</div>
 
 ### <a name="merconceitual">Modelo de Dados</a>
 
@@ -336,26 +342,20 @@ O modelo ER é aplicado de forma conceitual para representar as entidades, atrib
    - Senha: Senha de acesso ao sistema.
    - Data de Registro: Data de registro do usuário no sistema.
  
-* Categorias:
-   - ID (Chave Primária): Identificador único da categoria.
-   - Nome: Nome da categoria.
-   - ID_Usuário (Chave Estrangeira): Chave estrangeira que associa o usuário a uma categoria.
-   - Data de Registro: Data de registro da categoria no sistema.
-
 * Metas:
    - ID (Chave Primária): Identificador único da meta.
    - Nome: Nome da meta.
    - Data de Início: Data de início planejada para a meta.
    - Data de Conclusão: Data de conclusão planejada para a meta.
-   - Status: Estado atual da meta (por exemplo, em andamento, concluída, etc.).
-   - ID_Catergoria (Chave Estrangeira): Chave estrangeira que associa a meta a uma categoria.
+   - Status: Estado atual da meta.
+   - Categoria: Categoria da meta, sé é Pessoal, Profissional ou Acadêmica.
    - DataRegistro: Data de registro da meta no sistema.
 
 * Tarefas:
    - ID (Chave Primária): Identificador único da tarefa.
    - Nome: Nome da tarefa.
    - Data de Vencimento: Data limite para a conclusão da tarefa.
-   - Status: Estado atual da tarefa (por exemplo, pendente, concluída, etc.).
+   - Status: Estado atual da tarefa.
    - ID_Meta (Chave Estrangeira): Chave estrangeira que associa a tarefa a uma meta.
    - DataRegistro: Data de registro da tarefa no sistema.
  
@@ -363,11 +363,11 @@ O modelo ER é aplicado de forma conceitual para representar as entidades, atrib
  
 ##### Diagrama ER
 
-O Diagrama ER representa graficamente na figura 2, o Projeto Conceitual do Modelo Entidade-Relacionamento:
+O Diagrama ER representa graficamente na figura 3, o Projeto Conceitual do Modelo Entidade-Relacionamento:
 
 <div align="center">
 
-Figura 2 - Diagrama ER
+Figura 3 - Diagrama ER
 
 ![Diagrama](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/diagrama_ER.png)
 
@@ -379,7 +379,7 @@ Nesta seção, apresentaremos o projeto da base de dados, incluindo o modelo ló
 
 ##### Modelo Lógico
 
-Nossa aplicação de gerenciamento de tarefas utiliza um banco de dados MySQL¹ para armazenar informações sobre usuários, metas e tarefas. O modelo lógico do banco de dados é descrito da seguinte forma:
+Nossa aplicação de gerenciamento de tarefas utiliza o sistema de gerenciamento de banco de dados "SQL Server 2022 Express"¹ para armazenar informações sobre usuários, metas e tarefas. O modelo lógico do banco de dados é descrito da seguinte forma:
 
 * Tabela **Usuarios**
 	- ID (Chave Primária): Identificador único do usuário.
@@ -388,19 +388,13 @@ Nossa aplicação de gerenciamento de tarefas utiliza um banco de dados MySQL¹ 
 	- Senha: Senha de acesso ao sistema (criptografada).
 	- DataRegistro: Data de registro do usuário no sistema.
 
-* Tabela **Categorias**
-   	- ID (Chave Primária): Identificador único da categoria.
-   	- Nome: Nome da categoria.
-  	- ID_Usuário (Chave Estrangeira): Chave estrangeira que associa o usuário a uma categoria.
-   	- Data de Registro: Data de registro da categoria no sistema.
-
 * Tabela **Metas**
 	- ID (Chave Primária): Identificador único da meta.
 	- Nome: Nome da meta.
 	- DataInicio: Data de início planejada para a meta.
 	- DataConclusao: Data de conclusão planejada para a meta.
 	- Status: Estado atual da meta (por exemplo, em andamento, concluída, etc.).
-	- ID_Categoria (Chave Estrangeira): Chave estrangeira que associa a meta a uma categoria.
+	- Categoria: Categoria da meta, sé é Pessoal, Profissional ou Acadêmica.
 	- DataRegistro: Data de registro da meta no sistema.
 
 * Tabela **Tarefas**
@@ -411,7 +405,7 @@ Nossa aplicação de gerenciamento de tarefas utiliza um banco de dados MySQL¹ 
 	- ID_Meta (Chave Estrangeira): Chave estrangeira que associa a tarefa a uma meta.
 	- DataRegistro: Data de registro da tarefa no sistema.
 
-> ¹<sub>MySQL é um SGBD de código aberto que é amplamente utilizado em muitos contextos, incluindo ambientes educacionais, aplicativos da web e projetos de pequena escala. Ele atende aos critérios de gratuidade e é adequado para um trabalho escolar. (DEVMEDIA;2023)</sub>
+> ¹<sub>SQL Server 2022 ExpressL é uma edição gratuita do SQL Server, ideal para desenvolvimento e produção de aplicações de área de trabalho, Web e pequenos servidores.. (Microsoft;2023)</sub>
 
 
 
@@ -422,54 +416,37 @@ A implementação do banco de dados foi feita usando o Sistema de Gerenciamento 
 * Tabela **Usuarios**
 ```
 CREATE TABLE Usuarios (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nome VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Senha VARCHAR(255) NOT NULL,
-    DataRegistro DATE NOT NULL
+	ID (Chave Primária): INT (Autoincremento, não nulo)
+	Nome: VARCHAR(255) (Não nulo)
+	Email: VARCHAR(255) (Único, não nulo)
+	Senha: VARCHAR(255) (Não nulo)
+	DataRegistro: DATETIME (Não nulo)
 );
 
 ```
-* Tabela **Categorias**
-```
-CREATE TABLE Categorias (
-    CategoriaID INT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL
-);
-
--- Inserir valores fixos na tabela de Categorias
-INSERT INTO Categorias (CategoriaID, Nome) VALUES
-(1, 'Categoria 1'),
-(2, 'Categoria 2'),
-(3, 'Categoria 3');
-
-```
-
 * Tabela **Metas**
 ```
 CREATE TABLE Metas (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nome VARCHAR(255) NOT NULL,
-    DataInicio DATE NOT NULL,
-    DataConclusao DATE NOT NULL,
-    Status VARCHAR(50) NOT NULL,
-    ID_Usuario INT NOT NULL,
-    FOREIGN KEY (CategoriaID) REFERENCES Categorias(CategoriaID),
-    Categoria VARCHAR(50) NOT NULL,
-    DataRegistro DATE NOT NULL
+	ID (Chave Primária): INT (Autoincremento, não nulo)
+	Nome: VARCHAR(255) (Não nulo)
+	DataInicio: DATE (Não nulo)
+	DataConclusao: DATE (Não nulo)
+	Status: VARCHAR(50) (Não nulo)
+	Categoria: ENUM('Profissional', 'Acadêmico', 'Pessoal') (Não nulo)
+	DataRegistro: DATETIME (Não nulo)
+	UsuarioID (Chave Estrangeira): INT (Não nulo)
 );
 ```
 
 * Tabela **Tarefas**
 ```
 CREATE TABLE Tarefas (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nome VARCHAR(255) NOT NULL,
-    DataVencimento DATE NOT NULL,
-    Status VARCHAR(50) NOT NULL,
-    ID_Meta INT NOT NULL,
-    FOREIGN KEY (ID_Meta) REFERENCES Metas(ID)
-    DataRegistro DATE NOT NULL
+	ID (Chave Primária): INT (Autoincremento, não nulo)
+	Nome: VARCHAR(255) (Não nulo)
+	DataVencimento: DATE (Não nulo)
+	Status: VARCHAR(50) (Não nulo)
+	ID_Meta (Chave Estrangeira): INT (Não nulo)
+	DataRegistro: DATETIME (Não nulo)
 );
 ```
 
@@ -479,31 +456,122 @@ A segurança dos dados é uma prioridade em nosso projeto. Aqui estão algumas r
 
 * Autenticação de Usuários:
 	- A autenticação de usuários é obrigatória para acessar o sistema.
-	- As senhas são armazenadas no banco de dados de forma criptografada usando algoritmos seguros.
+	- As senhas são armazenadas no banco de dados de forma **criptografada** usando algoritmos seguros.
   
 * Controle de Acesso:
-   	- Apenas usuários autenticados têm acesso às informações cadastradas, visando o sigilo/confidencialidade dos dados.
-	- O tópico integridade está sendo tratado ao garantirmos que os usuários só possam editar ou excluir informações que pertencem a eles.
+   	- Apenas usuários autenticados têm acesso às informações cadastradas, visando o **sigilo/confidencialidade** dos dados.
+	- O tópico **integridade** está sendo tratado ao garantirmos que os usuários só possam editar ou excluir informações que pertencem a eles.
 
-* Restrições de Dados (Disponibilidade):
+* Restrições de Dados - **Disponibilidade**):
    	- Restrições de integridade referencial são aplicadas para manter a consistência dos dados.
 	- A utilização de consultas parametrizadas ajuda a evitar injeção de SQL (ataque cibernético).
   
 * Auditoria de Acesso:
-   	- Implementamos logs de auditoria para rastrear acessos e atividades no sistema (recurso nativo mySQL).
+   	- Implementamos **logs de auditoria** para rastrear acessos e atividades no sistema (recurso nativo mySQL).
 	  
 Garantir a segurança e integridade dos dados é fundamental para o sucesso do nosso projeto de gerenciamento de tarefas.
 
 ## <a name="metodologia">Metodologia</a>
-1
-### <a name="metodologia">Metodologia</a>
-1.1
+A metodologia contempla as definições de ferramentas utilizadas pela equipe tanto para a manutenção dos códigos e demais artefatos, quanto para a organização do time na execução das tarefas do projeto.
 
+### <a name="Relação de ambiente de trabalho">Relação de ambiente de trabalho</a>
+Os artefatos do projeto são desenvolvidos a partir de diversas plataformas e a relação dos ambientes com seu respectivo propósito é apresentada na tabela que se segue.
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+
+<tr>
+	<td>Ambiente</td>
+	<td>Plataforma</td>
+	<td>Link de acesso</td>
+</tr>
+
+<tr>
+	<td>Repositório de código fonte</td>
+	<td>GitHub</td>
+	<td>https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer </td>
+</tr>
+
+<tr>
+	<td>Documentos do projeto</td>
+	<td>Google Drive</td>
+	<td>https://docs.google.com/document/d/1_oxw2qohpM9MPGRCeaHRGZXZK-6mOwQC/edit </td>
+</tr>
+
+<tr>
+	<td>Projeto de Interface e  Wireframes</td>
+	<td>Canvas</td>
+	<td>https://www.canva.com/design/DAFtt39NdXM/GdCX-UcgNrdmlcKbljwVYQ/edit </td>
+</tr>
+
+<tr>
+	<td>Gerenciamento do Projeto</td>
+	<td>GitHub</td>
+	<td>https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/583</td>
+</tr>
+</table>
+
+ ### <a name="Gestão de código fonte">Gestão de código fonte</a>
+Para a gestão do código fonte será utilizado o modelo de processo baseado no Git Flow, como mostrado na figura a seguir:
+
+<div align="center">
+
+Figura 4 - Gestão de código fonte
+
+![gestao-codigo](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/e4170313-955d-4be9-961e-9416950f8712)
+
+</div>
+O projeto segue a seguinte convenção para o nome de branches:
+
+* Main: versão estável e já testada do software
+
+* Hotfix: versão para correção de erros
+
+* Realease: versão em testes do software
+
+* Develop: versão já testada do software, porém instável
+
+* Feature: versão de desenvolvimento do software
+ 
+ ### <a name="Gerenciamento do projeto">Gerenciamento do Projeto</a>
+
+* Scrum Master: Matheus Soares
+
+* Product Owner: Talita Fernandes
+
+* Equipe de Desenvolvimento : Raquel Nonato
+
+* Equipe de Design : Irene aparecida
+
+*  Equipe de Quality Assurance: Maria de Lourdes
+
+	Para organização e distribuição das tarefas do projeto, a equipe está utilizando o Trello estruturado com as seguintes listas:
+ 
+* **Backlog**: neste bloco é listada todas as tarefas que devem ser executadas durante o desenvolvimento do projeto;
+
+* **To Do**: neste bloco fica a Sprint a ser trabalhada e é definido quem irá trabalhar nela;
+
+* **In Progress**: aqui ficarão as tarefas que estão sendo sendo executadas;
+
+* **Done**: este bloco ficam as tarefas finalizadas e que serão entregues;
+
+O quadro desenvolvido pelo grupo na ferramenta de gerenciamento de projetos está disponível através da URL [Kanban GitHub](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/583). e é apresentado, no estado atual, na Figura x (tela do trello utilizada pelo grupo).
+
+
+ 
 ## <a name="projetosolucao">Projeto da Solução</a>
 1
 
-### <a name="interface">Projeto de Interface</a>
-1.1
+### <a name="interface">Diagrama de fluxo</a>
+
+Um diagrama de fluxo, também conhecido como fluxograma, é uma representação gráfica que visualiza a sequência de passos ou etapas em um processo, sistema ou algoritmo. Ele utiliza símbolos e setas para mostrar a ordem das operações e as relações entre elas.
+
+<div align="center">
+
+Figura 5 - Diagrama de fluxo
+
+![Diagrama_fluxo](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/c7579310-c24e-44fe-aba7-9d3976713049)
+
+</div>
 
 ### Wireframe Interativo
 Conforme o diagrama de fluxo do projeto apresentado anteriormente, as telas do sistema são detalhadas nos itens subsequentes. Para acessar o wireframe interativo, acesse o ambiente https://l1nk.dev/6wHyS disponível pela plataforma Canva.
@@ -655,19 +723,94 @@ Botão Excluir Meta: Se os usuários decidirem excluir a meta durante o processo
 
 
 
-1.2
 
 ## <a name="planoteste">Plano de Testes de Usabilidade</a>
-1
 
-### <a name="planoteste">Plano de Testes de Usabilidade</a>
-1.1
+O planejamento dos testes de usabilidade a serem realizados com usuários são descritos abaixo.
+
+
+1.	Teste de Navegação:
+•	Tarefa: O usuário deve poder criar uma lista de tarefas.
+•	Métrica: Tempo necessário para concluir a tarefa, número de cliques e etapas seguidas.
+2.	Teste de Adição de Tarefas:
+•	Tarefa: O usuário deve poder adicionar tarefas a uma lista existente.
+•	Métrica: Precisão na adição de tarefas, facilidade de uso do formulário de entrada.
+3.	Teste de Organização de Tarefas:
+•	Tarefa: O usuário deve poder organizar as tarefas por prioridade, data de vencimento ou categorias.
+•	Métrica: Facilidade de reorganização, satisfação do usuário com as opções de organização.
+4.	Teste de Edição de Tarefas:
+•	Tarefa: O usuário deve poder editar uma tarefa existente, modificando seu título, data ou descrição.
+•	Métrica: Eficiência da edição, clareza das opções de edição.
+5.	Teste de Exclusão de Tarefas:
+•	Tarefa: O usuário deve poder excluir uma tarefa da lista.
+•	Métrica: Facilidade de exclusão, feedback após a exclusão.
+
 
 ## <a name="planosoftware">Plano de Testes de Software</a>
-1
 
-### <a name="planosoftware">Plano de Testes de Software</a>
-1.1
+Os testes funcionais a serem realizados no aplicativo são descritos a seguir.
+
+Requisito Funcional RF-01: Gerenciar o acesso do usuário
+
+Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.
+
+Etapas do Plano de Teste:
+Criar um usuário e verificar se o sistema permite a criação de contas com sucesso.
+Testar o login com o usuário criado anteriormente e verificar se o sistema permite o acesso apenas a contas válidas.
+Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.
+Testar a funcionalidade de exclusão de usuário e verificar se a conta é removida com sucesso.
+
+Requisito Funcional RF-02: Gerenciar metas
+
+Objetivo do teste: Verificar se o sistema permite o gerenciamento correto de metas.
+
+Etapas do Plano de Teste:
+Criar uma meta e verificar se os detalhes da meta são registrados corretamente.
+Editar uma meta existente e verificar se as alterações são salvas adequadamente.
+Excluir uma meta e verificar se ela é removida com sucesso.
+
+Requisito Funcional RF-03: Gerenciar tarefas
+
+Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado de tarefas.
+
+Etapas do Plano de Teste:
+
+Criar uma tarefa e verificar se os detalhes da tarefa são registrados corretamente.
+Editar uma tarefa existente e verificar se as alterações são salvas adequadamente.
+Excluir uma tarefa e verificar se ela é removida com sucesso.
+
+Requisito Funcional RF-04: O sistema deve permitir o usuário atualizar o status da tarefa
+
+Objetivo do teste: Verificar se o sistema permite que os usuários atualizem o status das tarefas corretamente.
+
+Etapas do Plano de Teste:
+Criar uma tarefa com status "Em andamento" e verificar se é possível alterar o status para "Concluída".
+Criar uma tarefa com status "Pendente" e verificar se é possível alterar o status para "Em andamento".
+
+Requisito Funcional RF-05: O sistema deve emitir o status atual da meta
+
+Objetivo do teste: Verificar se o sistema exibe o status atual das metas corretamente.
+
+Etapas do Plano de Teste:
+Criar uma meta com um status específico e verificar se o sistema exibe o status corretamente na tela de detalhes da meta.
+Atualizar o status da meta e verificar se a tela de detalhes é atualizada para refletir o novo status.
+
+Requisito Funcional RF-06: O sistema deve gerar relatórios com as metas e tarefas cadastradas
+
+Objetivo do teste: Verificar se o sistema gera relatórios com metas e tarefas cadastradas corretamente.
+
+Etapas do Plano de Teste:
+Criar várias metas e tarefas no sistema.
+Gerar um relatório de metas e tarefas cadastradas e verificar se todas as informações são exibidas corretamente.
+
+Requisito Funcional RF-07: O sistema deve gerar relatórios das metas e tarefas concluídas
+
+Objetivo do teste: Verificar se o sistema gera relatórios das metas e tarefas concluídas corretamente.
+
+Etapas do Plano de Teste:
+Concluir algumas metas e tarefas no sistema.
+Gerar um relatório de metas e tarefas concluídas e verificar se apenas as informações das metas e tarefas concluídas são exibidas.
+
 
 
 ## <a name="codigo">Código</a>
@@ -703,3 +846,5 @@ A lista a seguir traz as referências utilizadas nesse trabalho. são elas:
 * Blog Impacta (2017). Como elaborar um projeto de banco de dados. Disponível em: https://www.impacta.com.br/blog/veja-como-elaborar-um-projeto-de-banco-de-dados/. Acesso em: 07/09/2023
 
 * DEVMIDEA (2008). Projeto de Banco de Dados - Parte 1. Disponível em: https://www.devmedia.com.br/projeto-de-banco-de-dados-parte-1/10923. Acessado em 08/09/2023.
+
+* Microsoft (2023). Experimente o SQL Server na infraestrutura local ou na nuvem. Disponível em: https://www.microsoft.com/pt-br/sql-server/sql-server-downloads#:~:text=Express,trabalho%2C%20Web%20e%20pequenos%20servidores. Acesso em 17/09/2023.
