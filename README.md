@@ -521,15 +521,15 @@ Figura 4 - Gestão de código fonte
 </div>
 O projeto segue a seguinte convenção para o nome de branches:
 
-*main: versão estável e já testada do software
+* Main: versão estável e já testada do software
 
-*Hotfix: versão para correção de erros
+* Hotfix: versão para correção de erros
 
-*Realease: versão em testes do software
+* Realease: versão em testes do software
 
-*Develop: versão já testada do software, porém instável
+* Develop: versão já testada do software, porém instável
 
-*Feature: versão de desenvolvimento do software
+* Feature: versão de desenvolvimento do software
  
  ### <a name="Gerenciamento do projeto">Gerenciamento do Projeto</a>
 
