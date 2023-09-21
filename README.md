@@ -605,7 +605,7 @@ Botão "Esqueci Minha Senha": Esta opção é fornecida para que o usuário poss
 
 Figura 7 - Tela Login
 
-![Tela login](src/img/imglogini.png)
+![Tela login](src/img/imglogin.png)
 
 </div>
 
@@ -670,7 +670,7 @@ Botão "Salvar": Ao acionar este botão, as alterações feitas pelo usuário se
 
 Figura 10 - Tela Gerenciar Perfil
 
-![Tela Gerenciar Perfil](src/img/imgrgerenciarperfil.png)
+![Tela Gerenciar Perfil](src/img/imggerenciarperfil.png)
 
 </div>
 
@@ -711,7 +711,7 @@ Opção de Excluir: Ao selecionar esta opção, a meta é definitivamente exclu�
 
 Figura 11 - Tela Home Page
 
-![Tela home page](src/img/imgrhome.png)
+![Tela home page](src/img/imghome.png)
 
 </div>
 
@@ -737,7 +737,7 @@ Botão Excluir Meta: Se, por algum motivo, os usuários decidirem não criar a m
 
 Figura 12 - Tela Criar Meta
 
-![Tela Criar meta](src/img/imgrnovameta.png)
+![Tela Criar meta](src/img/imgnovameta.png)
 
 </div>
 
