@@ -510,7 +510,27 @@ Os artefatos do projeto são desenvolvidos a partir de diversas plataformas e a 
 </table>
 
  ### <a name="Gestão de código fonte">Gestão de código fonte</a>
-...
+Para a gestão do código fonte será utilizado o modelo de processo baseado no Git Flow, como mostrado na figura a seguir:
+
+<div align="center">
+
+Figura 4 - Gestão de código fonte
+
+![gestao-codigo](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/e4170313-955d-4be9-961e-9416950f8712)
+
+</div>
+O projeto segue a seguinte convenção para o nome de branches:
+
+*main: versão estável e já testada do software
+
+*Hotfix: versão para correção de erros
+
+*Realease: versão em testes do software
+
+*Develop: versão já testada do software, porém instável
+
+*Feature: versão de desenvolvimento do software
+ 
  ### <a name="Gerenciamento do projeto">Gerenciamento do Projeto</a>
 
 * Scrum Master: Matheus Soares
@@ -546,7 +566,7 @@ Um diagrama de fluxo, também conhecido como fluxograma, é uma representação 
 
 <div align="center">
 
-Figura 4 - Diagrama de fluxo
+Figura 5 - Diagrama de fluxo
 
 ![Diagrama_fluxo](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/c7579310-c24e-44fe-aba7-9d3976713049)
 
