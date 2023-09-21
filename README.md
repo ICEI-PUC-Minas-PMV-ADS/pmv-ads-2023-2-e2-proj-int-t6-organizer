@@ -691,6 +691,8 @@ Componente de Pesquisa: Este componente permite que os usuários pesquisem por t
 
 Componente de Navegação de Tipos de Metas: Com três opções de navegação (Pessoal, Profissional e Acadêmico), os usuários podem acessar metas relacionadas a um determinado tipo selecionado.
 
+Opção de filtrar metas: Ao clicar do icone de filtro o usuário podera filtrar por metas mais recentes, metas em aberto, metas cumpridas, metas expiradas.
+
 Botão "Criar Nova Meta": Ao clicar neste botão, os usuários podem acessar a tela de criação de metas, onde podem definir novos objetivos.
 
 Listagem de Metas: Esta seção exibe todas as metas cadastradas pelos usuários, com as seguintes informações para cada meta:
