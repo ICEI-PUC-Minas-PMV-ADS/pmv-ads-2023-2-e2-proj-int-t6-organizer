@@ -601,7 +601,13 @@ Botão "Login": Ao clicar neste botão, o sistema verifica as credenciais inseri
 
 Botão "Esqueci Minha Senha": Esta opção é fornecida para que o usuário possa redefinir a senha em caso de esquecimento. Ao clicar nela, o sistema direciona o usuário para uma página ou modal onde ele pode solicitar a redefinição da senha.
 
-![login](src/loginpage.png)
+<div align="center">
+
+Figura 7 - Tela Login
+
+![Tela login](src/img/imglogini.png)
+
+</div>
 
 
 ### Tela de Cadastro
@@ -617,7 +623,13 @@ Campo Confirmar Senha: Para garantir a precisão da senha, este campo solicita a
 
 Botão "Cadastrar": Ao clicar neste botão, o usuário envia as informações de registro. O sistema verifica se todos os campos estão preenchidos corretamente e, se estiverem, cria uma nova conta associada ao endereço de e-mail fornecido.
 
-![cadastro](src/cadastro.png)
+<div align="center">
+
+Figura 8 - Tela Cadastro
+
+![Tela cadastro](src/img/imgcadastro.png)
+
+</div>
 
 
 ### Tela  Esqueceu Sua Senha
@@ -627,8 +639,13 @@ Campo de E-mail: Neste espaço, o usuário deve inserir o endereço de e-mail as
 
 Botão "Enviar": Ao acionar este botão, o sistema processará a solicitação do usuário. Se o endereço de e-mail fornecido for válido e associado a uma conta, o sistema enviará um e-mail contendo as instruções detalhadas para a redefinição da senha.
 
-![cadastro](src/senha.png)
+<div align="center">
 
+Figura 9 - Tela esqueceu sua senha
+
+![Tela esqueceu sua senha](src/img/imgrecsenha.png)
+
+</div>
 
 ### Tela  Gerenciar Perfil
 A tela de gerenciamento de perfil oferece aos usuários a capacidade de atualizar suas informações pessoais de forma segura. Ela é composta pelas seguintes opções para alterações: 
@@ -649,7 +666,13 @@ Confirmar Novo E-mail: Para garantir precisão, o usuário deve inserir o novo e
 
 Botão "Salvar": Ao acionar este botão, as alterações feitas pelo usuário serão salvas, desde que todas as informações fornecidas estejam corretas e em conformidade com as políticas de segurança do sistema.
 
-![perfil](src/perfil.png)
+<div align="center">
+
+Figura 10 - Tela Gerenciar Perfil
+
+![Tela Gerenciar Perfil](src/img/imgrgerenciarperfil.png)
+
+</div>
 
 
 ### Tela  Home Page
@@ -684,7 +707,13 @@ Opção de Editar: Ao clicar nesta opção, os usuários podem acessar a tela de
 
 Opção de Excluir: Ao selecionar esta opção, a meta é definitivamente excluída do sistema.
 
-![home](src/homepage.png)
+<div align="center">
+
+Figura 11 - Tela Home Page
+
+![Tela home page](src/img/imgrhome.png)
+
+</div>
 
 
 ### Tela Criar Meta 
@@ -704,7 +733,13 @@ Botão Salvar Meta: Após preencher todos os detalhes da meta, os usuários clic
 
 Botão Excluir Meta: Se, por algum motivo, os usuários decidirem não criar a meta, podem usar este botão para descartar a meta em andamento.
 
-![newmeta](src/newmeta.png)
+<div align="center">
+
+Figura 12 - Tela Criar Meta
+
+![Tela Criar meta](src/img/imgrnovameta.png)
+
+</div>
 
 
 ### Tela Editar Meta 
@@ -725,7 +760,13 @@ Botão Salvar Alterações: Após realizar as edições necessárias na meta, os
 
 Botão Excluir Meta: Se os usuários decidirem excluir a meta durante o processo de edição, eles podem usar este botão para remover permanentemente a meta do sistema.
 
-![editmeta](src/editmeta.png)
+<div align="center">
+
+Figura 13 - Tela Editar Meta
+
+![Tela editar meta](src/img/imgeditarmeta.png)
+
+</div>
 
 
 
