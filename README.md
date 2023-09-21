@@ -576,12 +576,18 @@ Figura 5 - Diagrama de fluxo
 ### Wireframe Interativo
 Conforme o diagrama de fluxo do projeto apresentado anteriormente, as telas do sistema são detalhadas nos itens subsequentes. Para acessar o wireframe interativo, acesse o ambiente https://l1nk.dev/6wHyS disponível pela plataforma Canva.
 
-As telas do sistema seguem uma estrutura padrão, conforme ilustrado na Figura X. Nessa estrutura, identificamos dois principais blocos, os quais estão detalhados a seguir:
+As telas do sistema seguem uma estrutura padrão, conforme ilustrado na Figura 6. Nessa estrutura, identificamos dois principais blocos, os quais estão detalhados a seguir:
 
 Conteúdo: exibe o conteúdo da tela em questão;
 Barra lateral: mostra os elementos de navegação disponíveis, que estão associados aos elementos do bloco de conteúdo.
 
-![padrao](src/padrao.png)
+<div align="center">
+
+Figura 6 - Template padrão do sistema
+
+![Template padrão do sistema](src/img/imgestrutura.png)
+
+</div>
 
 
 ### Tela Login
