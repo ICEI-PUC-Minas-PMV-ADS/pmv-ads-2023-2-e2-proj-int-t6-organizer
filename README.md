@@ -597,13 +597,13 @@ Figura 6 - Template padrão do sistema
 ##### Tela Login
 A tela de login é projetada para fornecer acesso seguro ao sistema. Ela consiste nos seguintes elementos:
 
-Campo de E-mail: Neste campo, o usuário deve inserir seu endereço de e-mail registrado para autenticação. 
+* Campo de E-mail: Neste campo, o usuário deve inserir seu endereço de e-mail registrado para autenticação. 
 
-Campo de Senha: Este campo permite que o usuário insira sua senha confidencial para acessar a conta. 
+* Campo de Senha: Este campo permite que o usuário insira sua senha confidencial para acessar a conta. 
 
-Botão "Login": Ao clicar neste botão, o sistema verifica as credenciais inseridas e concede acesso à conta se forem válidas. 
+* Botão "Login": Ao clicar neste botão, o sistema verifica as credenciais inseridas e concede acesso à conta se forem válidas. 
 
-Botão "Esqueci Minha Senha": Esta opção é fornecida para que o usuário possa redefinir a senha em caso de esquecimento. Ao clicar nela, o sistema direciona o usuário para uma página ou modal onde ele pode solicitar a redefinição da senha.
+* Botão "Esqueci Minha Senha": Esta opção é fornecida para que o usuário possa redefinir a senha em caso de esquecimento. Ao clicar nela, o sistema direciona o usuário para uma página ou modal onde ele pode solicitar a redefinição da senha.
 
 Caso o usuario ainda não tenha cadastro é possível criar uma conta para acesso ao clicar em crie sua conta
 
@@ -619,15 +619,15 @@ Figura 7 - Tela Login
 ##### Tela de Cadastro
 A tela de cadastro oferece a oportunidade para os usuários se registrarem e utilizarem os recursos do sistema. Ela é composta pelos seguintes elementos:
 
-Campo Nome: Neste espaço, o usuário deve inserir seu nome completo. 
+* Campo Nome: Neste espaço, o usuário deve inserir seu nome completo. 
 
-Campo E-mail: Aqui, o usuário deve fornecer seu endereço de e-mail válido, que servirá como identificação única no sistema. 
+* Campo E-mail: Aqui, o usuário deve fornecer seu endereço de e-mail válido, que servirá como identificação única no sistema. 
 
-Campo Senha: Este campo destina-se a receber uma senha segura, que o usuário usará para acessar sua conta. A senha deve atender aos critérios de segurança estabelecidos.
+* Campo Senha: Este campo destina-se a receber uma senha segura, que o usuário usará para acessar sua conta. A senha deve atender aos critérios de segurança estabelecidos.
 
-Campo Confirmar Senha: Para garantir a precisão da senha, este campo solicita ao usuário que insira a mesma senha novamente para confirmação. 
+* Campo Confirmar Senha: Para garantir a precisão da senha, este campo solicita ao usuário que insira a mesma senha novamente para confirmação. 
 
-Botão "Cadastrar": Ao clicar neste botão, o usuário envia as informações de registro. O sistema verifica se todos os campos estão preenchidos corretamente e, se estiverem, cria uma nova conta associada ao endereço de e-mail fornecido.
+* Botão "Cadastrar": Ao clicar neste botão, o usuário envia as informações de registro. O sistema verifica se todos os campos estão preenchidos corretamente e, se estiverem, cria uma nova conta associada ao endereço de e-mail fornecido.
 
 <div align="center">
 
@@ -641,9 +641,9 @@ Figura 8 - Tela Cadastro
 ##### Tela  Esqueceu Sua Senha
 A tela de recuperação de senha oferece um meio seguro para os usuários redefinirem suas senhas, caso as tenham esquecido. Esta interface consiste em dois elementos principais:
 
-Campo de E-mail: Neste espaço, o usuário deve inserir o endereço de e-mail associado à sua conta no sistema. As instruções para redefinir a senha serão enviadas para este endereço de e-mail.
+* Campo de E-mail: Neste espaço, o usuário deve inserir o endereço de e-mail associado à sua conta no sistema. As instruções para redefinir a senha serão enviadas para este endereço de e-mail.
 
-Botão "Enviar": Ao acionar este botão, o sistema processará a solicitação do usuário. Se o endereço de e-mail fornecido for válido e associado a uma conta, o sistema enviará um e-mail contendo as instruções detalhadas para a redefinição da senha.
+* Botão "Enviar": Ao acionar este botão, o sistema processará a solicitação do usuário. Se o endereço de e-mail fornecido for válido e associado a uma conta, o sistema enviará um e-mail contendo as instruções detalhadas para a redefinição da senha.
 
 <div align="center">
 
@@ -656,21 +656,21 @@ Figura 9 - Tela esqueceu sua senha
 ##### Tela  Gerenciar Perfil
 A tela de gerenciamento de perfil oferece aos usuários a capacidade de atualizar suas informações pessoais de forma segura. Ela é composta pelas seguintes opções para alterações: 
 
-Campo Nome: Neste espaço, o usuário pode atualizar seu nome completo, caso necessário.
+* Campo Nome: Neste espaço, o usuário pode atualizar seu nome completo, caso necessário.
 
-Senha Atual: O usuário deve inserir sua senha atual para fins de autenticação.
+* Senha Atual: O usuário deve inserir sua senha atual para fins de autenticação.
 
-Nova Senha: Aqui, o usuário pode fornecer uma nova senha, se desejar alterá-la.
+* Nova Senha: Aqui, o usuário pode fornecer uma nova senha, se desejar alterá-la.
 
-Confirmar Nova Senha: Para garantir precisão, o usuário deve inserir a nova senha novamente. 
+* Confirmar Nova Senha: Para garantir precisão, o usuário deve inserir a nova senha novamente. 
 
-E-mail Atual: Este campo exibe o endereço de e-mail atual associado à conta.
+* E-mail Atual: Este campo exibe o endereço de e-mail atual associado à conta.
 
-Novo E-mail: O usuário pode inserir um novo endereço de e-mail, se desejar atualizar essa informação.
+* Novo E-mail: O usuário pode inserir um novo endereço de e-mail, se desejar atualizar essa informação.
 
-Confirmar Novo E-mail: Para garantir precisão, o usuário deve inserir o novo endereço de e-mail novamente.
+* Confirmar Novo E-mail: Para garantir precisão, o usuário deve inserir o novo endereço de e-mail novamente.
 
-Botão "Salvar": Ao acionar este botão, as alterações feitas pelo usuário serão salvas, desde que todas as informações fornecidas estejam corretas e em conformidade com as políticas de segurança do sistema.
+* Botão "Salvar": Ao acionar este botão, as alterações feitas pelo usuário serão salvas, desde que todas as informações fornecidas estejam corretas e em conformidade com as políticas de segurança do sistema.
 
 <div align="center">
 
@@ -684,36 +684,36 @@ Figura 10 - Tela Gerenciar Perfil
 ##### Tela  Home Page
 A página inicial (home page) é a peça central do sistema e oferece uma experiência abrangente e funcional para os usuários. Ela é composta pelos seguintes elementos:
 
-Barra Lateral Esquerda:
-Ícone do Sistema: Ao clicar neste ícone, os usuários retornam à página inicial, independentemente da página em que se encontrem.
+* Barra Lateral Esquerda:
+	* Ícone do Sistema: Ao clicar neste ícone, os usuários retornam à página inicial, independentemente da página em que se encontrem.
 
-Ícone do Usuário: Este ícone concede acesso à tela de gerenciamento de perfil, onde os usuários podem atualizar suas informações pessoais.
+	* Ícone do Usuário: Este ícone concede acesso à tela de gerenciamento de perfil, onde os usuários podem atualizar suas informações pessoais.
 
-Ícone Logout: Ao clicar neste ícone, os usuários podem sair do sistema e são redirecionados à tela de login.
+	* Ícone Logout: Ao clicar neste ícone, os usuários podem sair do sistema e são redirecionados à tela de login.
 
 
-Bloco de Conteúdo:
-Componente de Pesquisa: Este componente permite que os usuários pesquisem por tarefas específicas no sistema, facilitando a localização de informações.
+* Bloco de Conteúdo:
+	* Componente de Pesquisa: Este componente permite que os usuários pesquisem por tarefas específicas no sistema, facilitando a localização de informações.
 
-Componente de Navegação de Tipos de Metas: Com três opções de navegação (Pessoal, Profissional e Acadêmico), os usuários podem acessar metas relacionadas a um determinado tipo selecionado.
+	* Componente de Navegação de Tipos de Metas: Com três opções de navegação (Pessoal, Profissional e Acadêmico), os usuários podem acessar metas relacionadas a um determinado tipo selecionado.
 
-Opção de filtrar metas: Ao clicar do icone de filtro o usuário podera filtrar por metas mais recentes, metas em aberto, metas cumpridas, metas expiradas.
+	* Opção de filtrar metas: Ao clicar do icone de filtro o usuário podera filtrar por metas mais recentes, metas em aberto, metas cumpridas, metas expiradas.
 
-Botão "Criar Nova Meta": Ao clicar neste botão, os usuários podem acessar a tela de criação de metas, onde podem definir novos objetivos.
+	* Botão "Criar Nova Meta": Ao clicar neste botão, os usuários podem acessar a tela de criação de metas, onde podem definir novos objetivos.
 
-Listagem de Metas: Esta seção exibe todas as metas cadastradas pelos usuários, com as seguintes informações para cada meta:
+	* Listagem de Metas: Esta seção exibe todas as metas cadastradas pelos usuários, com as seguintes informações para cada meta:
 
-Título: O título da meta, descrevendo o objetivo.
+		* Título: O título da meta, descrevendo o objetivo.
 
-Prazo: A data limite para a conclusão da meta.
+		* Prazo: A data limite para a conclusão da meta.
 
-Barra de Progresso: Uma representação visual do progresso da meta.
+		* Barra de Progresso: Uma representação visual do progresso da meta.
 
-Check Box: Permite que os usuários marquem tarefas relacionadas à meta como concluídas ou pendentes, tornando o acompanhamento mais eficiente.
+	  	* Check Box: Permite que os usuários marquem tarefas relacionadas à meta como concluídas ou pendentes, tornando o acompanhamento mais eficiente.
 
-Opção de Editar: Ao clicar nesta opção, os usuários podem acessar a tela de edição da meta, onde podem fazer ajustes nas informações da meta.
+		* Opção de Editar: Ao clicar nesta opção, os usuários podem acessar a tela de edição da meta, onde podem fazer ajustes nas informações da meta.
 
-Opção de Excluir: Ao selecionar esta opção, a meta é definitivamente excluída do sistema.
+		* Opção de Excluir: Ao selecionar esta opção, a meta é definitivamente excluída do sistema.
 
 <div align="center">
 
@@ -727,19 +727,19 @@ Figura 11 - Tela Home Page
 ##### Tela Criar Meta 
 A tela de criação de meta é um componente fundamental do sistema, permitindo aos usuários definirem suas metas de forma detalhada e eficaz. Ela é composta pelos seguintes elementos:
 
-Campo Categoria: Neste campo, os usuários podem selecionar a categoria à qual a meta pertence. As opções de seleção incluem: Pessoal, Profissional e Acadêmico.
+* Campo Categoria: Neste campo, os usuários podem selecionar a categoria à qual a meta pertence. As opções de seleção incluem: Pessoal, Profissional e Acadêmico.
 
-Campo Título da Meta: Aqui, os usuários devem inserir um título descritivo que define claramente a meta que estão estabelecendo.
+* Campo Título da Meta: Aqui, os usuários devem inserir um título descritivo que define claramente a meta que estão estabelecendo.
 
-Campo Prazo: Neste campo, os usuários especificam a data limite para a conclusão da meta, ajudando a manter o foco e a urgência.
+* Campo Prazo: Neste campo, os usuários especificam a data limite para a conclusão da meta, ajudando a manter o foco e a urgência.
 
-Campo Tarefas: Este campo permite que os usuários adicionem quantas tarefas forem necessárias para alcançar a meta. Eles podem adicionar e detalhar cada tarefa, o que auxilia na organização e acompanhamento do progresso.
+* Campo Tarefas: Este campo permite que os usuários adicionem quantas tarefas forem necessárias para alcançar a meta. Eles podem adicionar e detalhar cada tarefa, o que auxilia na organização e acompanhamento do progresso.
 
-Botão Adicionar Tarefa: Ao clicar neste botão, os usuários podem adicionar uma nova tarefa à lista de tarefas da meta, conforme necessário.
+* Botão Adicionar Tarefa: Ao clicar neste botão, os usuários podem adicionar uma nova tarefa à lista de tarefas da meta, conforme necessário.
 
-Botão Salvar Meta: Após preencher todos os detalhes da meta, os usuários clicam neste botão para salvar as informações. A meta é então registrada no sistema e os usuários são redirecionados de volta à tela inicial (home).
+* Botão Salvar Meta: Após preencher todos os detalhes da meta, os usuários clicam neste botão para salvar as informações. A meta é então registrada no sistema e os usuários são redirecionados de volta à tela inicial (home).
 
-Botão Excluir Meta: Se, por algum motivo, os usuários decidirem não criar a meta, podem usar este botão para descartar a meta em andamento.
+* Botão Excluir Meta: Se, por algum motivo, os usuários decidirem não criar a meta, podem usar este botão para descartar a meta em andamento.
 
 <div align="center">
 
@@ -756,17 +756,17 @@ A tela de edição de meta permite que os usuários façam ajustes e modificaç�
 
 Opções de Seleção de Categoria: Neste campo, os usuários podem selecionar a categoria à qual a meta pertence. As opções de seleção incluem: Pessoal, Profissional e Acadêmico. Essa seleção ajuda a categorizar e organizar as metas.
 
-Campo Título da Meta: Aqui, os usuários podem editar o título da meta para refletir qualquer alteração ou refinamento necessário.
+* Campo Título da Meta: Aqui, os usuários podem editar o título da meta para refletir qualquer alteração ou refinamento necessário.
 
-Campo Prazo: Neste campo, os usuários podem atualizar a data limite para a conclusão da meta, se for o caso.
+* Campo Prazo: Neste campo, os usuários podem atualizar a data limite para a conclusão da meta, se for o caso.
 
-Campo Tarefas: Este campo permite que os usuários façam ajustes nas tarefas relacionadas à meta. Eles podem adicionar, remover ou editar as tarefas conforme necessário.
+* Campo Tarefas: Este campo permite que os usuários façam ajustes nas tarefas relacionadas à meta. Eles podem adicionar, remover ou editar as tarefas conforme necessário.
 
-Botão Adicionar Tarefa: Ao clicar neste botão, os usuários podem adicionar uma nova tarefa à lista de tarefas da meta, caso desejem incluir mais detalhes ou etapas.
+* Botão Adicionar Tarefa: Ao clicar neste botão, os usuários podem adicionar uma nova tarefa à lista de tarefas da meta, caso desejem incluir mais detalhes ou etapas.
 
-Botão Salvar Alterações: Após realizar as edições necessárias na meta, os usuários clicam neste botão para salvar as alterações feitas. As informações atualizadas são então registradas no sistema.
+* Botão Salvar Alterações: Após realizar as edições necessárias na meta, os usuários clicam neste botão para salvar as alterações feitas. As informações atualizadas são então registradas no sistema.
 
-Botão Excluir Meta: Se os usuários decidirem excluir a meta durante o processo de edição, eles podem usar este botão para remover permanentemente a meta do sistema.
+* Botão Excluir Meta: Se os usuários decidirem excluir a meta durante o processo de edição, eles podem usar este botão para remover permanentemente a meta do sistema.
 
 <div align="center">
 
