@@ -399,7 +399,7 @@ Nossa aplicação de gerenciamento de tarefas utiliza o sistema de gerenciamento
    - Nome: Nome da tarefa.
    - Status: Estado atual da tarefa.  
 
-> ¹<sub>SQL Server 2022 ExpressL é uma edição gratuita do SQL Server, ideal para desenvolvimento e produção de aplicações de área de trabalho, Web e pequenos servidores.. (Microsoft;2023)</sub>
+> ¹<sub>SQL Server 2022 Express é uma edição gratuita do SQL Server, ideal para desenvolvimento e produção de aplicações de área de trabalho, Web e pequenos servidores.. (Microsoft;2023)</sub>
 
 
 
@@ -529,21 +529,27 @@ O projeto segue a seguinte convenção para o nome de branches:
 
 * Product Owner: Talita Fernandes
 
-* Equipe de Desenvolvimento : Raquel Nonato
+* Equipe de Desenvolvimento :
+	* Matheus Soares
+	* Talita Fernandes
+	* Irene aparecida
+	* Maria de Lourdes
 
 * Equipe de Design : Irene aparecida
 
-*  Equipe de Quality Assurance: Maria de Lourdes
+* Equipe de Quality Assurance: Maria de Lourdes
 
 	Para organização e distribuição das tarefas do projeto, a equipe está utilizando o Trello estruturado com as seguintes listas:
  
-* **Backlog**: neste bloco é listada todas as tarefas que devem ser executadas durante o desenvolvimento do projeto;
+* **Backlog**: tarefas que devem ser executadas durante o desenvolvimento do projeto;
 
-* **To Do**: neste bloco fica a Sprint a ser trabalhada e é definido quem irá trabalhar nela;
+* **To Do**: tarefas elencadas para a Sprint ativa;
 
-* **In Progress**: aqui ficarão as tarefas que estão sendo sendo executadas;
+* **In Progress**: tarefas em execução;
 
-* **Done**: este bloco ficam as tarefas finalizadas e que serão entregues;
+* **Test**: tarefas que se encontram em fase de teste;
+
+* **Done**: tarefas finalizadas.
 
 O quadro a seguir foi desenvolvido pelo grupo na ferramenta de gerenciamento de projetos está disponível através da URL [Kanban GitHub](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/583). e é apresentado, no estado atual, na Figura 5.
 
