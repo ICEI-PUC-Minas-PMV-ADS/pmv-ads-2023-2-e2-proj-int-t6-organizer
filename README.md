@@ -539,7 +539,7 @@ O projeto segue a seguinte convenção para o nome de branches:
 
 * Equipe de Quality Assurance: Maria de Lourdes
 
-	Para organização e distribuição das tarefas do projeto, a equipe está utilizando o Trello estruturado com as seguintes listas:
+Para organização e distribuição das tarefas do projeto, a equipe está utilizando o Trello estruturado com as seguintes listas:
  
 * **Backlog**: tarefas que devem ser executadas durante o desenvolvimento do projeto;
 
@@ -555,7 +555,7 @@ O quadro a seguir foi desenvolvido pelo grupo na ferramenta de gerenciamento de 
 
 <div align="center">
 
-Figura 5 - Diagrama de fluxo
+Figura 5 - Kanban
 
 ![quadro_kanban](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/8276646f-52df-4a68-a6b9-652735df9523)
 
