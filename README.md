@@ -13,7 +13,6 @@ O projeto visa desenvolver um gerenciador de tarefas simples, prático e útil, 
 * Irene Aparecida Couto Ferraz
 * Maria de Lourdes Monteiro da Silva
 * Matheus Soares da Silva
-* Raquel Nonato Silva
 * Talita Fernandes Silva
 
 ## Orientador
