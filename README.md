@@ -771,23 +771,23 @@ O planejamento dos testes de usabilidade a serem realizados com usuários são d
 
 **Teste de Registro de Conta**
 
-* **Tarefa**: O usuário deve poder criar uma nova conta no sistema, fornecendo seu nome, sobrenome, endereço de email e senha.</br>
+* **Tarefa**: O usuário deve poder criar uma nova conta no sistema, fornecendo seu nome completo, endereço de email e senha.</br>
 * **Métrica**: Facilidade de registro, clareza nas instruções, velocidade de conclusão do processo.
 
 
 **Teste de Criação de Metas**
 
-* **Tarefa**: O usuário deve poder criar uma meta, fornecendo um título, descrição e data de conclusão.</br>
+* **Tarefa**: O usuário deve poder criar uma meta, definindo uma categoria, título e prazo.</br>
 * **Métrica**: Facilidade de criar metas, clareza nas opções de entrada de dados.</br>
 
 **Teste de Criação de Tarefas**
 
-* **Tarefa**: Peça ao usuário para criar uma nova tarefa, atribuindo-a a uma meta, especificando título, descrição e data de vencimento.</br>
-* **Métrica**: Facilidade de criação de tarefas, facilidade de associação a metas, clareza nas opções de entrada.</br>
+* **Tarefa**: tendo uma meta, o usuário deve poder criar uma tarefa, especificando o nome.</br>
+* **Métrica**: Facilidade de criação de tarefas, facilidade de associação a meta, clareza nas opções de entrada.</br>
 
 **Teste de Edição de Metas e Tarefas**
 
-* **Tarefa**: O usuário deve poder editar o título, descrição ou data de conclusão de uma meta e uma tarefa existente.</br>
+* **Tarefa**: O usuário deve poder editar a categoria, título e prazo de uma meta e, nome de uma tarefa existente.</br>
 * **Métrica**: Facilidade e eficiência na edição, feedback após a edição.</br>
 
 **Teste de Exclusão de Metas e Tarefas**
@@ -795,36 +795,28 @@ O planejamento dos testes de usabilidade a serem realizados com usuários são d
 * **Tarefa**: O usuário deve poder excluir uma meta e uma tarefa.</br>
 * **Métrica**: Facilidade de exclusão, feedback após a exclusão.</br>
 
-**Teste de Usabilidade para Editar Perfil e Senha**
+**Teste de Usabilidade para Editar Perfil**
 
-* **Teste de Edição de Perfil**
-
-	* **Tarefa**: O usuário deve poder editar seu perfil, atualizando informações pessoais como nome.</br>
-	* **Métrica**: Facilidade e eficiência na edição de perfil, feedback após a edição.</br>
-
-* **Teste de Alteração de Senha**
-
-	* **Tarefa**: O usuário deve poder alterar sua senha atual por uma nova.</br>
-	* **Métrica**: Facilidade de alterar a senha, clareza nas etapas de segurança.</br>
+* **Tarefa**: O usuário deve poder editar seu perfil, atualizando as informações pessoais.</br>
+* **Métrica**: Facilidade e eficiência na edição de perfil, feedback após a edição, clareza nas etapas de segurança.</br>
 
 **Teste de Recuperação de Senha**
 
-* **Tarefa**: Simular uma situação em que o usuário esqueceu sua senha e precisa recuperá-la.</br>
+* **Tarefa**: O usuário deve poder recuperar sua senha.</br>
 * **Métrica**: Facilidade de iniciar o processo de recuperação, clareza nas instruções e eficiência na recuperação.
-
 
 
 ## <a name="planosoftware">Plano de Testes de Software</a>
 
-Os testes funcionais a serem realizados no aplicativo são descritos a seguir.
+Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 **Requisito Funcional RF-01**: Gerenciar o acesso do usuário
 
 * Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.
 
 * Etapas do Plano de Teste:
-	* Criar um usuário e verificar se o sistema permite a criação de contas com sucesso.
-	* Testar o login com o usuário criado anteriormente e verificar se o sistema permite o acesso apenas a contas válidas.
+	* Testar, na tela de cadastro, se o sistema permite a criação de conta com sucesso.
+	* Testar, na tela de login, se o sistema permite o acesso apenas à contas previamente cadastradas.
 	* Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.
 	* Testar a funcionalidade de exclusão de usuário e verificar se a conta é removida com sucesso.
 
@@ -833,7 +825,7 @@ Os testes funcionais a serem realizados no aplicativo são descritos a seguir.
 * Objetivo do teste: Verificar se o sistema permite o gerenciamento correto de metas.
 
 * Etapas do Plano de Teste:
-	* Criar uma meta e verificar se os detalhes da meta são registrados corretamente.
+	* Criar uma meta e verificar se as informações da meta são registradas corretamente.
 	* Editar uma meta existente e verificar se as alterações são salvas adequadamente.
 	* Excluir uma meta e verificar se ela é removida com sucesso.
 
@@ -843,41 +835,41 @@ Os testes funcionais a serem realizados no aplicativo são descritos a seguir.
 
 * Etapas do Plano de Teste:
 
-	* Criar uma tarefa e verificar se os detalhes da tarefa são registrados corretamente.
+	* Criar uma tarefa e verificar se as informações da tarefa são registradas corretamente.
 	* Editar uma tarefa existente e verificar se as alterações são salvas adequadamente.
 	* Excluir uma tarefa e verificar se ela é removida com sucesso.
 
 **Requisito Funcional RF-04**: O sistema deve permitir o usuário atualizar o status da tarefa
 
-* Objetivo do teste: Verificar se o sistema permite que os usuários atualizem o status das tarefas corretamente.
+* Objetivo do teste: Verificar se o sistema permite que o usuário atualize o status da tarefa corretamente.
 
 * Etapas do Plano de Teste:
-	* Criar uma tarefa com status "Em andamento" e verificar se é possível alterar o status para "Concluída".
-	* Criar uma tarefa com status "Pendente" e verificar se é possível alterar o status para "Em andamento".
+	* Criar uma tarefa e verificar se é possível marcá-la como concluída.
+	* verificar se é possível remover a marcação de concluída existente na tarefa.
 
 **Requisito Funcional RF-05**: O sistema deve emitir o status atual da meta
 
-* Objetivo do teste: Verificar se o sistema exibe o status atual das metas corretamente.
+* Objetivo do teste: Verificar se o sistema exibe o status atual da meta corretamente.
 
 * Etapas do Plano de Teste:
-	* Criar uma meta com um status específico e verificar se o sistema exibe o status corretamente na tela de detalhes da meta.
-	* Atualizar o status da meta e verificar se a tela de detalhes é atualizada para refletir o novo status.
+	* Concluir uma tarefa e verificar se a barra de progresso da meta tem seu percentual ampliado.
+	* remover a conclusão dee uma tarefa e verificar se a barra de progresso da meta tem seu percentual regredido.
 
-**Requisito Funcional RF-06**: O sistema deve gerar relatórios com as metas e tarefas cadastradas
+**Requisito Funcional RF-06**: O sistema deve permitir pesquisar meta e/ou tarefa
 
-* Objetivo do teste: Verificar se o sistema gera relatórios com metas e tarefas cadastradas corretamente.
-
-* Etapas do Plano de Teste:
-	* Criar várias metas e tarefas no sistema.
-	* Gerar um relatório de metas e tarefas cadastradas e verificar se todas as informações são exibidas corretamente.
-
-**Requisito Funcional RF-07**: O sistema deve gerar relatórios das metas e tarefas concluídas
-
-* Objetivo do teste: Verificar se o sistema gera relatórios das metas e tarefas concluídas corretamente.
+* Objetivo do teste: Verificar se o sistema retornar corretamente a pesquisa solicitada.
 
 * Etapas do Plano de Teste:
-	* Concluir algumas metas e tarefas no sistema.
-	* Gerar um relatório de metas e tarefas concluídas e verificar se apenas as informações das metas e tarefas concluídas são exibidas.
+	* Inserir no campo de busca um nome de meta existente e verificar se o sistema retorna com sucesso.
+	* Inserir no campo de busca um nome de tarefa existente e verificar se o sistema retorna com sucesso.
+	* Inserir no campo de busca um nome não existente e verificar se o sistema retorna mensagem informando que não houve resultado.
+
+**Requisito Funcional RF-07**: O sistema deve permitir filtrar meta
+
+* Objetivo do teste: Verificar se o sistema retonar meta condizente com o filtro selecionado.
+
+* Etapas do Plano de Teste:
+	* Escolher um filtro disponível e verificar se o sistema retorna a meta de acordo com o critério do mesmo.
 
 
 ## <a name="codigo">Código</a>
