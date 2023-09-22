@@ -320,7 +320,7 @@ O diagrama de classes ilustra graficamente como será a estrutura do software, e
 
 Figura 2 - Diagrama de classes
 
-![Diagrama_classes](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/43c0c60e-4b01-4f11-b511-6899a006afd7)
+![Diagrama_clases](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/80ab7c70-5a64-4f10-b8cc-209d4daa4ae4)
 
 
 </div>
@@ -545,9 +545,15 @@ O projeto segue a seguinte convenção para o nome de branches:
 
 * **Done**: este bloco ficam as tarefas finalizadas e que serão entregues;
 
-O quadro desenvolvido pelo grupo na ferramenta de gerenciamento de projetos está disponível através da URL [Kanban GitHub](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/583). e é apresentado, no estado atual, na Figura x (tela do trello utilizada pelo grupo).
+O quadro a seguir foi desenvolvido pelo grupo na ferramenta de gerenciamento de projetos está disponível através da URL [Kanban GitHub](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/583). e é apresentado, no estado atual, na Figura 5.
 
+<div align="center">
 
+Figura 5 - Diagrama de fluxo
+
+![quadro_kanban](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/8276646f-52df-4a68-a6b9-652735df9523)
+
+</div>
  
 ## <a name="projetosolucao">Projeto da Solução</a>
 
