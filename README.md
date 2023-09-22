@@ -49,7 +49,7 @@ O link e o usuário/senha descritos acima são apenas exemplos de como tais info
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#planosoftware"> Plano de Testes de Software</a></li>
 
 
-<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#codigo"> Código (8 ao 13 veio no template padrao)</a></li>
+<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#codigo"> Código</a></li>
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#arquitetura"> Arquitetura da Solução</a></li>
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#template"> Template Padrão da Aplicação</a></li>
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#funcionalidade"> Programação de Funcionalidades</a></li>
@@ -769,48 +769,48 @@ Figura 13 - Tela Editar Meta
 O planejamento dos testes de usabilidade a serem realizados com usuários são descritos abaixo.
 
 
-Teste de Registro de Conta:
+**Teste de Registro de Conta**
 
-Tarefa: O usuário deve poder criar uma nova conta no sistema, fornecendo seu nome, sobrenome, endereço de email e senha.</br>
-Métrica: Facilidade de registro, clareza nas instruções, velocidade de conclusão do processo.
+* **Tarefa**: O usuário deve poder criar uma nova conta no sistema, fornecendo seu nome, sobrenome, endereço de email e senha.</br>
+* **Métrica**: Facilidade de registro, clareza nas instruções, velocidade de conclusão do processo.
 
 
-Teste de Criação de Metas:
+**Teste de Criação de Metas**
 
-Tarefa: O usuário deve poder criar uma meta, fornecendo um título, descrição e data de conclusão.</br>
-Métrica: Facilidade de criar metas, clareza nas opções de entrada de dados.</br>
+* **Tarefa**: O usuário deve poder criar uma meta, fornecendo um título, descrição e data de conclusão.</br>
+* **Métrica**: Facilidade de criar metas, clareza nas opções de entrada de dados.</br>
 
-Teste de Criação de Tarefas:</br>
+**Teste de Criação de Tarefas**
 
-Tarefa: Peça ao usuário para criar uma nova tarefa, atribuindo-a a uma meta, especificando título, descrição e data de vencimento.</br>
-Métrica: Facilidade de criação de tarefas, facilidade de associação a metas, clareza nas opções de entrada.</br>
+* **Tarefa**: Peça ao usuário para criar uma nova tarefa, atribuindo-a a uma meta, especificando título, descrição e data de vencimento.</br>
+* **Métrica**: Facilidade de criação de tarefas, facilidade de associação a metas, clareza nas opções de entrada.</br>
 
-Teste de Edição de Metas e Tarefas:</br>
+**Teste de Edição de Metas e Tarefas**
 
-Tarefa: O usuário deve poder editar o título, descrição ou data de conclusão de uma meta e uma tarefa existente.</br>
-Métrica: Facilidade e eficiência na edição, feedback após a edição.</br>
+* **Tarefa**: O usuário deve poder editar o título, descrição ou data de conclusão de uma meta e uma tarefa existente.</br>
+* **Métrica**: Facilidade e eficiência na edição, feedback após a edição.</br>
 
-Teste de Exclusão de Metas e Tarefas:</br>
+**Teste de Exclusão de Metas e Tarefas**
 
-Tarefa: O usuário deve poder excluir uma meta e uma tarefa.</br>
-Métrica: Facilidade de exclusão, feedback após a exclusão.</br>
+* **Tarefa**: O usuário deve poder excluir uma meta e uma tarefa.</br>
+* **Métrica**: Facilidade de exclusão, feedback após a exclusão.</br>
 
-Teste de Usabilidade para Editar Perfil e Senha:</br>
+**Teste de Usabilidade para Editar Perfil e Senha**
 
-Teste de Edição de Perfil:</br>
+* **Teste de Edição de Perfil**
 
-Tarefa: O usuário deve poder editar seu perfil, atualizando informações pessoais como nome.</br>
-Métrica: Facilidade e eficiência na edição de perfil, feedback após a edição.</br>
+	* **Tarefa**: O usuário deve poder editar seu perfil, atualizando informações pessoais como nome.</br>
+	* **Métrica**: Facilidade e eficiência na edição de perfil, feedback após a edição.</br>
 
-Teste de Alteração de Senha:</br>
+* **Teste de Alteração de Senha**
 
-Tarefa: O usuário deve poder alterar sua senha atual por uma nova.</br>
-Métrica: Facilidade de alterar a senha, clareza nas etapas de segurança.</br>
+	* **Tarefa**: O usuário deve poder alterar sua senha atual por uma nova.</br>
+	* **Métrica**: Facilidade de alterar a senha, clareza nas etapas de segurança.</br>
 
-Teste de Recuperação de Senha: </br>
+**Teste de Recuperação de Senha**
 
-Tarefa: Simular uma situação em que o usuário esqueceu sua senha e precisa recuperá-la.</br>
-Métrica: Facilidade de iniciar o processo de recuperação, clareza nas instruções e eficiência na recuperação.
+* **Tarefa**: Simular uma situação em que o usuário esqueceu sua senha e precisa recuperá-la.</br>
+* **Métrica**: Facilidade de iniciar o processo de recuperação, clareza nas instruções e eficiência na recuperação.
 
 
 
@@ -818,67 +818,66 @@ Métrica: Facilidade de iniciar o processo de recuperação, clareza nas instru�
 
 Os testes funcionais a serem realizados no aplicativo são descritos a seguir.
 
-Requisito Funcional RF-01: Gerenciar o acesso do usuário
+**Requisito Funcional RF-01**: Gerenciar o acesso do usuário
 
-Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.
+* Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.
 
-Etapas do Plano de Teste:
-Criar um usuário e verificar se o sistema permite a criação de contas com sucesso.
-Testar o login com o usuário criado anteriormente e verificar se o sistema permite o acesso apenas a contas válidas.
-Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.
-Testar a funcionalidade de exclusão de usuário e verificar se a conta é removida com sucesso.
+* Etapas do Plano de Teste:
+	* Criar um usuário e verificar se o sistema permite a criação de contas com sucesso.
+	* Testar o login com o usuário criado anteriormente e verificar se o sistema permite o acesso apenas a contas válidas.
+	* Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.
+	* Testar a funcionalidade de exclusão de usuário e verificar se a conta é removida com sucesso.
 
-Requisito Funcional RF-02: Gerenciar metas
+**Requisito Funcional RF-02**: Gerenciar metas
 
-Objetivo do teste: Verificar se o sistema permite o gerenciamento correto de metas.
+* Objetivo do teste: Verificar se o sistema permite o gerenciamento correto de metas.
 
-Etapas do Plano de Teste:
-Criar uma meta e verificar se os detalhes da meta são registrados corretamente.
-Editar uma meta existente e verificar se as alterações são salvas adequadamente.
-Excluir uma meta e verificar se ela é removida com sucesso.
+* Etapas do Plano de Teste:
+	* Criar uma meta e verificar se os detalhes da meta são registrados corretamente.
+	* Editar uma meta existente e verificar se as alterações são salvas adequadamente.
+	* Excluir uma meta e verificar se ela é removida com sucesso.
 
-Requisito Funcional RF-03: Gerenciar tarefas
+**Requisito Funcional RF-03**: Gerenciar tarefas
 
-Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado de tarefas.
+* Objetivo do teste: Verificar se o sistema permite o gerenciamento adequado de tarefas.
 
-Etapas do Plano de Teste:
+* Etapas do Plano de Teste:
 
-Criar uma tarefa e verificar se os detalhes da tarefa são registrados corretamente.
-Editar uma tarefa existente e verificar se as alterações são salvas adequadamente.
-Excluir uma tarefa e verificar se ela é removida com sucesso.
+	* Criar uma tarefa e verificar se os detalhes da tarefa são registrados corretamente.
+	* Editar uma tarefa existente e verificar se as alterações são salvas adequadamente.
+	* Excluir uma tarefa e verificar se ela é removida com sucesso.
 
-Requisito Funcional RF-04: O sistema deve permitir o usuário atualizar o status da tarefa
+**Requisito Funcional RF-04**: O sistema deve permitir o usuário atualizar o status da tarefa
 
-Objetivo do teste: Verificar se o sistema permite que os usuários atualizem o status das tarefas corretamente.
+* Objetivo do teste: Verificar se o sistema permite que os usuários atualizem o status das tarefas corretamente.
 
-Etapas do Plano de Teste:
-Criar uma tarefa com status "Em andamento" e verificar se é possível alterar o status para "Concluída".
-Criar uma tarefa com status "Pendente" e verificar se é possível alterar o status para "Em andamento".
+* Etapas do Plano de Teste:
+	* Criar uma tarefa com status "Em andamento" e verificar se é possível alterar o status para "Concluída".
+	* Criar uma tarefa com status "Pendente" e verificar se é possível alterar o status para "Em andamento".
 
-Requisito Funcional RF-05: O sistema deve emitir o status atual da meta
+**Requisito Funcional RF-05**: O sistema deve emitir o status atual da meta
 
-Objetivo do teste: Verificar se o sistema exibe o status atual das metas corretamente.
+* Objetivo do teste: Verificar se o sistema exibe o status atual das metas corretamente.
 
-Etapas do Plano de Teste:
-Criar uma meta com um status específico e verificar se o sistema exibe o status corretamente na tela de detalhes da meta.
-Atualizar o status da meta e verificar se a tela de detalhes é atualizada para refletir o novo status.
+* Etapas do Plano de Teste:
+	* Criar uma meta com um status específico e verificar se o sistema exibe o status corretamente na tela de detalhes da meta.
+	* Atualizar o status da meta e verificar se a tela de detalhes é atualizada para refletir o novo status.
 
-Requisito Funcional RF-06: O sistema deve gerar relatórios com as metas e tarefas cadastradas
+**Requisito Funcional RF-06**: O sistema deve gerar relatórios com as metas e tarefas cadastradas
 
-Objetivo do teste: Verificar se o sistema gera relatórios com metas e tarefas cadastradas corretamente.
+* Objetivo do teste: Verificar se o sistema gera relatórios com metas e tarefas cadastradas corretamente.
 
-Etapas do Plano de Teste:
-Criar várias metas e tarefas no sistema.
-Gerar um relatório de metas e tarefas cadastradas e verificar se todas as informações são exibidas corretamente.
+* Etapas do Plano de Teste:
+	* Criar várias metas e tarefas no sistema.
+	* Gerar um relatório de metas e tarefas cadastradas e verificar se todas as informações são exibidas corretamente.
 
-Requisito Funcional RF-07: O sistema deve gerar relatórios das metas e tarefas concluídas
+**Requisito Funcional RF-07**: O sistema deve gerar relatórios das metas e tarefas concluídas
 
-Objetivo do teste: Verificar se o sistema gera relatórios das metas e tarefas concluídas corretamente.
+* Objetivo do teste: Verificar se o sistema gera relatórios das metas e tarefas concluídas corretamente.
 
-Etapas do Plano de Teste:
-Concluir algumas metas e tarefas no sistema.
-Gerar um relatório de metas e tarefas concluídas e verificar se apenas as informações das metas e tarefas concluídas são exibidas.
-
+* Etapas do Plano de Teste:
+	* Concluir algumas metas e tarefas no sistema.
+	* Gerar um relatório de metas e tarefas concluídas e verificar se apenas as informações das metas e tarefas concluídas são exibidas.
 
 
 ## <a name="codigo">Código</a>
