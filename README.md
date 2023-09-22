@@ -344,22 +344,18 @@ O modelo ER é aplicado de forma conceitual para representar as entidades, atrib
  
 * Metas:
    - ID (Chave Primária): Identificador único da meta.
-   - Nome: Nome da meta.
-   - Data de Início: Data de início planejada para a meta.
-   - Data de Conclusão: Data de conclusão planejada para a meta.
-   - Status: Estado atual da meta.
-   - Categoria: Categoria da meta, sé é Pessoal, Profissional ou Acadêmica.
-   - DataRegistro: Data de registro da meta no sistema.
+   - ID (Chave Estrangeira): Chave estrangeira que associa a meta ao usuário.
+   - Categoria: Categoria da meta, escolha entre as opções fixadas(Pessoal, Profissional ou Acadêmica).
+   - Título: Nome da meta.
+   - Prazo: Prazo para conclusão da meta.
+   - Status: Campo númerico utilizado para representar a progressão na barra de status da meta.
+   - DataCriacao: Data de registro da meta no sistema.
 
 * Tarefas:
    - ID (Chave Primária): Identificador único da tarefa.
-   - Nome: Nome da tarefa.
-   - Data de Vencimento: Data limite para a conclusão da tarefa.
-   - Status: Estado atual da tarefa.
    - ID_Meta (Chave Estrangeira): Chave estrangeira que associa a tarefa a uma meta.
-   - DataRegistro: Data de registro da tarefa no sistema.
- 
-     
+   - Nome: Nome da tarefa.
+   - Status: Estado atual da tarefa.     
  
 ##### Diagrama ER
 
@@ -382,28 +378,26 @@ Nesta seção, apresentaremos o projeto da base de dados, incluindo o modelo ló
 Nossa aplicação de gerenciamento de tarefas utiliza o sistema de gerenciamento de banco de dados "SQL Server 2022 Express"¹ para armazenar informações sobre usuários, metas e tarefas. O modelo lógico do banco de dados é descrito da seguinte forma:
 
 * Tabela **Usuarios**
-	- ID (Chave Primária): Identificador único do usuário.
-	- Nome: Nome do usuário.
-	- Email: Endereço de email do usuário (único).
-	- Senha: Senha de acesso ao sistema (criptografada).
-	- DataRegistro: Data de registro do usuário no sistema.
+   - ID (Chave Primária): Identificador único do usuário.
+   - Nome: Nome do usuário.
+   - Email: Endereço de email do usuário.
+   - Senha: Senha de acesso ao sistema.
+   - Data de Registro: Data de registro do usuário no sistema.
 
 * Tabela **Metas**
-	- ID (Chave Primária): Identificador único da meta.
-	- Nome: Nome da meta.
-	- DataInicio: Data de início planejada para a meta.
-	- DataConclusao: Data de conclusão planejada para a meta.
-	- Status: Estado atual da meta (por exemplo, em andamento, concluída, etc.).
-	- Categoria: Categoria da meta, sé é Pessoal, Profissional ou Acadêmica.
-	- DataRegistro: Data de registro da meta no sistema.
+   - ID (Chave Primária): Identificador único da meta.
+   - ID (Chave Estrangeira): Chave estrangeira que associa a meta ao usuário.
+   - Categoria: Categoria da meta, escolha entre as opções fixadas(Pessoal, Profissional ou Acadêmica).
+   - Título: Nome da meta.
+   - Prazo: Prazo para conclusão da meta.
+   - Status: Campo númerico utilizado para representar a progressão na barra de status da meta.
+   - DataCriacao: Data de registro da meta no sistema.
 
 * Tabela **Tarefas**
-	- ID (Chave Primária): Identificador único da tarefa.
-	- Nome: Nome da tarefa.
-	- DataVencimento: Data limite para a conclusão da tarefa.
-	- Status: Estado atual da tarefa (por exemplo, pendente, concluída, etc.).
-	- ID_Meta (Chave Estrangeira): Chave estrangeira que associa a tarefa a uma meta.
-	- DataRegistro: Data de registro da tarefa no sistema.
+   - ID (Chave Primária): Identificador único da tarefa.
+   - ID_Meta (Chave Estrangeira): Chave estrangeira que associa a tarefa a uma meta.
+   - Nome: Nome da tarefa.
+   - Status: Estado atual da tarefa.  
 
 > ¹<sub>SQL Server 2022 ExpressL é uma edição gratuita do SQL Server, ideal para desenvolvimento e produção de aplicações de área de trabalho, Web e pequenos servidores.. (Microsoft;2023)</sub>
 
@@ -428,13 +422,12 @@ CREATE TABLE Usuarios (
 ```
 CREATE TABLE Metas (
 	ID (Chave Primária): INT (Autoincremento, não nulo)
-	Nome: VARCHAR(255) (Não nulo)
-	DataInicio: DATE (Não nulo)
-	DataConclusao: DATE (Não nulo)
-	Status: VARCHAR(50) (Não nulo)
-	Categoria: ENUM('Profissional', 'Acadêmico', 'Pessoal') (Não nulo)
-	DataRegistro: DATETIME (Não nulo)
 	UsuarioID (Chave Estrangeira): INT (Não nulo)
+	Categoria: ENUM('Profissional', 'Acadêmico', 'Pessoal') (Não nulo)
+	Titulo: VARCHAR(255) (Não nulo)
+	Prazo: DATE (Não nulo)
+	Status: INT (Não nulo)
+	DataRegistro: DATETIME (Não nulo)
 );
 ```
 
@@ -442,11 +435,9 @@ CREATE TABLE Metas (
 ```
 CREATE TABLE Tarefas (
 	ID (Chave Primária): INT (Autoincremento, não nulo)
-	Nome: VARCHAR(255) (Não nulo)
-	DataVencimento: DATE (Não nulo)
-	Status: VARCHAR(50) (Não nulo)
 	ID_Meta (Chave Estrangeira): INT (Não nulo)
-	DataRegistro: DATETIME (Não nulo)
+	Nome: VARCHAR(255) (Não nulo)
+	Status: INT (Não nulo)
 );
 ```
 
@@ -559,9 +550,10 @@ O quadro desenvolvido pelo grupo na ferramenta de gerenciamento de projetos est�
 
  
 ## <a name="projetosolucao">Projeto da Solução</a>
-1
 
-### <a name="interface">Diagrama de fluxo</a>
+### Projeto de interface
+
+#### <a name="interface">Diagrama de fluxo</a>
 
 Um diagrama de fluxo, também conhecido como fluxograma, é uma representação gráfica que visualiza a sequência de passos ou etapas em um processo, sistema ou algoritmo. Ele utiliza símbolos e setas para mostrar a ordem das operações e as relações entre elas.
 
@@ -573,7 +565,7 @@ Figura 5 - Diagrama de fluxo
 
 </div>
 
-### Wireframe Interativo
+#### Wireframe Interativo
 Conforme o diagrama de fluxo do projeto apresentado anteriormente, as telas do sistema são detalhadas nos itens subsequentes. Para acessar o wireframe interativo, acesse o ambiente https://l1nk.dev/6wHyS disponível pela plataforma Canva.
 
 As telas do sistema seguem uma estrutura padrão, conforme ilustrado na Figura 6. Nessa estrutura, identificamos dois principais blocos, os quais estão detalhados a seguir:
@@ -590,7 +582,7 @@ Figura 6 - Template padrão do sistema
 </div>
 
 
-### Tela Login
+##### Tela Login
 A tela de login é projetada para fornecer acesso seguro ao sistema. Ela consiste nos seguintes elementos:
 
 Campo de E-mail: Neste campo, o usuário deve inserir seu endereço de e-mail registrado para autenticação. 
@@ -612,7 +604,7 @@ Figura 7 - Tela Login
 </div>
 
 
-### Tela de Cadastro
+##### Tela de Cadastro
 A tela de cadastro oferece a oportunidade para os usuários se registrarem e utilizarem os recursos do sistema. Ela é composta pelos seguintes elementos:
 
 Campo Nome: Neste espaço, o usuário deve inserir seu nome completo. 
@@ -634,7 +626,7 @@ Figura 8 - Tela Cadastro
 </div>
 
 
-### Tela  Esqueceu Sua Senha
+##### Tela  Esqueceu Sua Senha
 A tela de recuperação de senha oferece um meio seguro para os usuários redefinirem suas senhas, caso as tenham esquecido. Esta interface consiste em dois elementos principais:
 
 Campo de E-mail: Neste espaço, o usuário deve inserir o endereço de e-mail associado à sua conta no sistema. As instruções para redefinir a senha serão enviadas para este endereço de e-mail.
@@ -649,7 +641,7 @@ Figura 9 - Tela esqueceu sua senha
 
 </div>
 
-### Tela  Gerenciar Perfil
+##### Tela  Gerenciar Perfil
 A tela de gerenciamento de perfil oferece aos usuários a capacidade de atualizar suas informações pessoais de forma segura. Ela é composta pelas seguintes opções para alterações: 
 
 Campo Nome: Neste espaço, o usuário pode atualizar seu nome completo, caso necessário.
@@ -677,7 +669,7 @@ Figura 10 - Tela Gerenciar Perfil
 </div>
 
 
-### Tela  Home Page
+##### Tela  Home Page
 A página inicial (home page) é a peça central do sistema e oferece uma experiência abrangente e funcional para os usuários. Ela é composta pelos seguintes elementos:
 
 Barra Lateral Esquerda:
@@ -720,7 +712,7 @@ Figura 11 - Tela Home Page
 </div>
 
 
-### Tela Criar Meta 
+##### Tela Criar Meta 
 A tela de criação de meta é um componente fundamental do sistema, permitindo aos usuários definirem suas metas de forma detalhada e eficaz. Ela é composta pelos seguintes elementos:
 
 Campo Categoria: Neste campo, os usuários podem selecionar a categoria à qual a meta pertence. As opções de seleção incluem: Pessoal, Profissional e Acadêmico.
@@ -746,7 +738,7 @@ Figura 12 - Tela Criar Meta
 </div>
 
 
-### Tela Editar Meta 
+##### Tela Editar Meta 
 
 A tela de edição de meta permite que os usuários façam ajustes e modificações em metas já existentes de forma detalhada e eficiente. Ela é composta pelos seguintes elementos: 
 
@@ -771,9 +763,6 @@ Figura 13 - Tela Editar Meta
 ![Tela editar meta](src/img/imgeditarmeta.png)
 
 </div>
-
-
-
 
 ## <a name="planoteste">Plano de Testes de Usabilidade</a>
 
