@@ -230,13 +230,13 @@ A tabela a seguir apresenta os requisitos do projeto, identificando a prioridade
 
 <tr>
 	<td>RF-06 &nbsp; </td>
-	<td>O sistema deve gerar relatórios com as metas e tarefas cadastradas</td>
+	<td>O sistema deve permitir pesquisar meta e/ou tarefa</td>
 	<td>Média</td>
 </tr>
 
 <tr>
 	<td>RF-07 &nbsp; </td>
-	<td>O sistema deve gerar relatórios das metas e tarefas concluídas<d>
+	<td>O sistema deve permitir filtrar meta<d>
 	<td>Média</td>
 </tr>
 </table>
