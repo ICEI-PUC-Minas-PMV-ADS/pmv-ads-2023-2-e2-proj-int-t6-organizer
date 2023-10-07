@@ -48,7 +48,7 @@ O link e o usuário/senha descritos acima são apenas exemplos de como tais info
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#planosoftware"> Plano de Testes de Software</a></li>
 
 
-<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#codigo"> Código</a></li>
+<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#codigo"> Código Fonte</a></li>
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#arquitetura"> Arquitetura da Solução</a></li>
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#template"> Template Padrão da Aplicação</a></li>
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#funcionalidade"> Programação de Funcionalidades</a></li>
