@@ -883,7 +883,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 	* Escolher um filtro disponível e verificar se o sistema retorna a meta de acordo com o critério do mesmo.
 
 
-## <a name="codigo">Código</a>
+## <a name="codigo">Código Fonte</a>
 1
 
 ## <a name="arquitetura">Arquitetura da Solução</a>
