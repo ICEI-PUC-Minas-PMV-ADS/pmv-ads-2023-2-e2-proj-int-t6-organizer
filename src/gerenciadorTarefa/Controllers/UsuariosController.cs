@@ -6,9 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gerenciadorTarefa.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace gerenciadorTarefa.Controllers
 {
+    //[Authorize]
     public class UsuariosController : Controller
     {
         private readonly AppDbContext _context;
@@ -22,6 +26,65 @@ namespace gerenciadorTarefa.Controllers
         public async Task<IActionResult> Index()
         {
               return View(await _context.Usuarios.ToListAsync());
+        }
+
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login (Usuario usuario)
+        {
+            var dados = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
+
+            if (dados != null)
+            {
+                bool senhaOk = BCrypt.Net.BCrypt.Verify(usuario.Senha, dados.Senha);
+
+                if (!senhaOk)
+                {
+                    ViewBag.Message = "Usuário e/ou senha inválidos!";
+                }
+                else
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, dados.Name),
+                        new Claim(ClaimTypes.NameIdentifier, dados.Id.ToString()),
+                        new Claim(ClaimTypes.Email, dados.Email)
+                    };
+
+                    var usuarioIdentity = new ClaimsIdentity(claims, "login");
+                    ClaimsPrincipal principal = new ClaimsPrincipal(usuarioIdentity);
+
+                    var props = new AuthenticationProperties
+                    {
+                        AllowRefresh = true,
+                        ExpiresUtc = DateTime.UtcNow.ToLocalTime().AddHours(8),
+                        IsPersistent = true,
+                    };
+
+                    await HttpContext.SignInAsync(principal, props);
+
+                    return Redirect("/");
+                }
+            }
+            else
+            {
+                ViewBag.Message = "Usuário e/ou senha inválidos!";
+            }
+            return View();
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Login", "Usuarios");
         }
 
         // GET: Usuarios/Details/5
@@ -43,6 +106,7 @@ namespace gerenciadorTarefa.Controllers
         }
 
         // GET: Usuarios/Create
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
@@ -53,13 +117,29 @@ namespace gerenciadorTarefa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Email,Senha,ConfirmarSenha")] Usuario usuario)
+        [AllowAnonymous]
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (usuario.Senha != usuario.ConfirmarSenha)
+                {
+                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
+                    return View(usuario);
+                }
+
+                if (_context.Usuarios.Any(u => u.Email == usuario.Email))
+                {
+                    ModelState.AddModelError("Email", "Este email já está em uso.");
+                    return View(usuario);
+                }
+
+                
+                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+
+                    _context.Add(usuario);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
             }
             return View(usuario);
         }
@@ -85,7 +165,7 @@ namespace gerenciadorTarefa.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Email,Senha,ConfirmarSenha")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -96,6 +176,7 @@ namespace gerenciadorTarefa.Controllers
             {
                 try
                 {
+                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }

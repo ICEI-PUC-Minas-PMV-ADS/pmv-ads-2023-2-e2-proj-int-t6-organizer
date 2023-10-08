@@ -10,7 +10,7 @@ namespace gerenciadorTarefa.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage ="Informe o nome")]
-        public string Nome { get; set; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage ="Informe o e-mail")]
         public string Email { get; set;}
@@ -19,7 +19,7 @@ namespace gerenciadorTarefa.Models
         [DataType(DataType.Password)]
         public string Senha { get; set; }
 
-
+        [NotMapped]
         [Required(ErrorMessage = "Repita a senha")]
         [DataType(DataType.Password)]
         public string ConfirmarSenha { get; set; }
