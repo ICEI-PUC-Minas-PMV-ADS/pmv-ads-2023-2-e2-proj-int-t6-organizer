@@ -69,7 +69,7 @@ namespace gerenciadorTarefa.Controllers
 
                     await HttpContext.SignInAsync(principal, props);
 
-                    return Redirect("/");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             else
@@ -135,11 +135,14 @@ namespace gerenciadorTarefa.Controllers
                 }
 
                 
-                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
 
-                    _context.Add(usuario);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                _context.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Cadastro criado com sucesso! Realize login para iniciar.";
+
+                return RedirectToAction("Login", "Usuarios");
             }
             return View(usuario);
         }
