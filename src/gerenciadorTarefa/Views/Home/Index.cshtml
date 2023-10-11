@@ -1,8 +1,35 @@
-﻿@{
+﻿@using System.Security.Claims;
+@model gerenciadorTarefa.Models.Usuario
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
+@{
     ViewData["Title"] = "Home Page";
 }
+    <div class="d-flex h-100">
+    <div class="card" style="width: 10%;">
+        <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
+            <img class="card-img-top" src="~/img/logo.PNG" alt="Card image cap">
+        </a>
+        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
+            <img class="card-img-top" src="~/img/iconPerfil.png" alt="Card image cap">
+        </a>
+        <a href="/Usuarios/Logout" class="w-25 mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza de que deseja SAIR do Gerenciador de Tarefas?');">
+            <img class="card-img-top" src="~/img/iconLogout.png" alt="Card image cap">
+        </a>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome2</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+        <div class="card" style="width: 90%;">
+            <div class="card-body">
+                <p class="card-text">Index da HOME, página principal.</p>
+            </div>
+        </div>
+    </div>
+
+
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </div>

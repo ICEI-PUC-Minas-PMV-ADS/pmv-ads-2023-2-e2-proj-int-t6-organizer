@@ -13,6 +13,7 @@ namespace gerenciadorTarefa.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage ="Informe o e-mail")]
+        [EmailAddress(ErrorMessage = "Informe um email válido.")]
         public string Email { get; set;}
 
         [Required(ErrorMessage ="Informe a senha")]

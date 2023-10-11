@@ -1,0 +1,20 @@
+﻿.fontPequena {
+    font-size: 12px;
+}
+
+.fontMedia {
+    font-size: 13px;
+    padding-left: 1rem;
+}
+.inputsLogin {
+    border-radius: 2rem;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center; 
+    padding: 10px; 
+    background-color: #f0f0f0; 
+}
+

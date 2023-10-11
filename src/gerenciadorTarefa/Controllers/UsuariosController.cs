@@ -79,11 +79,11 @@ namespace gerenciadorTarefa.Controllers
             return View();
         }
 
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-
             return RedirectToAction("Login", "Usuarios");
         }
 
@@ -160,6 +160,7 @@ namespace gerenciadorTarefa.Controllers
             {
                 return NotFound();
             }
+
             return View(usuario);
         }
 
@@ -177,11 +178,21 @@ namespace gerenciadorTarefa.Controllers
 
             if (ModelState.IsValid)
             {
+                if (usuario.Senha != usuario.ConfirmarSenha)
+                {
+                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
+                    return View(usuario);
+                }
+
                 try
                 {
                     usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
                     _context.Update(usuario);
+                   
                     await _context.SaveChangesAsync();
+                    
+                    await HttpContext.SignOutAsync();
+                    return RedirectToAction("Login", "Usuarios");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -194,7 +205,6 @@ namespace gerenciadorTarefa.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(usuario);
         }
@@ -233,7 +243,9 @@ namespace gerenciadorTarefa.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Usuarios");
         }
 
         private bool UsuarioExists(int id)
