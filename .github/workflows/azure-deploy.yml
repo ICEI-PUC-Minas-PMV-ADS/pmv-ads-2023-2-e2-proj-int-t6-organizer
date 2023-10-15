@@ -20,7 +20,7 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: src/gerenciadorTarefa
+      working-directory: ./src/gerenciadorTarefa
 
     - name: List directory contents
       run: ls -R
