@@ -18,15 +18,12 @@ jobs:
       with:
         dotnet-version: 6.0.*  # Ou a versão adequada para o seu projeto
 
-    - name: Build the project
-      run: dotnet build --configuration Release
-      working-directory: src/gerenciadorTarefa
-
     - name: List directory contents
       run: ls -R
 
     - name: Build the project
       run: dotnet build --configuration Release
+      working-directory: src/gerenciadorTarefa
 
     - name: Publish the project
       run: dotnet publish -c Release -o ${{github.workspace}}/publish
