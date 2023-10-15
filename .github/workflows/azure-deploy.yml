@@ -27,6 +27,7 @@ jobs:
 
     - name: Publish the project
       run: dotnet publish -c Release -o ${{github.workspace}}/publish
+      working-directory: src/gerenciadorTarefa
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
