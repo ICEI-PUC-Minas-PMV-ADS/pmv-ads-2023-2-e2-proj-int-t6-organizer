@@ -20,6 +20,7 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
+       working-directory:./pmv-ads-2023-2-e2-proj-int-t6-organizer
 
     - name: Build the project
       run: dotnet build --configuration Release
