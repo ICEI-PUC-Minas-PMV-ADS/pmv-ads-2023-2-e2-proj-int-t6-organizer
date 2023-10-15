@@ -20,7 +20,7 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-       working-directory:./src/gerenciadorTarefa
+       working-directory:https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/gerenciadorTarefa/gerenciadorTarefa.csproj
 
     - name: Build the project
       run: dotnet build --configuration Release
