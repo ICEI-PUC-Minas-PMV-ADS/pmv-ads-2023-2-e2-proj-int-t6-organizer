@@ -38,3 +38,4 @@ jobs:
       with:
         app-name: gerencieTarefas  # Nome do seu aplicativo no Azure
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Configure este segredo no GitHub
+        package: ${{github.workspace}}/publish  # Especifica o diretório de onde implantar
