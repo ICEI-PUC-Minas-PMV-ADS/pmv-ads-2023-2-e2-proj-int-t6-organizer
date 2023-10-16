@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Ox/8H7WyFmQyBluOEytIzMSeMjhb3AfJSMoHDlIIYX4uUjkK0jrEKwJ0hMneYKOX0IrgEcYv8ZSvbFKD2HhzJw==",
+  "dgSpecHash": "Pzvc6XZPvyZjdpAU24dzi0dt5vFKa+vrupS+9jx03uHNpiXhDWdc5QVn91KUGACoyUdi4zZXvgwkfDZ4NxlGUQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Talita\\Documents\\1 - TODOS DOCUMENTOS TALITA\\ESTUDOS e LIVROS\\ads\\pmv-ads-2023-2-e2-proj-int-t6-organizer\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Talita\\.nuget\\packages\\azuretoolset\\0.0.1\\azuretoolset.0.0.1.nupkg.sha512",
     "C:\\Users\\Talita\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Talita\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\Talita\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
