@@ -1,44 +1,41 @@
-name: Deploy DotNet project to Azure Function App
+ï»¿name: Azure Deploy
 
 on:
   push:
     branches:
       - main
 
-env:
-  AZURE_LOCATION: 'East US'  # Defina a região do Azure desejada
-  AZURE_FUNCTIONAPP_NAME: 'gerencieTarefas'  # Altere para o nome da sua Function App
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/gerenciadorTarefa'  # Altere para o caminho do seu projeto da Function App
-  DOTNET_VERSION: '6.0.x'  # Defina a versão do .NET a ser usada (por exemplo, '2.1.x', '3.1.x', '5.0.x')
-
 jobs:
-  build-and-deploy:
-    runs-on: windows-latest # Para Linux, use ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: 'Checkout GitHub Action'
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Configurar Ambiente DotNet ${{ env.DOTNET_VERSION }}
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.*  # Ou a versï¿½o adequada para o seu projeto
 
-      - name: 'Resolver Dependências do Projeto Usando Dotnet'
-        shell: pwsh # Para Linux, use bash
-        run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output ./output
-          popd
+    - name: Setup .NET Core 6
+      run: |
+        echo "Installing .NET Core 6"
+        dotnet --list-sdks
+        dotnet --version
+      shell: bash
 
-      - name: 'Efetuar Login no Azure'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }} # Configure o segredo AZURE_CREDENTIALS no seu repositório
+    - name: Build the project
+      run: dotnet build --configuration Release
+      working-directory: src/gerenciadorTarefa
 
-      - name: 'Criar uma Azure Function App'
-        uses: Azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          location: ${{ env.AZURE_LOCATION }}
+    - name: Publish the project
+      run: dotnet publish -c Release -o ${{github.workspace}}/publish
+      working-directory: src/gerenciadorTarefa
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: gerencieTarefas  # Nome do seu aplicativo no Azure
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Configure este segredo no GitHub
+        package: ${{github.workspace}}/publish  # Especifica o diretï¿½rio de onde implantar
