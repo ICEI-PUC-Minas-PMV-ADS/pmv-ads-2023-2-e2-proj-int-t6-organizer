@@ -8,7 +8,7 @@ on:
 env:
   AZURE_LOCATION: 'East US'  # Defina a região do Azure desejada
   AZURE_FUNCTIONAPP_NAME: 'gerencieTarefas'  # Altere para o nome da sua Function App
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './publish'  # Altere para o caminho do seu projeto da Function App
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/gerenciadorTarefa'  # Altere para o caminho do seu projeto da Function App
   DOTNET_VERSION: '6.0.x'  # Defina a versão do .NET a ser usada (por exemplo, '2.1.x', '3.1.x', '5.0.x')
 
 jobs:
