@@ -18,6 +18,13 @@ jobs:
       with:
         dotnet-version: 6.0.*  # Ou a versão adequada para o seu projeto
 
+    - name: Setup .NET Core 6
+      run: |
+        echo "Installing .NET Core 6"
+        dotnet --list-sdks
+        dotnet --version
+      shell: bash
+
     - name: List directory contents
       run: ls -R
 
