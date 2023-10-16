@@ -25,9 +25,6 @@ jobs:
         dotnet --version
       shell: bash
 
-    - name: List directory contents
-      run: ls -R
-
     - name: Build the project
       run: dotnet build --configuration Release
       working-directory: src/gerenciadorTarefa
