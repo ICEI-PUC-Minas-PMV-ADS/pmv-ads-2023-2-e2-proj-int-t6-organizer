@@ -30,9 +30,6 @@ jobs:
           dotnet build --configuration Release --output ./output
           popd
 
-      - name: Setup Azure CLI
-        uses: azure/setup-azure-cli@v1
-
       - name: 'Efetuar Login no Azure'
         uses: azure/login@v1
         with:
