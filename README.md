@@ -897,7 +897,50 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 1
 
 ### <a name="registrosoftware">Registro de Testes de Software</a>
-1
+
+### <a name="rf01plano">Requisito 01</a>  
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Caso de Teste</td>
+	<td>Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.</td>
+</tr>
+<tr>
+	<td>Requisitos Associados</td>
+	<td>RF-01 - Gerenciar o acesso do usuário.</td>
+</tr>
+<tr>
+	<td>Objetivo do Teste </td>
+	<td>
+		Verificar se é possivel realizar o cadastro e login do usuario de forma correta. <br>
+		Verificar se é possivel alterar as informações como nome,e-mail e senha. <br>		
+	</td>
+</tr>
+<tr>
+	<td>Passos</td>
+	<td>
+		Testar, na tela de cadastro, se o sistema permite a criação de conta com sucesso.<br>
+		Testar, na tela de login, se o sistema permite o acesso apenas à contas previamente cadastradas.<br>
+		Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.<br>
+	</td>	
+</tr>
+<tr>
+	<td>Critérios de Êxito</td>
+	<td>
+		O usuario é criado com sucesso. <br>
+		O usuario consegue alterar as informações do cadastro. <br>
+	</td>
+</tr>
+<tr>
+	<td>Critérios de não Êxito</td>
+	<td>
+		O usuario não consegue efetuar o cadastro e consequentemente o login.<br>
+		As alterações na tela de edição de perfil não efetuadas. <br>
+	</td>
+</tr>
+</table>
+
+**************************
 
 
 ## <a name="apresentacao">Apresentação</a>
