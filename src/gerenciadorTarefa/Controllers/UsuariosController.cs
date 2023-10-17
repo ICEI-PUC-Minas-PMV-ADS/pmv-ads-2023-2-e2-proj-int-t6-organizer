@@ -79,7 +79,6 @@ namespace gerenciadorTarefa.Controllers
             return View();
         }
 
-        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
