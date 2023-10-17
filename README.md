@@ -49,12 +49,8 @@ O link e o usuário/senha descritos acima são apenas exemplos de como tais info
 
 
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#codigo"> Código Fonte</a></li>
-<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#arquitetura"> Arquitetura da Solução</a></li>
-<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#template"> Template Padrão da Aplicação</a></li>
-<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#funcionalidade"> Programação de Funcionalidades</a></li>
-<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#registrosoftware"> Registro de Testes de Software</a></li>
-<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#registroteste"> Registro de Testes de Usabilidade</a></li>
-
+<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#implementacao"> Implementação da Solução</a></li>
+<li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#avaliacao"> Avaliação da solução</a></li>
 
 <li><a href="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/README.md#apresentacao"> Apresentação do Projeto</a></li>
 
@@ -886,19 +882,21 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 ## <a name="codigo">Código</a>
 1
 
-## <a name="arquitetura">Arquitetura da Solução</a>
+## <a name="implementacao">Implementação da Solução</a>
+
+### <a name="template">Template da Aplicação</a>
 1
 
-## <a name="template">Template Padrão da Aplicação</a>
+### <a name="funcionalidade">Funcionalidades do Sistema</a>
+
+**Funcionalidade RF-01**:
+
+## <a name="avaliacao">Avaliação da Solução</a>
+
+### <a name="registroteste">Registro de Testes de Usabilidade</a>
 1
 
-## <a name="funcionalidade">Programação de Funcionalidades</a>
-1
-
-## <a name="registroteste">Registro de Testes de Usabilidade</a>
-1
-
-## <a name="registrosoftware">Registro de Testes de Software</a>
+### <a name="registrosoftware">Registro de Testes de Software</a>
 1
 
 
