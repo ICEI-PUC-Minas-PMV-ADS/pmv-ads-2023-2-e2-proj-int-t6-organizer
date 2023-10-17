@@ -6,6 +6,18 @@
     ViewData["Title"] = "Edit";
 }
 
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+
 <div class="d-flex h-100">
     <div class="card" style="width: 10%;">
         <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
@@ -55,7 +67,7 @@
 
                     <div class="form-group text-center">
                         <div class="form-group text-center">
-                            <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin" onclick="return confirm('Tem certeza de que ALTERAR seu registro?');" />
+                            <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin" onclick="return confirm('Tem certeza que deseja ALTERAR seu registro? Será necessário efetuar novo login.');" />
                             <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin">Excluir Cadastro</a>
                             <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
                         </div>

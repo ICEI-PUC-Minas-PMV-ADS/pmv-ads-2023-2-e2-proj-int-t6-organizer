@@ -79,13 +79,14 @@ namespace gerenciadorTarefa.Controllers
             return View();
         }
 
-        [HttpPost]
+        //[HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("Login", "Usuarios");
         }
+
 
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -190,8 +191,11 @@ namespace gerenciadorTarefa.Controllers
                     _context.Update(usuario);
                    
                     await _context.SaveChangesAsync();
-                    
+
                     await HttpContext.SignOutAsync();
+
+                    TempData["SuccessMessage"] = "Alteração reaizada com sucesso! Realize novamente o login.";
+
                     return RedirectToAction("Login", "Usuarios");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -240,11 +244,16 @@ namespace gerenciadorTarefa.Controllers
             if (usuario != null)
             {
                 _context.Usuarios.Remove(usuario);
-            }
-            
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            await HttpContext.SignOutAsync();
+                // Desloga o usuário antes de redirecionar para a tela de login
+                await HttpContext.SignOutAsync();
+
+                // Redireciona para a tela de login
+                return RedirectToAction("Login", "Usuarios");
+            }
+
+            // Redireciona para a tela de login mesmo se o usuário não for encontrado
             return RedirectToAction("Login", "Usuarios");
         }
 
