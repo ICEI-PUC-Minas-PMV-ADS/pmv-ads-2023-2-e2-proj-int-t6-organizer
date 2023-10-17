@@ -6,6 +6,17 @@
     ViewData["Title"] = "Edit";
 }
 
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
 <div class="d-flex h-100">
     <div class="card" style="width: 10%;">
         <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
