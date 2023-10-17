@@ -190,7 +190,7 @@ namespace gerenciadorTarefa.Controllers
                    
                     await _context.SaveChangesAsync();
 
-                    TempData["SuccessMessage"] = "Cadastro criado com sucesso! Realize login para iniciar.";
+                    TempData["SuccessMessageEdit"] = "Cadastro criado com sucesso! Realize login para iniciar.";
 
                     await HttpContext.SignOutAsync();
                     return RedirectToAction("Login", "Usuarios");
