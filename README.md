@@ -903,11 +903,11 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 <table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
 <tr>
 	<td>Caso de Teste</td>
-	<td>Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.</td>
+	<td> T.01 Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.</td>
 </tr>
 <tr>
 	<td>Requisitos Associados</td>
-	<td>RF-01 - Gerenciar o acesso do usuário.</td>
+	<td> RF-01 - Gerenciar o acesso do usuário.</td>
 </tr>
 <tr>
 	<td>Objetivo do Teste </td>
@@ -940,6 +940,9 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 </tr>
 </table>
 
+Registro T.01
+
+![T-01](src/mp4/T.01_Registro_software.mp4)
 **************************
 
 
