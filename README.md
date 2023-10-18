@@ -942,7 +942,8 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 Registro T.01
 
-![T-01](src/mp4/T.01_Registro_software.mp4)
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+
 **************************
 
 
