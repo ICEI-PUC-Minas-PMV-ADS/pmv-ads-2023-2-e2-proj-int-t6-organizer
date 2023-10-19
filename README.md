@@ -21,13 +21,7 @@ O projeto visa desenvolver um gerenciador de tarefas simples, prático e útil, 
 
 ## Instruções de utilização
 
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
-
-Não deixe de informar o link onde a aplicação estiver disponível para acesso (por exemplo: https://adota-pet.herokuapp.com/src/index.html).
-
-Se houver usuário de teste, o login e a senha também deverão ser informados aqui (por exemplo: usuário - admin / senha - admin).
-
-O link e o usuário/senha descritos acima são apenas exemplos de como tais informações deverão ser apresentadas.
+Para utilizar o sistema de gerenciamento de tarefas, é necessário primeiro realizar o cadastro e, em seguida, fazer login no site. Você pode acessar a aplicação por meio do link: https://gerencietarefas.azurewebsites.net/. Antes de começar, certifique-se de criar uma conta, preenchendo as informações necessárias. Após o cadastro, você poderá fazer login com suas credenciais. O sistema oferece uma experiência personalizada, permitindo que você gerencie suas tarefas de forma eficaz e segura.
 
 # ÍNDICE
 
@@ -882,11 +876,35 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 ## <a name="codigo">Código Fonte</a>
 
 
-### Instruções para acesso
--Hospedagem
+### Instruções para acesso e Hospedagem
 
-### Estrutura de dados
+O sistema de gerenciamento de tarefas encontra-se hospedado na plataforma Microsoft Azure, acessível através do endereço https://gerencietarefas.azurewebsites.net/. </br> 
+Para utilizá-lo, não são necessários requisitos especiais, exceto uma conexão à internet. Essa abordagem oferece uma grande flexibilidade, permitindo que os usuários acessem e utilizem a plataforma de gerenciamento de tarefas a partir de diversos dispositivos e locais, sem a necessidade de instalação de softwares adicionais ou configurações, simplificando a gestão de tarefas de maneira eficaz e conveniente.
 
+### Estruturas de Dados e Operações do Sistema
+
+#### Estruturas de Dados
+
+##### Tabela "Usuarios" no banco de dados "organizerdb":
+- **Colunas:**
+    1. **Id**: Um identificador único para cada usuário.
+    2. **Name**: O nome do usuário.
+    3. **Email**: O endereço de e-mail do usuário, que é utilizado como identificador exclusivo.
+    4. **Senha**: A senha do usuário, que está armazenada de forma segura, criptografada
+
+#### Operações
+
+1. **Cadastro de Usuário:**
+   - Os dados fornecidos pelo usuário durante o registro, como nome, e-mail e senha, são inseridos na tabela "Usuarios" no banco de dados "organizerdb". O sistema verifica se o e-mail é único para evitar duplicatas.
+
+2. **Login de Usuário:**
+   - Quando um usuário tenta fazer login, o sistema verifica se as credenciais (e-mail e senha) correspondem a algum registro na tabela "Usuarios" no banco de dados "organizerdb". Se as credenciais forem válidas, o acesso é concedido ao usuário.
+
+3. **Gerenciamento de Perfil:**
+   - A tela de gerenciamento de perfil permite que os usuários editem as informações de cadastro, como nome, e-mail e senha.
+   - Quando um usuário faz uma alteração, o sistema atualiza as informações correspondentes na tabela "Usuarios" no banco de dados "organizerdb". Isso permite ao usuário manter suas informações atualizadas.
+
+Estas estruturas e operações são essenciais para o registro, autenticação e gerenciamento de informações de usuário no sistema. É importante garantir que os dados estejam protegidos e que as operações sejam executadas com segurança. Além disso, práticas de segurança, como a criptografia da senha, são fundamentais para proteger as informações dos usuários.
 
 ### Artefatos desenvolvidos
 
@@ -895,7 +913,7 @@ A tabela a seguir contempla os artefatos desenvolvidos nesta etapa (Etapa 3 - De
 
 |ID    | Descrição do Requisito  | Artefato(s) produzido(s) |
 |------|-----------------------------------------|----|
-|RF-01| Gerenciar o acesso do usuário | dbo.Usuarios  / HomeController.cs  / UsuariosController.cs / home.css  / site.css  / usuariosCreate  / usuariosLogin  / AppDbContext.cs  / ErrorViewModel.cs  / Usuario.cs  / Create.cshtml  / Delete.cshtml  / Details.cshtml  / Edit.cshtml  / Index.cshtml  / Login.cshtml  / _Layout.cshml  / Program.cs   | 
+|RF-01| Gerenciar o acesso do usuário | dbo.Usuarios  / HomeController.cs  / UsuariosController.cs / home.css  / site.css  / usuariosCreate.css  / usuariosLogin.css  / AppDbContext.cs  / ErrorViewModel.cs  / Usuario.cs  / Create.cshtml  / Delete.cshtml  / Details.cshtml  / Edit.cshtml  / Index.cshtml  / Login.cshtml  / _Layout.cshml  / Program.cs   | 
 
 
 * dbo.Usuarios
