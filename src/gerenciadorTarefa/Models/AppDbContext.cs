@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using gerenciadorTarefa.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace gerenciadorTarefa.Models
 {
@@ -8,6 +10,10 @@ namespace gerenciadorTarefa.Models
 
         public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<Meta> Metas { get; set; }
+
+        public DbSet<Tarefa> Tarefas { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -16,5 +22,7 @@ namespace gerenciadorTarefa.Models
                 .HasIndex(u => u.Email)
                 .IsUnique();
         }
+
+        
     }
 }

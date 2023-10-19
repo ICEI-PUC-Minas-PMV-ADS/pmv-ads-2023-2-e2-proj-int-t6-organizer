@@ -25,5 +25,7 @@ namespace gerenciadorTarefa.Models
         [DataType(DataType.Password)]
         public string ConfirmarSenha { get; set; }
 
+        public ICollection<Meta> Metas { get; set; }
+
     }
 }

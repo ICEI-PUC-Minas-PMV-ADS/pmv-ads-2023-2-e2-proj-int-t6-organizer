@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using gerenciadorTarefa.Models;
 
@@ -11,9 +12,10 @@ using gerenciadorTarefa.Models;
 namespace gerenciadorTarefa.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231013232758_tabMetas")]
+    partial class tabMetas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,31 +58,6 @@ namespace gerenciadorTarefa.Migrations
                     b.ToTable("Metas");
                 });
 
-            modelBuilder.Entity("gerenciadorTarefa.Models.Tarefa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("MetasId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MetasId");
-
-                    b.ToTable("Tarefas");
-                });
-
             modelBuilder.Entity("gerenciadorTarefa.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -112,33 +89,12 @@ namespace gerenciadorTarefa.Migrations
             modelBuilder.Entity("gerenciadorTarefa.Models.Meta", b =>
                 {
                     b.HasOne("gerenciadorTarefa.Models.Usuario", "Usuario")
-                        .WithMany("Metas")
+                        .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("gerenciadorTarefa.Models.Tarefa", b =>
-                {
-                    b.HasOne("gerenciadorTarefa.Models.Meta", "Metas")
-                        .WithMany("Tarefas")
-                        .HasForeignKey("MetasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Metas");
-                });
-
-            modelBuilder.Entity("gerenciadorTarefa.Models.Meta", b =>
-                {
-                    b.Navigation("Tarefas");
-                });
-
-            modelBuilder.Entity("gerenciadorTarefa.Models.Usuario", b =>
-                {
-                    b.Navigation("Metas");
                 });
 #pragma warning restore 612, 618
         }
