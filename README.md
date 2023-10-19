@@ -889,7 +889,59 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 ### <a name="funcionalidade">Funcionalidades do Sistema</a>
 
-**Funcionalidade RF-01**:
+**Funcionalidade RF-01 - Tela de Cadastro**:
+
+A função de cadastro requer que os usuários forneçam informações essenciais, como nome, um e-mail exclusivo e senha, juntamente com uma confirmação de senha idêntica. Visando a unicidade dos cadastros, garantimos que não seja possível registrar um e-mail já presente no banco de dados.
+
+<div align="center">
+
+Figura 14 - Tela de Cadastro
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaCadastro.PNG)
+
+</div>
+
+**Funcionalidade RF-01 - Tela de Login (PARCIAL¹)**:
+
+A tela de login requer a inserção do e-mail e senha correspondente previamente cadastrados para acessar a conta.
+</br>
+<sub>¹: a funcionalidade "Esqueci minha senha" será desenvolvida na próxima etapa.</sub> 
+
+<div align="center">
+
+Figura 15 - Tela de Login
+
+![Tela de Login](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaLogin.PNG)
+
+</div>
+
+**Funcionalidade RF-01 - Tela de Visualização, Edição e Exclusão de Cadastro (PARCIAL²)**:
+
+A tela de edição de cadastro permite a modificação de todas as informações da conta. Após a confirmação, o usuário será redirecionado para a tela de login.
+</br>
+
+<sub>²: a funcionalidade de excluir conta será desenvolvida na próxima etapa.</sub>
+
+<div align="center">
+
+Figura 16 - Tela de Edição de Cadastro
+
+![Tela de Edição de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaEdicaoCadastro.PNG)
+
+</div>
+
+**Funcionalidade RF-01 - Tela de Logout do sistema**:
+
+A opção de logout permite que o usuário encerre a sessão atual, deslogando sua conta.
+
+<div align="center">
+
+Figura 17 - Tela de Logout do sistema
+
+![Tela de Logout](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaLogout.PNG)
+
+</div>
+
 
 ## <a name="avaliacao">Avaliação da Solução</a>
 
