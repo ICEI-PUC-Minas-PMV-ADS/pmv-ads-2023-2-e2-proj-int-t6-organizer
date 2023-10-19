@@ -949,6 +949,15 @@ https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organize
 
 ## <a name="apresentacao">Apresentação</a>
 
+### <a name="apresentacao">Prova de Conceito - POC</a>
+O vídeo localizado na pasta "presentation", demonstra de forma prática, que é viável implementar a proposta de solução planejada. Endereço:
+ * Video: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/presentation/poc.mp4
+<video width="320" height="240" controls>
+  <source src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/presentation/poc.mp4" type="video/mp4">
+  Seu navegador não suporta a exibição de vídeos.
+</video>
+
+
 ### <a name="apresentacao">Apresentação da solução</a>
 O vídeo localizado na pasta "presentation", demonstra de forma sintetizada o problema e a proposta de solução do sistema. Endereço:
  * Video: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/tree/main/presentation
