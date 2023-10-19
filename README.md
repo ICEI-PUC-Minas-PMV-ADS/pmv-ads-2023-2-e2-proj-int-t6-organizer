@@ -879,13 +879,120 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 	* Escolher um filtro disponível e verificar se o sistema retorna a meta de acordo com o critério do mesmo.
 
 
-## <a name="codigo">Código</a>
-1
+## <a name="codigo">Código Fonte</a>
 
+
+### Instruções para acesso
+-Hospedagem
+
+### Estrutura de dados
+
+
+### Artefatos desenvolvidos
+
+A tabela a seguir contempla os artefatos desenvolvidos nesta etapa (Etapa 3 - Desenvolvimento da solução - Fase 1):
+
+
+|ID    | Descrição do Requisito  | Artefato(s) produzido(s) |
+|------|-----------------------------------------|----|
+|RF-01| Gerenciar o acesso do usuário | dbo.Usuarios  / HomeController.cs  / UsuariosController.cs / home.css  / site.css  / usuariosCreate  / usuariosLogin  / AppDbContext.cs  / ErrorViewModel.cs  / Usuario.cs  / Create.cshtml  / Delete.cshtml  / Details.cshtml  / Edit.cshtml  / Index.cshtml  / Login.cshtml  / _Layout.cshml  / Program.cs   | 
+
+
+* dbo.Usuarios
+```
+```
+
+*  HomeController.cs
+```
+```
+
+*  UsuariosController.cs 
+```
+```
+
+* home.css
+``` .fontPequena {
+    font-size: 12px;
+}
+
+.fontMedia {
+    font-size: 13px;
+    padding-left: 1rem;
+}
+.inputsLogin {
+    border-radius: 2rem;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center; 
+    padding: 10px; 
+    background-color: #f0f0f0; 
+}
+```
+
+*  site.css
+```
+```
+ 
+*  usuariosCreate
+```
+```
+
+*  usuariosLogin
+```
+```
+
+*  AppDbContext.cs
+```
+```
+
+*  ErrorViewModel.cs
+```
+```
+
+*  Usuario.cs
+```
+```
+
+*  Create.cshtml
+```
+```
+
+*  Delete.cshtml
+```
+```
+
+*  Details.cshtml
+```
+```
+
+*  Edit.cshtml
+```
+```
+
+*  Index.cshtml
+```
+```
+
+*  Login.cshtml
+```
+```
+
+*  _Layout.cshml
+```
+```
+
+*  Program.cs
+```
+```
+
+  
 ## <a name="implementacao">Implementação da Solução</a>
 
 ### <a name="template">Template da Aplicação</a>
-1
+
 
 ### <a name="funcionalidade">Funcionalidades do Sistema</a>
 
