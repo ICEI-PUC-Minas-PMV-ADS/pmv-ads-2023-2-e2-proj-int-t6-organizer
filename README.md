@@ -1905,7 +1905,7 @@ O Template padrão do sistema a ser implementado no site segue o design de inter
 
 <div align="center">
 
-Figura  - Template padrão do sistema
+Figura 14 - Template padrão do sistema
 
 ![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template04.png)
 
@@ -1921,7 +1921,7 @@ Tela onde o usuário pode acessar o sistema
 
 <div align="center">
 
-Figura  - Template login
+Figura 15 - Template login
 
 ![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template03.png)
 
@@ -1932,7 +1932,7 @@ Tela onde os usuários podem registrar-se e obter acesso aos recursos exclusivos
 
 <div align="center">
 
-Figura  - Template tela criar conta
+Figura 16 - Template tela criar conta
 
 ![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template02.png)
 
@@ -1944,7 +1944,7 @@ Tela onde os usuários podem atualizar suas  informações de cadastro
 
 <div align="center">
 
-Figura  - Template tela Gerenciar Perfil
+Figura 17 - Template tela Gerenciar Perfil
 
 ![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template01.png)
 
@@ -1967,7 +1967,7 @@ A função de cadastro requer que os usuários forneçam informações essenciai
 
 <div align="center">
 
-Figura 14 - Tela de Cadastro
+Figura 18 - Tela de Cadastro
 
 ![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaCadastro.PNG)
 
@@ -1981,7 +1981,7 @@ A tela de login requer a inserção do e-mail e senha correspondente previamente
 
 <div align="center">
 
-Figura 15 - Tela de Login
+Figura 19 - Tela de Login
 
 ![Tela de Login](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaLogin.PNG)
 
@@ -1996,7 +1996,7 @@ A tela de edição de cadastro permite a modificação de todas as informações
 
 <div align="center">
 
-Figura 16 - Tela de Edição de Cadastro
+Figura 20 - Tela de Edição de Cadastro
 
 ![Tela de Edição de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaEdicaoCadastro.PNG)
 
@@ -2008,7 +2008,7 @@ A opção de logout permite que o usuário encerre a sessão atual, deslogando s
 
 <div align="center">
 
-Figura 17 - Tela de Logout do sistema
+Figura 21 - Tela de Logout do sistema
 
 ![Tela de Logout](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaLogout.PNG)
 
@@ -2033,6 +2033,14 @@ usuáriosController.cs
 
 **Estrutura de dados**:
 Ambas as telas utilizam o dbo.Usuarios como modelo de estrutura de dados conforme ilustrado abaixo
+
+<div align="center">
+
+Figura 22 - Estrutura de dados
+
+![Tela de Logout](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/bd.user.png)
+
+</div>
 
 
 ## <a name="avaliacao">Avaliação da Solução</a>
