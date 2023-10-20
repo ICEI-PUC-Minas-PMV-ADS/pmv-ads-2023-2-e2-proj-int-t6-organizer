@@ -2046,7 +2046,124 @@ Figura 22 - Estrutura de dados
 ## <a name="avaliacao">Avaliação da Solução</a>
 
 ### <a name="registroteste">Registro de Testes de Usabilidade</a>
-1
+
+Após realizar os testes de usabilidade, obtém-se um relatório a partir das análises realizadas. O Registro de Testes de Usabilidade é um relatório que contém as evidências dos testes e relatos dos usuários participantes, baseado no Plano de Testes de Usabilidade desenvolvido para os casos de uso desta etapa.
+
+**Relatório de Teste de Usabilidade - Registro de Conta**
+
+Projeto: Aplicativo de Gerenciamento de Tarefas e Metas 
+
+**Resumo:** 
+
+Este relatório descreve os resultados do teste de usabilidade realizado no processo de registro de conta do organizer - aplicativo de gerenciamento de tarefas e metas. O objetivo do teste foi avaliar a facilidade de registro, clareza nas instruções e velocidade de conclusão do processo. Os testes foram realizados através de vídeo chamadas. 
+
+**Metodologia:**
+
+Realizamos testes de usabilidade com três participantes, representando diferentes perfis de usuários. Cada participante foi convidado a criar uma nova conta no aplicativo, fornecendo seu nome completo, endereço de email e senha. Observações e feedback verbal foram registrados durante o processo. 
+
+**Participantes:**
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Nome</td>
+	<td>Lucas Mendes</td>
+</tr>
+	<tr>
+	<td>Ocupação</td>
+	<td>Estudante</td>
+</tr>
+<tr>
+	<td>Idade</td>
+	<td>22</td>
+</tr>
+<tr>
+	<td>Ocupação</td>
+	<td>Estudante Universitário</td>	
+</tr>
+<tr>
+	<td>Relação coma a tecnologia</td>
+	<td>
+	Lucas é um estudante universitário de engenharia. Ele cresceu em um ambiente digital e está confortável com tecnologia. Usa seu laptop para a maioria das atividades acadêmicas e está sempre em busca de 	ferramentas que o ajudem a organizar seu tempo e tarefas de estudo
+	</td>
+</tr>
+</table>
+
+**************************
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+
+<tr>
+	<td>Nome</td>
+	<td>Carlos Silva</td>
+</tr>
+<tr>
+	<td>Ocupação</td>
+	<td>Profissional de TI</td>
+</tr>
+<tr>
+	<td>Idade</td>
+	<td>35</td>
+</tr>
+<tr>
+	<td>Ocupação</td>
+	<td>Dona de casa</td>	
+</tr>
+<tr>
+	<td>Relação coma a tecnologia</td>
+	<td>
+	Carlos é um profissional de TI experiente. Ele passa a maior parte do seu tempo de trabalho lidando com sistemas e softwares. Usa várias ferramentas tecnológicas para gerenciar projetos e tarefas de 		equipe. É habilidoso em resolver problemas de tecnologia.
+	</td>
+</tr>
+</table>
+
+**************************
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Nome</td>
+	<td>Maria Santos</td>
+</tr>
+	<tr>
+	<td>Ocupação</td>
+	<td>Profissional de TI</td>
+</tr>
+<tr>
+	<td>Idade</td>
+	<td>40</td>
+</tr>
+<tr>
+	<td>Ocupação</td>
+	<td>Dona de casa</td>	
+</tr>
+<tr>
+	<td>Relação coma a tecnologia</td>
+	<td>
+	Maria é uma dona de casa que utiliza a tecnologia em sua vida cotidiana, principalmente para tarefas como compras online, comunicação com a família e organização do orçamento doméstico. Ela não é uma 	especialista em tecnologia, mas está disposta a aprender ferramentas que facilitem sua rotina.
+	</td>
+</tr>
+</table>
+
+**Tarefas do Teste:**
+
+* Criar uma nova conta no aplicativo, fornecendo nome completo, endereço de email e senha. 
+
+**Resultados e Observações:**
+
+* Durante os testes de usabilidade no processo de registro de conta, observamos os seguintes pontos: 
+
+* Facilidade de Registro: A maioria dos participantes conseguiu criar uma nova conta de forma eficiente, seguindo as instruções fornecidas. 
+
+* Clareza nas Instruções: Os participantes notaram que as instruções eram claras e fáceis de seguir, tornando o processo de registro intuitivo. 
+
+* Velocidade de Conclusão: O processo de registro foi concluído rapidamente por todos os participantes, demonstrando eficiência. 
+
+**Recomendações:**
+
+* Com base nos resultados e observações dos testes de usabilidade no processo de registro de conta, não identificamos problemas significativos. No entanto, recomendamos a continuação das boas práticas para manter a simplicidade, clareza e eficiência do processo. 
+
+**Conclusão:**
+
+* O teste de usabilidade no processo de registro de conta do aplicativo de gerenciamento de tarefas e metas indicou que o processo é eficiente e intuitivo para a maioria dos usuários, incluindo diferentes perfis. As recomendações acima podem ajudar a manter essa simplicidade e clareza, proporcionando uma experiência de registro eficaz.
 
 ### <a name="registrosoftware">Registro de Testes de Software</a>
 
@@ -2092,7 +2209,7 @@ Figura 22 - Estrutura de dados
 </tr>
 </table>
 
-Registro T.01
+**Registro T.01**
 
 https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
 
