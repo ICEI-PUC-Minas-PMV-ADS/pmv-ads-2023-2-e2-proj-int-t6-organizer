@@ -1901,9 +1901,65 @@ app.Run();
 ## <a name="implementacao">Implementação da Solução</a>
 
 ### <a name="template">Template da Aplicação</a>
+O Template padrão do sistema a ser implementado no site segue o design de interface previamente concebido, conforme ilustrado abaixo 
 
+<div align="center">
+
+Figura  - Template padrão do sistema
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template04.png)
+
+</div>
+
+O template criado está disponível no site https://gerencietarefas.azurewebsites.net/ e é composto pelos seguintes layouts:
+•	Tela Login 
+•	Tela Criar Conta 
+•	Tela Gerenciar Perfil
+
+Tela login:
+Tela onde o usuário pode acessar o sistema
+
+<div align="center">
+
+Figura  - Template login
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template03.png)
+
+</div>
+
+Tela criar conta 
+Tela onde os usuários podem registrar-se e obter acesso aos recursos exclusivos do sistema
+
+<div align="center">
+
+Figura  - Template tela criar conta
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template02.png)
+
+</div>
+
+Tela Gerenciar Perfil
+
+Tela onde os usuários podem atualizar suas  informações de cadastro 
+
+<div align="center">
+
+Figura  - Template tela Gerenciar Perfil
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template01.png)
+
+</div>
 
 ### <a name="funcionalidade">Funcionalidades do Sistema</a>
+
+Nesta seção, você encontrará as telas projetadas para cada funcionalidade do sistema, acompanhadas de seus respectivos endereços (URL) e instruções de acesso que serão apresentados a seguir.
+
+•	Tela Login 
+•	Tela de Cadastro
+•	Tela Gerenciar Perfil
+
+Em ambas as telas os dados do usuário são armazenados utilizando banco de dados SQL Server. 
+
 
 **Funcionalidade RF-01 - Tela de Cadastro**:
 
@@ -1957,6 +2013,26 @@ Figura 17 - Tela de Logout do sistema
 ![Tela de Logout](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaLogout.PNG)
 
 </div>
+
+**Artefatos da funcionalidade**:
+
+**Tela login:**
+Login.cshtml
+Usuário.cs
+usuáriosController.cs
+
+**Tela cadastro:** 
+create.cshtml
+Usuário.cs
+usuáriosController.cs
+
+**Tela gerenciar perfil**
+details.cshtml
+Usuário.cs
+usuáriosController.cs
+
+**Estrutura de dados**:
+Ambas as telas utilizam o dbo.Usuarios como modelo de estrutura de dados conforme ilustrado abaixo
 
 
 ## <a name="avaliacao">Avaliação da Solução</a>
