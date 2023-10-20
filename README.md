@@ -21,7 +21,7 @@ O projeto visa desenvolver um gerenciador de tarefas simples, prático e útil, 
 
 ## Instruções de utilização
 
-Para utilizar o sistema de gerenciamento de tarefas, é necessário primeiro realizar o cadastro e, em seguida, fazer login no site. Você pode acessar a aplicação por meio do link: https://gerencietarefas.azurewebsites.net/. Antes de começar, certifique-se de criar uma conta, preenchendo as informações necessárias. Após o cadastro, você poderá fazer login com suas credenciais. O sistema oferece uma experiência personalizada, permitindo que você gerencie suas tarefas de forma eficaz e segura.
+Para utilizar o sistema de gerenciamento de tarefas, é necessário primeiro realizar o cadastro e, em seguida, fazer login no site. Você pode acessar a aplicação por meio do link:https://gerencietarefas.azurewebsites.net/. Antes de começar, certifique-se de criar uma conta, preenchendo as informações necessárias. Após o cadastro, você poderá fazer login com suas credenciais. O sistema oferece uma experiência personalizada, permitindo que você gerencie suas tarefas de forma eficaz e segura.
 
 # ÍNDICE
 
@@ -878,7 +878,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 ### Instruções para acesso e Hospedagem
 
-O sistema de gerenciamento de tarefas encontra-se hospedado na plataforma Microsoft Azure, acessível através do endereço https://gerencietarefas.azurewebsites.net/. </br> 
+O sistema de gerenciamento de tarefas encontra-se hospedado na plataforma Microsoft Azure, acessível através do endereço [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/). </br> 
 Para utilizá-lo, não são necessários requisitos especiais, exceto uma conexão à internet. Essa abordagem oferece uma grande flexibilidade, permitindo que os usuários acessem e utilizem a plataforma de gerenciamento de tarefas a partir de diversos dispositivos e locais, sem a necessidade de instalação de softwares adicionais ou configurações, simplificando a gestão de tarefas de maneira eficaz e conveniente.
 
 ### Estruturas de Dados e Operações do Sistema
@@ -905,6 +905,8 @@ Para utilizá-lo, não são necessários requisitos especiais, exceto uma conex�
    - Quando um usuário faz uma alteração, o sistema atualiza as informações correspondentes na tabela "Usuarios" no banco de dados "organizerdb". Isso permite ao usuário manter suas informações atualizadas.
 
 Estas estruturas e operações são essenciais para o registro, autenticação e gerenciamento de informações de usuário no sistema. É importante garantir que os dados estejam protegidos e que as operações sejam executadas com segurança. Além disso, práticas de segurança, como a criptografia da senha, são fundamentais para proteger as informações dos usuários.
+
+**************************
 
 ### Artefatos desenvolvidos
 
@@ -1911,12 +1913,12 @@ Figura 14 - Template padrão do sistema
 
 </div>
 
-O template criado está disponível no site https://gerencietarefas.azurewebsites.net/ e é composto pelos seguintes layouts:
-•	Tela Login 
-•	Tela Criar Conta 
+O template criado está disponível no site [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/) e é composto pelos seguintes layouts:
+•	Tela Login<br>
+•	Tela Criar Conta<br>
 •	Tela Gerenciar Perfil
 
-Tela login:
+**Tela login:**
 Tela onde o usuário pode acessar o sistema
 
 <div align="center">
@@ -1927,7 +1929,7 @@ Figura 15 - Template login
 
 </div>
 
-Tela criar conta 
+**Tela criar conta:**
 Tela onde os usuários podem registrar-se e obter acesso aos recursos exclusivos do sistema
 
 <div align="center">
@@ -1938,7 +1940,7 @@ Figura 16 - Template tela criar conta
 
 </div>
 
-Tela Gerenciar Perfil
+**Tela Gerenciar Perfil**
 
 Tela onde os usuários podem atualizar suas  informações de cadastro 
 
@@ -1950,12 +1952,14 @@ Figura 17 - Template tela Gerenciar Perfil
 
 </div>
 
+**************************
+
 ### <a name="funcionalidade">Funcionalidades do Sistema</a>
 
 Nesta seção, você encontrará as telas projetadas para cada funcionalidade do sistema, acompanhadas de seus respectivos endereços (URL) e instruções de acesso que serão apresentados a seguir.
 
-•	Tela Login 
-•	Tela de Cadastro
+•	Tela Login<br>
+•	Tela de Cadastro<br>
 •	Tela Gerenciar Perfil
 
 Em ambas as telas os dados do usuário são armazenados utilizando banco de dados SQL Server. 
@@ -1975,7 +1979,7 @@ Figura 18 - Tela de Cadastro
 
 **Funcionalidade RF-01 - Tela de Login (PARCIAL¹)**:
 
-A tela de login requer a inserção do e-mail e senha correspondente previamente cadastrados para acessar a conta.
+A tela de login requer a inserção do e-mail e senha, que corresponden previamente aos cadastrados para acessar a conta.
 </br>
 <sub>¹: a funcionalidade "Esqueci minha senha" será desenvolvida na próxima etapa.</sub> 
 
@@ -2017,18 +2021,18 @@ Figura 21 - Tela de Logout do sistema
 **Artefatos da funcionalidade**:
 
 **Tela login:**
-Login.cshtml
-Usuário.cs
+Login.cshtml<br>
+Usuário.cs<br>
 usuáriosController.cs
 
 **Tela cadastro:** 
-create.cshtml
-Usuário.cs
+create.cshtml<br>
+Usuário.cs<br>
 usuáriosController.cs
 
 **Tela gerenciar perfil**
-details.cshtml
-Usuário.cs
+details.cshtml<br>
+Usuário.cs<br>
 usuáriosController.cs
 
 **Estrutura de dados**:
@@ -2164,6 +2168,8 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 **Conclusão:**
 
 * O teste de usabilidade no processo de registro de conta do aplicativo de gerenciamento de tarefas e metas indicou que o processo é eficiente e intuitivo para a maioria dos usuários, incluindo diferentes perfis. As recomendações acima podem ajudar a manter essa simplicidade e clareza, proporcionando uma experiência de registro eficaz.
+
+**************************
 
 ### <a name="registrosoftware">Registro de Testes de Software</a>
 
