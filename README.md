@@ -1913,10 +1913,8 @@ Figura 14 - Template padrão do sistema
 
 </div>
 
-O template criado está disponível no site [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/) e é composto pelos seguintes layouts:
-•	Tela Login<br>
-•	Tela Criar Conta<br>
-•	Tela Gerenciar Perfil
+O template criado está disponível no site [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/) e é composto pelos layouts de tela de login, tela de criação de conta e tela de gerenciamento de perfil, todos estão representados logo a baixo:
+
 
 **Tela login:**
 Tela onde o usuário pode acessar o sistema
@@ -1958,9 +1956,9 @@ Figura 17 - Template tela Gerenciar Perfil
 
 Nesta seção, você encontrará as telas projetadas para cada funcionalidade do sistema, acompanhadas de seus respectivos endereços (URL) e instruções de acesso que serão apresentados a seguir.
 
-•	Tela Login<br>
-•	Tela de Cadastro<br>
-•	Tela Gerenciar Perfil
+* Tela Login<br>
+* Tela de Cadastro<br>
+* Tela Gerenciar Perfil
 
 Em ambas as telas os dados do usuário são armazenados utilizando banco de dados SQL Server. 
 
@@ -2021,19 +2019,19 @@ Figura 21 - Tela de Logout do sistema
 **Artefatos da funcionalidade**:
 
 **Tela login:**
-Login.cshtml<br>
-Usuário.cs<br>
-usuáriosController.cs
+* Login.cshtml<br>
+* Usuário.cs<br>
+* UsuáriosController.cs
 
 **Tela cadastro:** 
-create.cshtml<br>
-Usuário.cs<br>
-usuáriosController.cs
+* Create.cshtml<br>
+* Usuário.cs<br>
+* UsuáriosController.cs
 
-**Tela gerenciar perfil**
-details.cshtml<br>
-Usuário.cs<br>
-usuáriosController.cs
+**Tela gerenciar perfil:**
+* Details.cshtml<br>
+* Usuário.cs<br>
+* UsuáriosController.cs
 
 **Estrutura de dados**:
 Ambas as telas utilizam o dbo.Usuarios como modelo de estrutura de dados conforme ilustrado abaixo
@@ -2051,7 +2049,7 @@ Figura 22 - Estrutura de dados
 
 ### <a name="registroteste">Registro de Testes de Usabilidade</a>
 
-Após realizar os testes de usabilidade, obtém-se um relatório a partir das análises realizadas. O Registro de Testes de Usabilidade é um relatório que contém as evidências dos testes e relatos dos usuários participantes, baseado no Plano de Testes de Usabilidade desenvolvido para os casos de uso desta etapa.
+Após realizar os testes de usabilidade, obtém-se um relatório a partir das análises realizadas. O Registro de Testes de Usabilidade é um relatório que contém as evidências dos testes e relatos dos usuários participantes, baseado no plano de Testes de usabilidade desenvolvido nessa etapa.
 
 **Relatório de Teste de Usabilidade - Registro de Conta**
 
@@ -2059,11 +2057,11 @@ Projeto: Aplicativo de Gerenciamento de Tarefas e Metas
 
 **Resumo:** 
 
-Este relatório descreve os resultados do teste de usabilidade realizado no processo de registro de conta do organizer - aplicativo de gerenciamento de tarefas e metas. O objetivo do teste foi avaliar a facilidade de registro, clareza nas instruções e velocidade de conclusão do processo. Os testes foram realizados através de vídeo chamadas. 
+Este relatório descreve os resultados do teste de usabilidade realizado no processo de registro de conta do organizer . O objetivo do teste foi avaliar a facilidade de registro, clareza nas instruções e velocidade de conclusão do processo. Os testes foram realizados através de vídeo chamadas. 
 
 **Metodologia:**
 
-Realizamos testes de usabilidade com três participantes, representando diferentes perfis de usuários. Cada participante foi convidado a criar uma nova conta no aplicativo, fornecendo seu nome completo, endereço de email e senha. Observações e feedback verbal foram registrados durante o processo. 
+Realizamos testes de usabilidade com três participantes, representando diferentes perfis de usuários. Cada participante foi convidado a criar uma nova conta no aplicativo, fornecendo seu nome completo, endereço de email e senha. As observações e feedbacks foram registrados durante o processo. 
 
 **Participantes:**
 
@@ -2087,7 +2085,7 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 <tr>
 	<td>Relação coma a tecnologia</td>
 	<td>
-	Lucas é um estudante universitário de engenharia. Ele cresceu em um ambiente digital e está confortável com tecnologia. Usa seu laptop para a maioria das atividades acadêmicas e está sempre em busca de 	ferramentas que o ajudem a organizar seu tempo e tarefas de estudo
+	Lucas é um estudante universitário de engenharia, ele cresceu em um ambiente digital e está confortável com tecnologia, usa seu laptop para a maioria das atividades acadêmicas e está sempre em busca de ferramentas que o ajudem a organizar seu tempo e 	estudos
 	</td>
 </tr>
 </table>
@@ -2110,12 +2108,12 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 </tr>
 <tr>
 	<td>Ocupação</td>
-	<td>Dona de casa</td>	
+	<td>Analista de Sistemas</td>	
 </tr>
 <tr>
 	<td>Relação coma a tecnologia</td>
 	<td>
-	Carlos é um profissional de TI experiente. Ele passa a maior parte do seu tempo de trabalho lidando com sistemas e softwares. Usa várias ferramentas tecnológicas para gerenciar projetos e tarefas de 		equipe. É habilidoso em resolver problemas de tecnologia.
+	Carlos é um profissional de TI experiente, ele passa a maior parte do seu tempo de trabalho lidando com sistemas e softwares. Usa várias ferramentas tecnológicas para gerenciar projetos e tarefas de 	equipe. É habilidoso em resolver problemas de tecnologia.
 	</td>
 </tr>
 </table>
@@ -2129,7 +2127,7 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 </tr>
 	<tr>
 	<td>Ocupação</td>
-	<td>Profissional de TI</td>
+	<td>Dona de casa</td>
 </tr>
 <tr>
 	<td>Idade</td>
@@ -2155,11 +2153,11 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 
 * Durante os testes de usabilidade no processo de registro de conta, observamos os seguintes pontos: 
 
-* Facilidade de Registro: A maioria dos participantes conseguiu criar uma nova conta de forma eficiente, seguindo as instruções fornecidas. 
+	* Facilidade de Registro: A maioria dos participantes conseguiu criar uma nova conta de forma eficiente, seguindo as instruções fornecidas. 
 
-* Clareza nas Instruções: Os participantes notaram que as instruções eram claras e fáceis de seguir, tornando o processo de registro intuitivo. 
+	* Clareza nas Instruções: Os participantes notaram que as instruções eram claras e fáceis de seguir, tornando o processo de registro intuitivo. 
 
-* Velocidade de Conclusão: O processo de registro foi concluído rapidamente por todos os participantes, demonstrando eficiência. 
+	* Velocidade de Conclusão: O processo de registro foi concluído rapidamente por todos os participantes, demonstrando eficiência. 
 
 **Recomendações:**
 
@@ -2167,11 +2165,13 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 
 **Conclusão:**
 
-* O teste de usabilidade no processo de registro de conta do aplicativo de gerenciamento de tarefas e metas indicou que o processo é eficiente e intuitivo para a maioria dos usuários, incluindo diferentes perfis. As recomendações acima podem ajudar a manter essa simplicidade e clareza, proporcionando uma experiência de registro eficaz.
+* O teste de usabilidade de criação de conta no gerenciador de tarefas 'Organizer' cumpre o seu papel sendo eficiente e intuitivo para usuários de diferentes perfis. As recomendações acima podem ajudar a manter a simplicidade e clareza no seu desenvolvimento, proporcionando uma experiência de registro eficaz.
 
 **************************
 
 ### <a name="registrosoftware">Registro de Testes de Software</a>
+
+O teste de software é um processo no qual seu objetivo é encontrar erros, bugs ou problemas que possam afetar o desempenho ou a usabilidade do software. Os testes de software envolvem a execução do programa com diferentes entradas e condições para identificar falhas e garantir que o software atenda aos requisitos estabelecidos. Isso ajuda a melhorar a qualidade e a confiabilidade do software antes de ser lançado para os usuários finais.
 
 ### <a name="rf01plano">Requisito 01</a>  
 
@@ -2188,7 +2188,7 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 	<td>Objetivo do Teste </td>
 	<td>
 		Verificar se é possivel realizar o cadastro e login do usuario de forma correta. <br>
-		Verificar se é possivel alterar as informações como nome,e-mail e senha. <br>		
+		Verificar se é possivel alterar as informações como nome, e-mail e senha. <br>		
 	</td>
 </tr>
 <tr>
@@ -2210,7 +2210,7 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 	<td>Critérios de não Êxito</td>
 	<td>
 		O usuario não consegue efetuar o cadastro e consequentemente o login.<br>
-		As alterações na tela de edição de perfil não efetuadas. <br>
+		As alterações na tela de edição de perfil não são efetuadas. <br>
 	</td>
 </tr>
 </table>
