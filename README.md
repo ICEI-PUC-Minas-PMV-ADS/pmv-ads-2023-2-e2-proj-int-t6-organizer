@@ -2070,10 +2070,6 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 	<td>Nome</td>
 	<td>Lucas Mendes</td>
 </tr>
-	<tr>
-	<td>Ocupação</td>
-	<td>Estudante</td>
-</tr>
 <tr>
 	<td>Idade</td>
 	<td>22</td>
@@ -2099,10 +2095,6 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 	<td>Carlos Silva</td>
 </tr>
 <tr>
-	<td>Ocupação</td>
-	<td>Profissional de TI</td>
-</tr>
-<tr>
 	<td>Idade</td>
 	<td>35</td>
 </tr>
@@ -2124,10 +2116,6 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 <tr>
 	<td>Nome</td>
 	<td>Maria Santos</td>
-</tr>
-	<tr>
-	<td>Ocupação</td>
-	<td>Dona de casa</td>
 </tr>
 <tr>
 	<td>Idade</td>
@@ -2194,9 +2182,9 @@ O teste de software é um processo no qual seu objetivo é encontrar erros, bugs
 <tr>
 	<td>Passos</td>
 	<td>
-		Testar, na tela de cadastro, se o sistema permite a criação de conta com sucesso.<br>
-		Testar, na tela de login, se o sistema permite o acesso apenas à contas previamente cadastradas.<br>
-		Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.<br>
+		¹ Testar, na tela de cadastro, se o sistema permite a criação de conta com sucesso.<br>
+		² Testar, na tela de login, se o sistema permite o acesso apenas à contas previamente cadastradas.<br>
+		³ Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.<br>
 	</td>	
 </tr>
 <tr>
