@@ -21,7 +21,9 @@ O projeto visa desenvolver um gerenciador de tarefas simples, prático e útil, 
 
 ## Instruções de utilização
 
-Para utilizar o sistema de gerenciamento de tarefas, é necessário primeiro realizar o cadastro e, em seguida, fazer login no site. Você pode acessar a aplicação por meio do link:https://gerencietarefas.azurewebsites.net/. Antes de começar, certifique-se de criar uma conta, preenchendo as informações necessárias. Após o cadastro, você poderá fazer login com suas credenciais. O sistema oferece uma experiência personalizada, permitindo que você gerencie suas tarefas de forma eficaz e segura.
+Para utilizar o sistema de gerenciamento de tarefas, é necessário primeiro realizar o cadastro e, em seguida, fazer login no site. Você pode acessar a aplicação por meio do link:https://gerencietarefas.azurewebsites.net/.</br>
+
+Antes de começar, certifique-se de criar uma conta preenchendo as informações necessárias e, após o cadastro, você poderá fazer login com suas credenciais. O sistema oferece uma experiência personalizada, permitindo que você gerencie suas tarefas de forma eficaz e segura.
 
 # ÍNDICE
 
@@ -244,7 +246,7 @@ A tabela a seguir apresenta os requisitos não funcionais que o projeto deverá 
 
 <tr>
 	<td>RNF-01 &nbsp; </td>
-	<td>O site deve ser publicado em um ambiente acessível publicamente na Internet (GitHub Pages)</td>
+	<td>O site deve ser publicado em um ambiente acessível publicamente na Internet (Azure)</td>
 	<td>Alta</td>
 </tr>
 	
@@ -487,6 +489,12 @@ Os artefatos do projeto são desenvolvidos a partir de diversas plataformas e a 
 	<td>Gerenciamento do Projeto</td>
 	<td>GitHub</td>
 	<td>https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/583</td>
+</tr>
+
+<tr>
+	<td>Hospedagem do Projeto</td>
+	<td>Azure</td>
+	<td>https://gerencietarefas.azurewebsites.net/</td>
 </tr>
 </table>
 
@@ -878,8 +886,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 ### Instruções para acesso e Hospedagem
 
-O sistema de gerenciamento de tarefas encontra-se hospedado na plataforma Microsoft Azure, acessível através do endereço [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/). </br> 
-Para utilizá-lo, não são necessários requisitos especiais, exceto uma conexão à internet. Essa abordagem oferece uma grande flexibilidade, permitindo que os usuários acessem e utilizem a plataforma de gerenciamento de tarefas a partir de diversos dispositivos e locais, sem a necessidade de instalação de softwares adicionais ou configurações, simplificando a gestão de tarefas de maneira eficaz e conveniente.
+O sistema de gerenciamento de tarefas encontra-se hospedado na plataforma Microsoft Azure, acessível através do endereço [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/). Para utilizá-lo, não são necessários requisitos especiais, exceto uma conexão à internet. Essa abordagem oferece uma grande flexibilidade, permitindo que os usuários acessem e utilizem a plataforma de gerenciamento de tarefas a partir de diversos dispositivos e locais, sem a necessidade de instalação de softwares adicionais ou configurações, simplificando a gestão de tarefas de maneira eficaz e conveniente.
 
 ### Estruturas de Dados e Operações do Sistema
 
