@@ -21,13 +21,9 @@ O projeto visa desenvolver um gerenciador de tarefas simples, prático e útil, 
 
 ## Instruções de utilização
 
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
+Para utilizar o sistema de gerenciamento de tarefas, é necessário primeiro realizar o cadastro e, em seguida, fazer login no site. Você pode acessar a aplicação por meio do link:https://gerencietarefas.azurewebsites.net/.</br>
 
-Não deixe de informar o link onde a aplicação estiver disponível para acesso (por exemplo: https://adota-pet.herokuapp.com/src/index.html).
-
-Se houver usuário de teste, o login e a senha também deverão ser informados aqui (por exemplo: usuário - admin / senha - admin).
-
-O link e o usuário/senha descritos acima são apenas exemplos de como tais informações deverão ser apresentadas.
+Antes de começar, certifique-se de criar uma conta preenchendo as informações necessárias e, após o cadastro, você poderá fazer login com suas credenciais. O sistema oferece uma experiência personalizada, permitindo que você gerencie suas tarefas de forma eficaz e segura.
 
 # ÍNDICE
 
@@ -250,7 +246,7 @@ A tabela a seguir apresenta os requisitos não funcionais que o projeto deverá 
 
 <tr>
 	<td>RNF-01 &nbsp; </td>
-	<td>O site deve ser publicado em um ambiente acessível publicamente na Internet (GitHub Pages)</td>
+	<td>O site deve ser publicado em um ambiente acessível publicamente na Internet (Azure)</td>
 	<td>Alta</td>
 </tr>
 	
@@ -493,6 +489,12 @@ Os artefatos do projeto são desenvolvidos a partir de diversas plataformas e a 
 	<td>Gerenciamento do Projeto</td>
 	<td>GitHub</td>
 	<td>https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/583</td>
+</tr>
+
+<tr>
+	<td>Hospedagem do Projeto</td>
+	<td>Azure</td>
+	<td>https://gerencietarefas.azurewebsites.net/</td>
 </tr>
 </table>
 
@@ -879,28 +881,1353 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 	* Escolher um filtro disponível e verificar se o sistema retorna a meta de acordo com o critério do mesmo.
 
 
-## <a name="codigo">Código</a>
-1
+## <a name="codigo">Código Fonte</a>
 
+
+### Instruções para acesso e Hospedagem
+
+O sistema de gerenciamento de tarefas encontra-se hospedado na plataforma Microsoft Azure, acessível através do endereço [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/). Para utilizá-lo, não são necessários requisitos especiais, exceto uma conexão à internet. Essa abordagem oferece uma grande flexibilidade, permitindo que os usuários acessem e utilizem a plataforma de gerenciamento de tarefas a partir de diversos dispositivos e locais, sem a necessidade de instalação de softwares adicionais ou configurações, simplificando a gestão de tarefas de maneira eficaz e conveniente.
+
+### Estruturas de Dados e Operações do Sistema
+
+#### Estruturas de Dados
+
+##### Tabela "Usuarios" no banco de dados "organizerdb":
+- **Colunas:**
+    1. **Id**: Um identificador único para cada usuário.
+    2. **Name**: O nome do usuário.
+    3. **Email**: O endereço de e-mail do usuário, que é utilizado como identificador exclusivo.
+    4. **Senha**: A senha do usuário, que está armazenada de forma segura, criptografada
+
+#### Operações
+
+1. **Cadastro de Usuário:**
+   - Os dados fornecidos pelo usuário durante o registro, como nome, e-mail e senha, são inseridos na tabela "Usuarios" no banco de dados "organizerdb". O sistema verifica se o e-mail é único para evitar duplicatas.
+
+2. **Login de Usuário:**
+   - Quando um usuário tenta fazer login, o sistema verifica se as credenciais (e-mail e senha) correspondem a algum registro na tabela "Usuarios" no banco de dados "organizerdb". Se as credenciais forem válidas, o acesso é concedido ao usuário.
+
+3. **Gerenciamento de Perfil:**
+   - A tela de gerenciamento de perfil permite que os usuários editem as informações de cadastro, como nome, e-mail e senha.
+   - Quando um usuário faz uma alteração, o sistema atualiza as informações correspondentes na tabela "Usuarios" no banco de dados "organizerdb". Isso permite ao usuário manter suas informações atualizadas.
+
+Estas estruturas e operações são essenciais para o registro, autenticação e gerenciamento de informações de usuário no sistema. É importante garantir que os dados estejam protegidos e que as operações sejam executadas com segurança. Além disso, práticas de segurança, como a criptografia da senha, são fundamentais para proteger as informações dos usuários.
+
+**************************
+
+### Artefatos desenvolvidos
+
+A tabela a seguir contempla os artefatos desenvolvidos nesta etapa (Etapa 3 - Desenvolvimento da solução - Fase 1):
+
+
+|ID    | Descrição do Requisito  | Artefato(s) produzido(s) |
+|------|-----------------------------------------|----|
+|RF-01| Gerenciar o acesso do usuário | dbo.Usuarios  / HomeController.cs  / UsuariosController.cs / home.css  / site.css  / usuariosCreate.css  / usuariosLogin.css  / AppDbContext.cs  / ErrorViewModel.cs  / Usuario.cs  / Create.cshtml  / Delete.cshtml  / Details.cshtml  / Edit.cshtml  / Index.cshtml  / Login.cshtml  / _Layout.cshml  / Program.cs   | 
+
+
+* dbo.Usuarios
+```
+CREATE TABLE [dbo].[Usuarios] (
+    [Id]    INT            IDENTITY (1, 1) NOT NULL,
+    [Name]  NVARCHAR (MAX) NOT NULL,
+    [Email] NVARCHAR (450) NOT NULL,
+    [Senha] NVARCHAR (MAX) NOT NULL,
+    CONSTRAINT [PK_Usuarios] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Usuarios_Email]
+    ON [dbo].[Usuarios]([Email] ASC);
+```
+
+*  HomeController.cs
+```
+using gerenciadorTarefa.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+
+namespace gerenciadorTarefa.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}
+```
+
+*  UsuariosController.cs 
+```
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using gerenciadorTarefa.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+
+namespace gerenciadorTarefa.Controllers
+{
+    //[Authorize]
+    public class UsuariosController : Controller
+    {
+        private readonly AppDbContext _context;
+
+        public UsuariosController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Usuarios
+        public async Task<IActionResult> Index()
+        {
+              return View(await _context.Usuarios.ToListAsync());
+        }
+
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login (Usuario usuario)
+        {
+            var dados = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
+
+            if (dados != null)
+            {
+                bool senhaOk = BCrypt.Net.BCrypt.Verify(usuario.Senha, dados.Senha);
+
+                if (!senhaOk)
+                {
+                    ViewBag.Message = "Usuário e/ou senha inválidos!";
+                }
+                else
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, dados.Name),
+                        new Claim(ClaimTypes.NameIdentifier, dados.Id.ToString()),
+                        new Claim(ClaimTypes.Email, dados.Email)
+                    };
+
+                    var usuarioIdentity = new ClaimsIdentity(claims, "login");
+                    ClaimsPrincipal principal = new ClaimsPrincipal(usuarioIdentity);
+
+                    var props = new AuthenticationProperties
+                    {
+                        AllowRefresh = true,
+                        ExpiresUtc = DateTime.UtcNow.ToLocalTime().AddHours(8),
+                        IsPersistent = true,
+                    };
+
+                    await HttpContext.SignInAsync(principal, props);
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                ViewBag.Message = "Usuário e/ou senha inválidos!";
+            }
+            return View();
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Usuarios");
+        }
+
+        // GET: Usuarios/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Usuarios == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        // GET: Usuarios/Create
+        [AllowAnonymous]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Usuarios/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                if (usuario.Senha != usuario.ConfirmarSenha)
+                {
+                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
+                    return View(usuario);
+                }
+
+                if (_context.Usuarios.Any(u => u.Email == usuario.Email))
+                {
+                    ModelState.AddModelError("Email", "Este email já está em uso.");
+                    return View(usuario);
+                }
+
+                
+                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+
+                _context.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Cadastro criado com sucesso! Realize login para iniciar.";
+
+                return RedirectToAction("Login", "Usuarios");
+            }
+            return View(usuario);
+        }
+
+        // GET: Usuarios/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.Usuarios == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        // POST: Usuarios/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
+        {
+            if (id != usuario.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (usuario.Senha != usuario.ConfirmarSenha)
+                {
+                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
+                    return View(usuario);
+                }
+
+                try
+                {
+                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+                    _context.Update(usuario);
+                   
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessageEdit"] = "Cadastro criado com sucesso! Realize login para iniciar.";
+
+                    await HttpContext.SignOutAsync();
+                    return RedirectToAction("Login", "Usuarios");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UsuarioExists(usuario.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return View(usuario);
+        }
+
+        // GET: Usuarios/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Usuarios == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        // POST: Usuarios/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Usuarios == null)
+            {
+                return Problem("Entity set 'AppDbContext.Usuarios'  is null.");
+            }
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario != null)
+            {
+                _context.Usuarios.Remove(usuario);
+            }
+            
+            await _context.SaveChangesAsync();
+
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Usuarios");
+        }
+
+        private bool UsuarioExists(int id)
+        {
+          return _context.Usuarios.Any(e => e.Id == id);
+        }
+    }
+}
+```
+
+* home.css
+``` .fontPequena {
+    font-size: 12px;
+}
+
+.fontMedia {
+    font-size: 13px;
+    padding-left: 1rem;
+}
+.inputsLogin {
+    border-radius: 2rem;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center; 
+    padding: 10px; 
+    background-color: #f0f0f0; 
+}
+```
+
+*  site.css
+```
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+    width: 100%;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+```
+ 
+*  usuariosCreate.css
+```
+.inputsLogin{
+    border-radius: 2rem;
+}
+
+.logoLogin {
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+    margin-top: 35%
+}
+
+.fontPequena{
+    font-size: 12px;
+}
+
+.fontMedia {
+    font-size: 13px;
+    padding-left: 1rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center; 
+    padding: 10px; 
+    background-color: #f0f0f0; 
+}
+```
+
+*  usuariosLogin.css
+```
+.inputsLogin{
+    border-radius: 2rem;
+}
+
+.logoLogin {
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+    margin-top: 35%
+}
+
+.fontPequena{
+    font-size: 12px;
+}
+
+.fontMedia {
+    font-size: 13px;
+    padding-left: 1rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center; 
+    padding: 10px; 
+    background-color: #f0f0f0; 
+}
+```
+
+*  AppDbContext.cs
+```
+using Microsoft.EntityFrameworkCore;
+
+namespace gerenciadorTarefa.Models
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        public DbSet<Usuario> Usuarios { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Usuario>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+        }
+    }
+}
+```
+
+*  ErrorViewModel.cs
+```
+namespace gerenciadorTarefa.Models
+{
+    public class ErrorViewModel
+    {
+        public string? RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
+}
+```
+
+*  Usuario.cs
+```
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace gerenciadorTarefa.Models
+{
+    [Table("Usuarios")]
+    public class Usuario
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage ="Informe o nome")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage ="Informe o e-mail")]
+        [EmailAddress(ErrorMessage = "Informe um email válido.")]
+        public string Email { get; set;}
+
+        [Required(ErrorMessage ="Informe a senha")]
+        [DataType(DataType.Password)]
+        public string Senha { get; set; }
+
+        [NotMapped]
+        [Required(ErrorMessage = "Repita a senha")]
+        [DataType(DataType.Password)]
+        public string ConfirmarSenha { get; set; }
+
+    }
+}
+```
+
+*  Create.cshtml
+```
+@model gerenciadorTarefa.Models.Usuario
+<link rel="stylesheet" href="~/css/usuariosCreate.css" asp-append-version="true" />
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container mx-auto">
+    <div class="row align-items-center">
+        <div class="col-6 mx-auto">
+            <div class="card-group">
+                <div class="card align-items-center pt-5">
+                    <img class="card-img-top w-50 align-items-center logoLogin" src="~/img/logo.PNG" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text text-center">
+                            Alcance suas metas <br>
+                            gerenciando suas tarefas!
+                        </p>
+                    </div>
+                </div>
+                <div class="card align-items-center">
+                    <div class="card-body">
+                        <h2 class="card-title mt-5 text-center">Crie sua Conta</h2>
+                        <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie sua conta</a></strong></p>
+
+
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label mb-1 fontMedia">NOME</label>
+                                <input asp-for="Name" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label mb-1 fontMedia">EMAIL</label>
+                                <input asp-for="Email" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Senha" class="control-label mb-1 fontMedia">SENHA</label>
+                                <input asp-for="Senha" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="Senha" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia">CONFIRMAR SENHA</label>
+                                <input asp-for="ConfirmarSenha" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Cadastrar" class="btn btn-success form-control inputsLogin mb-2" />
+                                <p class="text-center mb-5 fontPequena"><a href="/Usuarios/Login">Voltar</a></p>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>
+```
+
+*  Delete.cshtml
+```
+@model gerenciadorTarefa.Models.Usuario
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="form-group text-center">
+
+    <h1 class="mb-5">Exclusão de cadastro</h1>
+    <p class="mb-5">Todos os seus dados serão apagados do sistema Gerenciador de Tarefas, tem certeza disso?</p>
+
+    <a asp-action="Edit" asp-controller="Usuarios" asp-route-id="@Model.Id" class="btn btn-secondary m-4 col-md-3 inputsLogin">Cancelar</a>
+    <input type="submit" value="Excluir cadastro" class="btn btn-danger m-4 col-md-3 inputsLogin"/>
+    <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
+</div>
+```
+
+*  Details.cshtml
+```
+@model gerenciadorTarefa.Models.Usuario
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Gerenciar Perfil</h1>
+
+    <div class="d-flex h-100">
+        <div class="card" style="width: 20%; border: 2px solid red;">
+            <img class="card-img-top w-25 mx-auto mb-3 mt-3" src="~/img/logo.PNG" alt="Card image cap">
+             <img class="card-img-top w-25 mx-auto mb-3 mt-3 mx-auto" src="~/img/iconPerfil.png" alt="Card image cap">
+        </div>
+        <div class="card" style="width: 80%; border: 2px solid green;">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Senha)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Senha)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ConfirmarSenha)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ConfirmarSenha)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>
+```
+
+*  Edit.cshtml
+```
+@model gerenciadorTarefa.Models.Usuario
+@using System.Security.Claims;
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@{
+    var successMessage = TempData["SuccessMessageEdit"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+<div class="d-flex h-100">
+    <div class="card" style="width: 10%;">
+        <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
+            <img class="card-img-top" src="~/img/logo.PNG" alt="Card image cap">
+        </a>
+        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
+            <img class="card-img-top" src="~/img/iconPerfil.png" alt="Card image cap">
+        </a>
+        <a href="/Usuarios/Login" class="w-25 mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza de que deseja SAIR do Gerenciador de Tarefas?');">
+            <img class="card-img-top" src="~/img/iconLogout.png" alt="Card image cap">
+        </a>
+    </div>
+    <div class="card align-content-center" style="width: 90%; border: none;">
+         <div class="card"  style="width: 70%; ">
+
+            <h1 class="col-md-9 mx-auto m-5">Gerenciar Perfil</h1>
+
+            <form asp-action="Edit">
+                <div class="row">
+                    <div class="col-md-6 align-content-center">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group col-md-8 mx-auto">
+                            <label asp-for="Name" class="control-label mb-1 fontMedia">Nome</label>
+                            <input asp-for="Name" class="form-control mb-3 mx-auto inputsLogin" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-8 mx-auto">
+                            <label asp-for="Email" class="control-label mb-1 fontMedia">E-mail</label>
+                            <input asp-for="Email" class="form-control mb-3 mx-auto inputsLogin" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group col-md-8 mx-auto">
+                            <label asp-for="Senha" class="control-label mb-1 fontMedia">Nova Senha</label>
+                            <input asp-for="Senha" class="form-control  mb-3 mx-auto inputsLogin" />
+                            <span asp-validation-for="Senha" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-8 mx-auto">
+                            <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia">Confirme a Nova Senha</label>
+                            <input asp-for="ConfirmarSenha" class="form-control mb-3 mx-auto inputsLogin" />
+                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group text-center">
+                        <div class="form-group text-center">
+                            <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin" onclick="return confirm('Tem certeza de que ALTERAR seu registro?');" />
+                            <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin">Excluir Cadastro</a>
+                            <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>
+```
+
+*  Index.cshtml
+```
+@model IEnumerable<gerenciadorTarefa.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Senha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmarSenha)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Senha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConfirmarSenha)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+```
+
+*  Login.cshtml
+```
+@model gerenciadorTarefa.Models.Usuario
+<link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
+
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Message
+    </div>
+}
+
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+<div class="container mx-auto">
+    <div class="row align-items-center">
+        <div class="col-6 mx-auto">
+            <div class="card-group">
+                <div class="card align-items-center pt-5">
+                    <img class="card-img-top w-50 align-items-center logoLogin" src="~/img/logo.PNG" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text text-center">Alcance suas metas <br>
+                            gerenciando suas tarefas!
+                         </p>
+                    </div>
+                </div>
+                <div class="card align-items-center">
+                    <div class="card-body">
+                        <h2 class="card-title mt-5 text-center">Login</h2>
+                        <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie sua conta</a></strong></p>
+                        <form asp-action="Login">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label mb-1 fontMedia">E-MAIL</label>
+                                <input asp-for="Email" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Senha" class="control-label mb-1 fontMedia">SENHA</label>
+                                <input asp-for="Senha" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="Senha" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Login" class="btn btn-success form-control inputsLogin mb-2" />
+                                <a class ="text-center mb-5 fontPequena">
+                                    <p>Esqueci minha senha</p>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>
+```
+
+*  _Layout.cshml
+```
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a {
+  color: #0077cc;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+```
+
+*  Program.cs
+```
+using gerenciadorTarefa.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.Configure<CookiePolicyOptions>(Options =>
+{
+    Options.CheckConsentNeeded = context => true;
+    Options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.AccessDeniedPath = "/Usuarios/AccessDenied";
+        options.LoginPath = "/Usuarios/Login";
+    });
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Usuarios}/{action=Login}/{id?}");
+
+app.Run();
+```
+
+  
 ## <a name="implementacao">Implementação da Solução</a>
 
 ### <a name="template">Template da Aplicação</a>
-1
+O Template padrão do sistema a ser implementado no site segue o design de interface previamente concebido, conforme ilustrado abaixo 
+
+<div align="center">
+
+Figura 14 - Template padrão do sistema
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template04.png)
+
+</div>
+
+O template criado está disponível no site [gerencietarefas.net](https://gerencietarefas.azurewebsites.net/) e é composto pelos layouts de tela de login, tela de criação de conta e tela de gerenciamento de perfil, todos estão representados logo a baixo:
+
+
+**Tela login:**
+Tela onde o usuário pode acessar o sistema
+
+<div align="center">
+
+Figura 15 - Template login
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template03.png)
+
+</div>
+
+**Tela criar conta:**
+Tela onde os usuários podem registrar-se e obter acesso aos recursos exclusivos do sistema
+
+<div align="center">
+
+Figura 16 - Template tela criar conta
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template02.png)
+
+</div>
+
+**Tela Gerenciar Perfil**
+
+Tela onde os usuários podem atualizar suas  informações de cadastro 
+
+<div align="center">
+
+Figura 17 - Template tela Gerenciar Perfil
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/template01.png)
+
+</div>
+
+**************************
 
 ### <a name="funcionalidade">Funcionalidades do Sistema</a>
 
-**Funcionalidade RF-01**:
+Nesta seção, você encontrará as telas projetadas para cada funcionalidade do sistema, acompanhadas de seus respectivos endereços (URL) e instruções de acesso que serão apresentados a seguir.
+
+* Tela Login<br>
+* Tela de Cadastro<br>
+* Tela Gerenciar Perfil
+
+Em ambas as telas os dados do usuário são armazenados utilizando banco de dados SQL Server. 
+
+
+**Funcionalidade RF-01 - Tela de Cadastro**:
+
+A função de cadastro requer que os usuários forneçam informações essenciais, como nome, um e-mail exclusivo e senha, juntamente com uma confirmação de senha idêntica. Visando a unicidade dos cadastros, garantimos que não seja possível registrar um e-mail já presente no banco de dados.
+
+<div align="center">
+
+Figura 18 - Tela de Cadastro
+
+![Tela de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaCadastro.PNG)
+
+</div>
+
+**Funcionalidade RF-01 - Tela de Login (PARCIAL¹)**:
+
+A tela de login requer a inserção do e-mail e senha, que corresponden previamente aos cadastrados para acessar a conta.
+</br>
+<sub>¹: a funcionalidade "Esqueci minha senha" será desenvolvida na próxima etapa.</sub> 
+
+<div align="center">
+
+Figura 19 - Tela de Login
+
+![Tela de Login](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaLogin.PNG)
+
+</div>
+
+**Funcionalidade RF-01 - Tela de Visualização, Edição e Exclusão de Cadastro (PARCIAL²)**:
+
+A tela de edição de cadastro permite a modificação de todas as informações da conta. Após a confirmação, o usuário será redirecionado para a tela de login.
+</br>
+
+<sub>²: a funcionalidade de excluir conta será desenvolvida na próxima etapa.</sub>
+
+<div align="center">
+
+Figura 20 - Tela de Edição de Cadastro
+
+![Tela de Edição de Cadastro](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaEdicaoCadastro.PNG)
+
+</div>
+
+**Funcionalidade RF-01 - Tela de Logout do sistema**:
+
+A opção de logout permite que o usuário encerre a sessão atual, deslogando sua conta.
+
+<div align="center">
+
+Figura 21 - Tela de Logout do sistema
+
+![Tela de Logout](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/funcTelaLogout.PNG)
+
+</div>
+
+**Artefatos da funcionalidade**:
+
+**Tela login:**
+* Login.cshtml<br>
+* Usuário.cs<br>
+* UsuáriosController.cs
+
+**Tela cadastro:** 
+* Create.cshtml<br>
+* Usuário.cs<br>
+* UsuáriosController.cs
+
+**Tela gerenciar perfil:**
+* Details.cshtml<br>
+* Usuário.cs<br>
+* UsuáriosController.cs
+
+**Estrutura de dados**:
+Ambas as telas utilizam o dbo.Usuarios como modelo de estrutura de dados conforme ilustrado abaixo
+
+<div align="center">
+
+Figura 22 - Estrutura de dados
+
+![Tela de Logout](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/img/bd.user.png)
+
+</div>
+
 
 ## <a name="avaliacao">Avaliação da Solução</a>
 
 ### <a name="registroteste">Registro de Testes de Usabilidade</a>
-1
+
+Após realizar os testes de usabilidade, obtém-se um relatório a partir das análises realizadas. O Registro de Testes de Usabilidade é um relatório que contém as evidências dos testes e relatos dos usuários participantes, baseado no plano de Testes de usabilidade desenvolvido nessa etapa.
+
+**Relatório de Teste de Usabilidade - Registro de Conta**
+
+Projeto: Aplicativo de Gerenciamento de Tarefas e Metas 
+
+**Resumo:** 
+
+Este relatório descreve os resultados do teste de usabilidade realizado no processo de registro de conta do organizer . O objetivo do teste foi avaliar a facilidade de registro, clareza nas instruções e velocidade de conclusão do processo. Os testes foram realizados através de vídeo chamadas. 
+
+**Metodologia:**
+
+Realizamos testes de usabilidade com três participantes, representando diferentes perfis de usuários. Cada participante foi convidado a criar uma nova conta no aplicativo, fornecendo seu nome completo, endereço de email e senha. As observações e feedbacks foram registrados durante o processo. 
+
+**Participantes:**
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Nome</td>
+	<td>Lucas Mendes</td>
+</tr>
+<tr>
+	<td>Idade</td>
+	<td>22</td>
+</tr>
+<tr>
+	<td>Ocupação</td>
+	<td>Estudante Universitário</td>	
+</tr>
+<tr>
+	<td>Relação coma a tecnologia</td>
+	<td>
+	Lucas é um estudante universitário de engenharia, ele cresceu em um ambiente digital e está confortável com tecnologia, usa seu laptop para a maioria das atividades acadêmicas e está sempre em busca de ferramentas que o ajudem a organizar seu tempo e 	estudos
+	</td>
+</tr>
+</table>
+
+**************************
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+
+<tr>
+	<td>Nome</td>
+	<td>Carlos Silva</td>
+</tr>
+<tr>
+	<td>Idade</td>
+	<td>35</td>
+</tr>
+<tr>
+	<td>Ocupação</td>
+	<td>Analista de Sistemas</td>	
+</tr>
+<tr>
+	<td>Relação coma a tecnologia</td>
+	<td>
+	Carlos é um profissional de TI experiente, ele passa a maior parte do seu tempo de trabalho lidando com sistemas e softwares. Usa várias ferramentas tecnológicas para gerenciar projetos e tarefas de 	equipe. É habilidoso em resolver problemas de tecnologia.
+	</td>
+</tr>
+</table>
+
+**************************
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Nome</td>
+	<td>Maria Santos</td>
+</tr>
+<tr>
+	<td>Idade</td>
+	<td>40</td>
+</tr>
+<tr>
+	<td>Ocupação</td>
+	<td>Dona de casa</td>	
+</tr>
+<tr>
+	<td>Relação coma a tecnologia</td>
+	<td>
+	Maria é uma dona de casa que utiliza a tecnologia em sua vida cotidiana, principalmente para tarefas como compras online, comunicação com a família e organização do orçamento doméstico. Ela não é uma 	especialista em tecnologia, mas está disposta a aprender ferramentas que facilitem sua rotina.
+	</td>
+</tr>
+</table>
+
+**Tarefas do Teste:**
+
+* Criar uma nova conta no aplicativo, fornecendo nome completo, endereço de email e senha. 
+
+**Resultados e Observações:**
+
+* Durante os testes de usabilidade no processo de registro de conta, observamos os seguintes pontos: 
+
+	* Facilidade de Registro: A maioria dos participantes conseguiu criar uma nova conta de forma eficiente, seguindo as instruções fornecidas. 
+
+	* Clareza nas Instruções: Os participantes notaram que as instruções eram claras e fáceis de seguir, tornando o processo de registro intuitivo. 
+
+	* Velocidade de Conclusão: O processo de registro foi concluído rapidamente por todos os participantes, demonstrando eficiência. 
+
+**Recomendações:**
+
+* Com base nos resultados e observações dos testes de usabilidade no processo de registro de conta, não identificamos problemas significativos. No entanto, recomendamos a continuação das boas práticas para manter a simplicidade, clareza e eficiência do processo. 
+
+**Conclusão:**
+
+* O teste de usabilidade de criação de conta no gerenciador de tarefas 'Organizer' cumpre o seu papel sendo eficiente e intuitivo para usuários de diferentes perfis. As recomendações acima podem ajudar a manter a simplicidade e clareza no seu desenvolvimento, proporcionando uma experiência de registro eficaz.
+
+**************************
 
 ### <a name="registrosoftware">Registro de Testes de Software</a>
-1
+
+O teste de software é um processo no qual seu objetivo é encontrar erros, bugs ou problemas que possam afetar o desempenho ou a usabilidade do software. Os testes de software envolvem a execução do programa com diferentes entradas e condições para identificar falhas e garantir que o software atenda aos requisitos estabelecidos. Isso ajuda a melhorar a qualidade e a confiabilidade do software antes de ser lançado para os usuários finais.
+
+### <a name="rf01plano">Requisito 01</a>  
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Caso de Teste</td>
+	<td> T.01 Verificar se o sistema permite o gerenciamento adequado do acesso do usuário.</td>
+</tr>
+<tr>
+	<td>Requisitos Associados</td>
+	<td> RF-01 - Gerenciar o acesso do usuário.</td>
+</tr>
+<tr>
+	<td>Objetivo do Teste </td>
+	<td>
+		Verificar se é possivel realizar o cadastro e login do usuario de forma correta. <br>
+		Verificar se é possivel alterar as informações como nome, e-mail e senha. <br>		
+	</td>
+</tr>
+<tr>
+	<td>Passos</td>
+	<td>
+		¹ Testar, na tela de cadastro, se o sistema permite a criação de conta com sucesso.<br>
+		² Testar, na tela de login, se o sistema permite o acesso apenas à contas previamente cadastradas.<br>
+		³ Testar a funcionalidade de edição de perfil do usuário e verificar se as informações são atualizadas corretamente.<br>
+	</td>	
+</tr>
+<tr>
+	<td>Critérios de Êxito</td>
+	<td>
+		O usuario é criado com sucesso. <br>
+		O usuario consegue alterar as informações do cadastro. <br>
+	</td>
+</tr>
+<tr>
+	<td>Critérios de não Êxito</td>
+	<td>
+		O usuario não consegue efetuar o cadastro e consequentemente o login.<br>
+		As alterações na tela de edição de perfil não são efetuadas. <br>
+	</td>
+</tr>
+</table>
+
+**Registro T.01**
+
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+
+**************************
 
 
 ## <a name="apresentacao">Apresentação</a>
+
+### <a name="apresentacao">Prova de Conceito - POC</a>
+O vídeo abaixo, também localizado na pasta "presentation" com alta qualidade, demonstra de forma prática, que é viável implementar a proposta da solução planejada. Endereço:
+ * Video: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/presentation/poc.mp4
+<div align="center">
+
+![POC](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/mp4/poc.gif)
+
+</div>
+
 
 ### <a name="apresentacao">Apresentação da solução</a>
 O vídeo localizado na pasta "presentation", demonstra de forma sintetizada o problema e a proposta de solução do sistema. Endereço:
