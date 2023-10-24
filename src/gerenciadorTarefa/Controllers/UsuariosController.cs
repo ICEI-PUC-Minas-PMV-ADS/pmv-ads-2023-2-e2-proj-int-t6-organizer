@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace gerenciadorTarefa.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class UsuariosController : Controller
     {
         private readonly AppDbContext _context;
@@ -23,12 +23,11 @@ namespace gerenciadorTarefa.Controllers
         {
             _context = context;
         }
-
+        //- DESENVOLVENDO
+        /*
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
 
-        //- DESENVOLVENDO
-        /*
         public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
         {
             _userManager = userManager;
@@ -140,7 +139,7 @@ namespace gerenciadorTarefa.Controllers
             {
                 if (usuario.Senha != usuario.ConfirmarSenha)
                 {
-                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidemz.");
+                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
                     return View(usuario);
                 }
 
@@ -194,17 +193,30 @@ namespace gerenciadorTarefa.Controllers
             {
                 if (usuario.Senha != usuario.ConfirmarSenha)
                 {
-                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidemx.");
+                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
                     return View(usuario);
                 }
 
-                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                _context.Update(usuario);
+                try
+                {
+                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
+                    _context.Update(usuario);
 
-                await _context.SaveChangesAsync();
-
-                await HttpContext.SignOutAsync();
-                return RedirectToAction("Login", "Usuarios");              
+                    await _context.SaveChangesAsync();
+                    await HttpContext.SignOutAsync();
+                    return RedirectToAction("Login", "Usuarios");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UsuarioExists(usuario.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
             return View(usuario);
         }
@@ -253,6 +265,7 @@ namespace gerenciadorTarefa.Controllers
           return _context.Usuarios.Any(e => e.Id == id);
         }
 
+      
         //------------------------- GET: Esqueci Minha Senha
         [AllowAnonymous]
         public IActionResult EsqueciMinhaSenha()
@@ -260,11 +273,14 @@ namespace gerenciadorTarefa.Controllers
             return View();
         }
 
-        //------------------------- POST: Enviar Link Recuperacao - DESENVOLVENDO
-        /*[HttpPost]
-      [ValidateAntiForgeryToken]
-      public async Task<IActionResult> EnviarLinkRecuperacao(string Email)
-      {
+        //------------------------- DESENVOLVENDO
+
+        //------------------------- POST: Enviar Link Recuperacao
+        /*
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EnviarLinkRecuperacao(string Email)
+        {
           var usuario = await _userManager.FindByEmailAsync(Email);
 
           if (usuario == null || !(await _userManager.IsEmailConfirmedAsync(usuario)))
@@ -281,13 +297,11 @@ namespace gerenciadorTarefa.Controllers
 
           // Redirecione para uma página informando ao usuário que o link foi enviado com sucesso
           return View("LinkRecuperacaoEnviado");
-      }
-        */
+        }
 
         //------------------------- POST: Redefinir Senha - DESENVOLVENDO
-        /*
          public IActionResult RedefinirSenha(string userId, string token)
-      {
+        {
           if (userId == null || token == null)
           {
               return BadRequest();
@@ -301,14 +315,13 @@ namespace gerenciadorTarefa.Controllers
 
 
           return View(model);
-      } */
+        } 
 
         //------------------------- POST: Salvar Nova Senha - DESENVOLVENDO
-        /*
-       [HttpPost]
-       [ValidateAntiForgeryToken]
-       public async Task<IActionResult> SalvarNovaSenha(RedefinirSenhaViewModel model)
-       {
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SalvarNovaSenha(RedefinirSenhaViewModel model)
+        {
            if (ModelState.IsValid)
            {
                var usuario = await _userManager.FindByIdAsync(model.UserId);
@@ -339,8 +352,7 @@ namespace gerenciadorTarefa.Controllers
            }
 
            return View();
-       }
-       */
-
+        }
+         */
     }
 }
