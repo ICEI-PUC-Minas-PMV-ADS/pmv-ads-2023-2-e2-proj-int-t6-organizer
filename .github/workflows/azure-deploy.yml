@@ -1,0 +1,41 @@
+﻿name: Azure Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.*  # Ou a vers�o adequada para o seu projeto
+
+    - name: Setup .NET Core 6
+      run: |
+        echo "Installing .NET Core 6"
+        dotnet --list-sdks
+        dotnet --version
+      shell: bash
+
+    - name: Build the project
+      run: dotnet build --configuration Release
+      working-directory: src/gerenciadorTarefa
+
+    - name: Publish the project
+      run: dotnet publish -c Release -o ${{github.workspace}}/publish
+      working-directory: src/gerenciadorTarefa
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: gerencieTarefas  # Nome do seu aplicativo no Azure
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Configure este segredo no GitHub
+        package: ${{github.workspace}}/publish  # Especifica o diret�rio de onde implantar

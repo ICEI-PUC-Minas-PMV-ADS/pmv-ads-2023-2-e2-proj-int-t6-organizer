@@ -9,6 +9,8 @@ using gerenciadorTarefa.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace gerenciadorTarefa.Controllers
 {
@@ -21,12 +23,26 @@ namespace gerenciadorTarefa.Controllers
         {
             _context = context;
         }
+        //- DESENVOLVENDO
+        /*
+        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
 
-        // GET: Usuarios
+        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+        */
+
+
+        //------------------------- GET: Index
         public async Task<IActionResult> Index()
         {
               return View(await _context.Usuarios.ToListAsync());
         }
+
+        //------------------------- GET: Login
 
         [AllowAnonymous]
         public IActionResult Login()
@@ -34,6 +50,7 @@ namespace gerenciadorTarefa.Controllers
             return View();
         }
 
+        //------------------------- POST: Login
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login (Usuario usuario)
@@ -79,7 +96,7 @@ namespace gerenciadorTarefa.Controllers
             return View();
         }
 
-        [HttpPost]
+        //------------------------- GET: Logout
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
@@ -87,7 +104,7 @@ namespace gerenciadorTarefa.Controllers
             return RedirectToAction("Login", "Usuarios");
         }
 
-        // GET: Usuarios/Details/5
+        //------------------------- GET: Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Usuarios == null)
@@ -105,16 +122,14 @@ namespace gerenciadorTarefa.Controllers
             return View(usuario);
         }
 
-        // GET: Usuarios/Create
+        //------------------------- GET: Create
         [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //------------------------- POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -147,7 +162,7 @@ namespace gerenciadorTarefa.Controllers
             return View(usuario);
         }
 
-        // GET: Usuarios/Edit/5
+        //------------------------- GET: Edit
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Usuarios == null)
@@ -164,9 +179,7 @@ namespace gerenciadorTarefa.Controllers
             return View(usuario);
         }
 
-        // POST: Usuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //------------------------- POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
@@ -188,9 +201,8 @@ namespace gerenciadorTarefa.Controllers
                 {
                     usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
                     _context.Update(usuario);
-                   
+
                     await _context.SaveChangesAsync();
-                    
                     await HttpContext.SignOutAsync();
                     return RedirectToAction("Login", "Usuarios");
                 }
@@ -209,7 +221,7 @@ namespace gerenciadorTarefa.Controllers
             return View(usuario);
         }
 
-        // GET: Usuarios/Delete/5
+        //------------------------- GET: Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Usuarios == null)
@@ -227,7 +239,7 @@ namespace gerenciadorTarefa.Controllers
             return View(usuario);
         }
 
-        // POST: Usuarios/Delete/5
+        //------------------------- POST: Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -252,5 +264,95 @@ namespace gerenciadorTarefa.Controllers
         {
           return _context.Usuarios.Any(e => e.Id == id);
         }
+
+      
+        //------------------------- GET: Esqueci Minha Senha
+        [AllowAnonymous]
+        public IActionResult EsqueciMinhaSenha()
+        {
+            return View();
+        }
+
+        //------------------------- DESENVOLVENDO
+
+        //------------------------- POST: Enviar Link Recuperacao
+        /*
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EnviarLinkRecuperacao(string Email)
+        {
+          var usuario = await _userManager.FindByEmailAsync(Email);
+
+          if (usuario == null || !(await _userManager.IsEmailConfirmedAsync(usuario)))
+          {
+              // Trate o cenário em que o e-mail não foi encontrado ou não foi confirmado
+              ModelState.AddModelError("Email", "E-mail não encontrado ou não confirmado.");
+              return View();
+          }
+
+          var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
+          var callbackUrl = Url.Action("RedefinirSenha", "Usuarios", new { userId = usuario.Id, token = token }, protocol: HttpContext.Request.Scheme);
+          //DESENVOLVENDO
+          //await _emailSender.SendEmailAsync(Email, "Redefinir sua senha", callbackUrl);
+
+          // Redirecione para uma página informando ao usuário que o link foi enviado com sucesso
+          return View("LinkRecuperacaoEnviado");
+        }
+
+        //------------------------- POST: Redefinir Senha - DESENVOLVENDO
+         public IActionResult RedefinirSenha(string userId, string token)
+        {
+          if (userId == null || token == null)
+          {
+              return BadRequest();
+          }
+
+        var model = new RedefinirSenhaViewModel
+          {
+              UserId = userId,
+              Token = token
+          };
+
+
+          return View(model);
+        } 
+
+        //------------------------- POST: Salvar Nova Senha - DESENVOLVENDO
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SalvarNovaSenha(RedefinirSenhaViewModel model)
+        {
+           if (ModelState.IsValid)
+           {
+               var usuario = await _userManager.FindByIdAsync(model.UserId);
+
+               if (usuario != null)
+               {
+                   var result = await _userManager.ResetPasswordAsync(usuario, model.Token, model.Senha);
+
+                   if (result.Succeeded)
+                   {
+                       // Redefinição de senha bem-sucedida, redirecione o usuário para a página de login ou outra página apropriada
+                       return RedirectToAction("Login", "Usuarios");
+                   }
+                   else
+                   {
+                       // Trate os erros de redefinição de senha, se houverem
+                       foreach (var error in result.Errors)
+                       {
+                           ModelState.AddModelError(string.Empty, error.Description);
+                       }
+                   }
+               }
+               else
+               {
+                   // Trate o cenário em que o usuário não é encontrado
+                   ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
+               }
+           }
+
+           return View();
+        }
+         */
     }
 }
