@@ -1,20 +1,149 @@
-﻿.fontPequena {
-    font-size: 12px;
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+
+.fontPequena {
+  font-size: 12px;
 }
 
 .fontMedia {
-    font-size: 13px;
-    padding-left: 1rem;
+  font-size: 13px;
+  padding-left: 1rem;
 }
 .inputsLogin {
-    border-radius: 2rem;
+  border-radius: 2rem;
 }
 .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center; 
-    padding: 10px; 
-    background-color: #f0f0f0; 
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+.width {
+  width: auto;
 }
 
+.sidebar {
+  display: flex;
+  align-items: center;
+  gap: 55px;
+  background-color: #6368d9;
+  margin-right: 8px;
+  padding-top: 24px;
+  border-radius: 18px;
+}
+.content {
+  width: 100%;
+  display: flex;
+  margin-top: 18px;
+  margin-left: 18px;
+  height: 100vh;
+}
+
+.imglogo {
+  width: 55px;
+}
+
+.box-content {
+  margin-right: 18px;
+  border: none;
+  background-color: #f3f5f9;
+}
+
+.search {
+  border: none;
+  height: 45px;
+  width: 350px;
+  padding-left: 24px;
+  border-radius: 12px;
+  margin-right: 6px;
+}
+
+.search::placeholder {
+  font-family: Poppins;
+  color: #b4b4b4;
+  /* Outros estilos de fonte, como tamanho, cor, etc. */
+}
+
+.lupaimg {
+  cursor: pointer;
+}
+.box-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.box1 {
+  display: flex;
+  align-items: center;
+  height: 150px;
+  background-color: white;
+  width: 75%;
+  margin-top: 20px;
+  padding-left: 24px;
+  justify-content: space-around;
+  border-radius: 18px;
+}
+.box2 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.box3 {
+  height: 150px;
+  width: 25%;
+  border-radius: 18px;
+  background-color: white;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 40px;
+
+  @media (width >= 1660px) {
+    padding-left: 65px;
+  }
+
+  @media (width <= 1160px) {
+    padding-left: 25px;
+  }
+}
+.img-header {
+  margin-top: -60px;
+  width: 90%;
+}
+.title,
+.subtitle {
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-size: 38px;
+  color: #27104e;
+
+  @media (width <= 1340px) {
+    font-size: 28px;
+  }
+}
+
+.subtitle {
+  font-size: 22px;
+  font-weight: 400;
+  color: #898686;
+  @media (width <= 1340px) {
+    font-size: 18px;
+  }
+}
+
+.box4 {
+  display: flex;
+  gap: 32px;
+}
+
+.img-add {
+  cursor: pointer;
+  @media (width <= 1340px) {
+    width: 55px;
+  }
+}

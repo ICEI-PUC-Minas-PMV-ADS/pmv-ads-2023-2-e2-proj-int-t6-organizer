@@ -5,25 +5,61 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-    <div class="d-flex h-100">
-    <div class="card" style="width: 10%;">
-        <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
-            <img class="card-img-top" src="~/img/logo.PNG" alt="Card image cap">
+<div class="content">
+    <div class="card sidebar" style="width: 10%;">
+        <a href="/Home/Index">
+            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
         </a>
-        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
-            <img class="card-img-top" src="~/img/iconPerfil.png" alt="Card image cap">
+        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+            <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
+
         </a>
-        <a href="/Usuarios/Logout" class="w-25 mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
-            <img class="card-img-top" src="~/img/iconLogout.png" alt="Card image cap">
+        <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
+            <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
         </a>
 
     </div>
-        <div class="card" style="width: 90%;">
-            <div class="card-body">
-                <p class="card-text">Index da HOME, página principal.</p>
+    <div class="card box-content" style="width: 90%;">
+        <div class="card-body">
+
+            <div>
+                <input class="search" type="text" placeholder="Pesquisar">
+                <img class="lupaimg" src="~/img/lupaimg.png" alt="Lupa">
+
             </div>
+
+            <div class="box-header">
+
+                <div class="box1">
+                    <div class="box2">
+                        <span class="title">Gerenciador de Metas</span>
+                        <span class="subtitle">Organize, gerencie e realize!</span>
+                    </div>
+                    <div>
+                        <img class="img-header" src="~/img/img-header.png">
+                    </div>
+
+                </div>
+                <div class="box3">
+                    <span class="title "> Criar nova </span>
+                    <div class="box4">
+                        <span class="title ">Meta</span>
+                        <img class="img-add " src="~/img/addimg.png">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
         </div>
+
+
     </div>
+</div>
 
 
 <div class="footer">

@@ -1,10 +1,9 @@
-﻿
-
-@{
+﻿@{
     Layout = null; // Para remover o layout padrão
 }
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,34 +15,36 @@
     <link rel="stylesheet" href="" asp-append-version="true" />
     <link rel="stylesheet" href="~/gerenciadorTarefa.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    <header>
-        <nav class="container-fluid mt-5">
-            <div class="row justify-content-center">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="col-md-10">
-                    <ul class="navbar-nav align-items-end">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <header>
+            <nav class="container-fluid mt-5">
+                <div class="row justify-content-center">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="col-md-10">
+                        <ul class="navbar-nav align-items-end">
 
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                Olá, @User.Identity.Name
-                            </li>
-                        }
-                    </ul>
+
+
+
+
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
+    }
 
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
 
-         </main>
+        </main>
     </div>
 
     <script>
@@ -64,7 +65,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - gerenciadorTarefa 
+            &copy; 2023 - gerenciadorTarefa
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -73,4 +74,5 @@
     <script src="~/js/usuariosCreate.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
