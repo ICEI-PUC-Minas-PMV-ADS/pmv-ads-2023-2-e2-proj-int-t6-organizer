@@ -1,121 +1,154 @@
-﻿using gerenciadorTarefa.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Security.Claims;
-using gerenciadorTarefa.Models.ViewModel;
+using gerenciadorTarefa.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace gerenciadorTarefa.Controllers
+public class MetaController : Controller
 {
-    [AutoValidateAntiforgeryToken]
-    public class MetasController : Controller
+    private readonly AppDbContext _context;
 
+    public MetaController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
+    // GET: Meta
+    public async Task<IActionResult> Index()
+    {
+        var metas = await _context.Metas.Include(m => m.Usuario).ToListAsync();
+        return View(metas);
+    }
 
-        public MetasController(AppDbContext context)
+    // GET: Meta/Details/5
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound();
         }
 
+        var meta = await _context.Metas
+            .Include(m => m.Usuario)
+            .FirstOrDefaultAsync(m => m.Id == id);
 
-        [Authorize]
-        public async Task<IActionResult> Index()
+        if (meta == null)
         {
-            
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            
-            var metas = await _context.Metas
-                .Include(m => m.Usuario) 
-                    .Where(m => m.Usuario.Id.ToString() == userId)
-                .ToListAsync();
-
-            return View(metas);
+            return NotFound();
         }
 
+        return View(meta);
+    }
 
-        //GET
-        public IActionResult Create()
+    // GET: Meta/Create
+    public IActionResult Create()
+    {
+        ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Name");
+        return View();
+    }
+
+    // POST: Meta/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create([Bind("Id,Categoria,Titulo,Prazo,Status,DataRegistro,UsuarioId")] Meta meta)
+    {
+        if (ModelState.IsValid)
         {
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id");
-            return View();
+            _context.Add(meta);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Name", meta.UsuarioId);
+        return View(meta);
+    }
+
+    // GET: Meta/Edit/5
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Create(Meta meta)
+        var meta = await _context.Metas.FindAsync(id);
+        if (meta == null)
         {
-            if (ModelState.IsValid)
+            return NotFound();
+        }
+
+        ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Name", meta.UsuarioId);
+        return View(meta);
+    }
+
+    // POST: Meta/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Categoria,Titulo,Prazo,Status,DataRegistro,UsuarioId")] Meta meta)
+    {
+        if (id != meta.Id)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            try
             {
-                _context.Metas.Add(meta);
+                _context.Update(meta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id","Name", meta.UsuarioId);
-            return View(meta);
-        }
-
-
-
-
-
-        public IActionResult CreateMeta()
-        {
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id");
-            return View();
-        }
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> CreateMeta(MetaViewModel metaViewModel)
-        {
-            if (ModelState.IsValid)
+            catch (DbUpdateConcurrencyException)
             {
-                var userId = (); // Obtenha o ID do usuário logado
-
-                if (userId != null)
+                if (!MetaExists(meta.Id))
                 {
-                    var meta = new Meta
-                    {
-                        Categoria = metaViewModel.Categoria,
-                        Titulo = metaViewModel.Titulo,
-                        Prazo = metaViewModel.Prazo,
-                        UsuarioId = userId, // Defina o UsuarioId com o ID do usuário logado
-                    };
-
-                    _context.Metas.Add(meta);
-                    await _context.SaveChangesAsync();
-
-                    var tarefa = new Tarefa
-                    {
-                        Nome = metaViewModel.Nome,
-                        Status = metaViewModel.Status,
-                        Id = userId,
-                        MetasId = meta.Id,
-                    };
-
-                    _context.Tarefas.Add(tarefa);
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction("Index");
+                    return NotFound();
                 }
                 else
                 {
-                    // Lida com o caso em que o usuário não está autenticado, como redirecionar para a página de login
-                    return RedirectToAction("Login", "Usuarios");
+                    throw;
                 }
             }
-
-            return View(metaViewModel);
+            return RedirectToAction(nameof(Index));
         }
-
+        ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "Name", meta.UsuarioId);
+        return View(meta);
     }
 
+    // GET: Meta/Delete/5
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var meta = await _context.Metas
+            .Include(m => m.Usuario)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        if (meta == null)
+        {
+            return NotFound();
+        }
+
+        return View(meta);
+    }
+
+    // POST: Meta/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var meta = await _context.Metas.FindAsync(id);
+        _context.Metas.Remove(meta);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+    private bool MetaExists(int id)
+    {
+        return _context.Metas.Any(e => e.Id == id);
+    }
 }
-
-

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zg5rhnZrzKHnFlxB3ArgzWVy0OZIP+DPd2N/7nYwfXW0ss6aEeUMqPmNS6jcL0YeHuI70uDXLoxWt7ykUnE17w==",
+  "dgSpecHash": "SyGDPUAMowaD0uYYevRZGvqMbv9LHjaJcIdzjMHBrwmtFs21ugcHQDy70CFrc2a9c5U62Jim9X8KggPT5SAkFA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mssil\\Desktop\\Nova pasta\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj",
+  "projectFilePath": "C:\\Users\\mssil\\Desktop\\Organizer\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mssil\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\mssil\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",

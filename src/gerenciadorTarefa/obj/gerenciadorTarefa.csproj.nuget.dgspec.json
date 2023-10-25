@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mssil\\Desktop\\Nova pasta\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj": {}
+    "C:\\Users\\mssil\\Desktop\\Organizer\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mssil\\Desktop\\Nova pasta\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj": {
+    "C:\\Users\\mssil\\Desktop\\Organizer\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mssil\\Desktop\\Nova pasta\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj",
+        "projectUniqueName": "C:\\Users\\mssil\\Desktop\\Organizer\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj",
         "projectName": "gerenciadorTarefa",
-        "projectPath": "C:\\Users\\mssil\\Desktop\\Nova pasta\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj",
+        "projectPath": "C:\\Users\\mssil\\Desktop\\Organizer\\src\\gerenciadorTarefa\\gerenciadorTarefa.csproj",
         "packagesPath": "C:\\Users\\mssil\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mssil\\Desktop\\Nova pasta\\src\\gerenciadorTarefa\\obj\\",
+        "outputPath": "C:\\Users\\mssil\\Desktop\\Organizer\\src\\gerenciadorTarefa\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mssil\\AppData\\Roaming\\NuGet\\NuGet.Config",
