@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using gerenciadorTarefa.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using gerenciadorTarefa.Models.ViewModel;
 
 namespace gerenciadorTarefa.Models
 {
@@ -22,6 +23,8 @@ namespace gerenciadorTarefa.Models
                 .HasIndex(u => u.Email)
                 .IsUnique();
         }
+
+        public DbSet<gerenciadorTarefa.Models.ViewModel.MetaViewModel> MetaViewModel { get; set; }
 
         
     }
