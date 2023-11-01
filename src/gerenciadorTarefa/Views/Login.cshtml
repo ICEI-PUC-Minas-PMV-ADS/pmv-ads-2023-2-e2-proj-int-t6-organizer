@@ -1,0 +1,77 @@
+﻿@model gerenciadorTarefa.Models.Usuario
+<link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
+
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Message
+    </div>
+}
+
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+<div class="container mx-auto">
+    <div class="row align-items-center">
+        <div class="col-6 mx-auto">
+            <div class="card-group">
+                <div class="card align-items-center pt-5">
+                    <img class="card-img-top w-50 align-items-center logoLogin" src="~/img/logo.PNG" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text text-center">Alcance suas metas <br>
+                            gerenciando suas tarefas!
+                         </p>
+                    </div>
+                </div>
+                <div class="card align-items-center">
+                    <div class="card-body">
+                        <h2 class="card-title mt-5 text-center">Login</h2>
+                        <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie sua conta</a></strong></p>
+                        <form asp-action="Login">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label mb-1 fontMedia">E-MAIL</label>
+                                <input asp-for="Email" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Senha" class="control-label mb-1 fontMedia">SENHA</label>
+                                <input asp-for="Senha" class="form-control mb-3 inputsLogin" />
+                                <span asp-validation-for="Senha" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Login" class="btn btn-success form-control inputsLogin mb-2" />
+                                <a href="@Url.Action("EsqueciMinhaSenha", "Usuarios")" class="text-center mb-5 fontPequena">
+                                    <p>
+                                        Esqueci minha senha!
+                                    </p>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>
