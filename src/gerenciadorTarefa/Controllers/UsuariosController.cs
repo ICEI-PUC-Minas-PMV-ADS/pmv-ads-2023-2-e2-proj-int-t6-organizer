@@ -1,48 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using gerenciadorTarefa.Models;
-using System.Security.Claims;
+﻿using gerenciadorTarefa.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace gerenciadorTarefa.Controllers
 {
     //[Authorize]
     public class UsuariosController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly AppDbContext _context;
+        private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public UsuariosController(AppDbContext context)
-        {
-            _context = context;
-        }
-        //- DESENVOLVENDO
-        /*
-        private readonly UserManager<Usuario> _userManager;
-        private readonly SignInManager<Usuario> _signInManager;
-
-        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
+        public UsuariosController(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            AppDbContext context,
+            EmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
+            _emailService = emailService;
         }
-        */
-
-
-        //------------------------- GET: Index
+        //Index
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Usuarios.ToListAsync());
+            var users = await _userManager.Users.ToListAsync();
+            return View(users);
         }
 
-        //------------------------- GET: Login
+        //Login
 
         [AllowAnonymous]
         public IActionResult Login()
@@ -50,70 +43,44 @@ namespace gerenciadorTarefa.Controllers
             return View();
         }
 
-        //------------------------- POST: Login
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login (Usuario usuario)
+        public async Task<IActionResult> Login(Usuario usuario)
         {
-            var dados = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
+            var user = await _userManager.FindByEmailAsync(usuario.Email);
 
-            if (dados != null)
+            if (user != null)
             {
-                bool senhaOk = BCrypt.Net.BCrypt.Verify(usuario.Senha, dados.Senha);
+                var result = await _signInManager.PasswordSignInAsync(user, usuario.Senha, false, lockoutOnFailure: false);
 
-                if (!senhaOk)
+                if (result.Succeeded)
                 {
-                    ViewBag.Message = "Usuário e/ou senha inválidos!";
-                }
-                else
-                {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, dados.Name),
-                        new Claim(ClaimTypes.NameIdentifier, dados.Id.ToString()),
-                        new Claim(ClaimTypes.Email, dados.Email)
-                    };
-
-                    var usuarioIdentity = new ClaimsIdentity(claims, "login");
-                    ClaimsPrincipal principal = new ClaimsPrincipal(usuarioIdentity);
-
-                    var props = new AuthenticationProperties
-                    {
-                        AllowRefresh = true,
-                        ExpiresUtc = DateTime.UtcNow.ToLocalTime().AddHours(8),
-                        IsPersistent = true,
-                    };
-
-                    await HttpContext.SignInAsync(principal, props);
-
                     return RedirectToAction("Index", "Home");
                 }
             }
-            else
-            {
-                ViewBag.Message = "Usuário e/ou senha inválidos!";
-            }
+
+            ModelState.AddModelError(string.Empty, "Usuário e/ou senha inválidos.");
             return View();
         }
 
-        //------------------------- GET: Logout
+        //Logout
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Usuarios");
         }
 
-        //------------------------- GET: Details
+        //Details
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Usuarios == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var usuario = await _userManager.FindByIdAsync(id.ToString());
+
             if (usuario == null)
             {
                 return NotFound();
@@ -121,19 +88,18 @@ namespace gerenciadorTarefa.Controllers
 
             return View(usuario);
         }
-
-        //------------------------- GET: Create
+            
+        //Create
         [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
-        //------------------------- POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id, Name, Email, Senha, ConfirmarSenha")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -143,216 +109,239 @@ namespace gerenciadorTarefa.Controllers
                     return View(usuario);
                 }
 
-                if (_context.Usuarios.Any(u => u.Email == usuario.Email))
+                var existingUser = await _userManager.FindByEmailAsync(usuario.Email);
+
+                if (existingUser != null)
                 {
                     ModelState.AddModelError("Email", "Este email já está em uso.");
                     return View(usuario);
                 }
 
-                
-                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Cadastro criado com sucesso! Realize login para iniciar.";
-
-                return RedirectToAction("Login", "Usuarios");
-            }
-            return View(usuario);
-        }
-
-        //------------------------- GET: Edit
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        //------------------------- POST: Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
-        {
-            if (id != usuario.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                if (usuario.Senha != usuario.ConfirmarSenha)
+                var user = new IdentityUser
                 {
-                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
-                    return View(usuario);
-                }
+                    UserName = usuario.Name,
+                    Email = usuario.Email
+                };
 
-                try
+                var result = await _userManager.CreateAsync(user, usuario.Senha);
+
+                if (result.Succeeded)
                 {
-                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                    _context.Update(usuario);
-
-                    await _context.SaveChangesAsync();
-                    await HttpContext.SignOutAsync();
+                    TempData["SuccessMessage"] = "Cadastro criado com sucesso! Realize login para iniciar.";
                     return RedirectToAction("Login", "Usuarios");
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!UsuarioExists(usuario.Id))
+                    foreach (var error in result.Errors)
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
             }
+
             return View(usuario);
         }
 
-        //------------------------- GET: Delete
-        public async Task<IActionResult> Delete(int? id)
+        //Edit
+        public async Task<IActionResult> Edit()
         {
-            if (id == null || _context.Usuarios == null)
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
+            var usuario = new Usuario
             {
-                return NotFound();
-            }
+                Name = user.UserName,
+                Email = user.Email
+            };
 
             return View(usuario);
         }
 
-        //------------------------- POST: Delete
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Edit(Usuario usuario)
         {
-            if (_context.Usuarios == null)
+            if (ModelState.IsValid)
             {
-                return Problem("Entity set 'AppDbContext.Usuarios'  is null.");
-            }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                _context.Usuarios.Remove(usuario);
-            }
-            
-            await _context.SaveChangesAsync();
+                var currentUser = await _userManager.GetUserAsync(User);
 
-            await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Usuarios");
+                if (currentUser == null)
+                {
+                    return NotFound();
+                }
+
+                currentUser.UserName = usuario.Name; 
+                currentUser.Email = usuario.Email; 
+
+                var result = await _userManager.UpdateAsync(currentUser);
+
+                if (result.Succeeded)
+                {
+                    var userClaims = await _userManager.GetClaimsAsync(currentUser);
+                    var nameClaim = userClaims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
+
+                    if (nameClaim != null)
+                    {
+                        await _userManager.RemoveClaimAsync(currentUser, nameClaim);
+                    }
+
+                    await HttpContext.SignOutAsync();
+                    TempData["SuccessMessage"] = "Perfil atualizado com sucesso. Faça login novamente.";
+                    return RedirectToAction("Login", "Usuarios");
+
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+
+            return View(usuario);
         }
 
-        private bool UsuarioExists(int id)
+
+
+        //Delete
+        [HttpGet]
+        public async Task<IActionResult> Delete(Usuario usuario)
         {
-          return _context.Usuarios.Any(e => e.Id == id);
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            return View(usuario);
         }
 
-      
-        //------------------------- GET: Esqueci Minha Senha
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Usuario usuario)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Login", "Usuarios");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(usuario);
+        }
+
+
+
+        // Esqueci Minha Senha
         [AllowAnonymous]
         public IActionResult EsqueciMinhaSenha()
         {
             return View();
         }
 
-        //------------------------- DESENVOLVENDO
-
-        //------------------------- POST: Enviar Link Recuperacao
-        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EnviarLinkRecuperacao(string Email)
+        [AllowAnonymous]
+        public async Task<IActionResult> EsqueciMinhaSenha(EsqueciMinhaSenhaViewModel model)
         {
-          var usuario = await _userManager.FindByEmailAsync(Email);
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
 
-          if (usuario == null || !(await _userManager.IsEmailConfirmedAsync(usuario)))
-          {
-              // Trate o cenário em que o e-mail não foi encontrado ou não foi confirmado
-              ModelState.AddModelError("Email", "E-mail não encontrado ou não confirmado.");
-              return View();
-          }
+                if (user == null)
+                {
+                    ModelState.AddModelError("Email", "E-mail não encontrado.");
+                    return View(model);
+                }
 
-          var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-          var callbackUrl = Url.Action("RedefinirSenha", "Usuarios", new { userId = usuario.Id, token = token }, protocol: HttpContext.Request.Scheme);
-          //DESENVOLVENDO
-          //await _emailSender.SendEmailAsync(Email, "Redefinir sua senha", callbackUrl);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("RedefinirSenha", "Usuarios", new { userId = user.Id, token = token }, protocol: HttpContext.Request.Scheme);
 
-          // Redirecione para uma página informando ao usuário que o link foi enviado com sucesso
-          return View("LinkRecuperacaoEnviado");
+                var emailService = new EmailService(_configuration); // Injete a IConfiguration no construtor do EmailService
+                emailService.SendEmailAsync(model.Email, "Redefinição de Senha", "Clique no seguinte link para redefinir sua senha: " + callbackUrl);
+
+                TempData["SuccessMessage"] = "Link para recuperação de senha enviado para o e-mail.";
+                return RedirectToAction("Login", "Usuarios");
+            }
+
+            return View(model);
         }
 
-        //------------------------- POST: Redefinir Senha - DESENVOLVENDO
-         public IActionResult RedefinirSenha(string userId, string token)
+
+        [AllowAnonymous]
+        public IActionResult RedefinirSenha(string userId, string token)
         {
-          if (userId == null || token == null)
-          {
-              return BadRequest();
-          }
+            if (userId == null || token == null)
+            {
+                return BadRequest();
+            }
 
-        var model = new RedefinirSenhaViewModel
-          {
-              UserId = userId,
-              Token = token
-          };
+            var model = new RedefinirSenhaViewModel
+            {
+                UserId = userId,
+                Token = token
+            };
+
+            return View(model);
+        }
 
 
-          return View(model);
-        } 
-
-        //------------------------- POST: Salvar Nova Senha - DESENVOLVENDO
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SalvarNovaSenha(RedefinirSenhaViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> RedefinirSenha(RedefinirSenhaViewModel model)
         {
-           if (ModelState.IsValid)
-           {
-               var usuario = await _userManager.FindByIdAsync(model.UserId);
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
 
-               if (usuario != null)
-               {
-                   var result = await _userManager.ResetPasswordAsync(usuario, model.Token, model.Senha);
+                if (user != null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Senha);
 
-                   if (result.Succeeded)
-                   {
-                       // Redefinição de senha bem-sucedida, redirecione o usuário para a página de login ou outra página apropriada
-                       return RedirectToAction("Login", "Usuarios");
-                   }
-                   else
-                   {
-                       // Trate os erros de redefinição de senha, se houverem
-                       foreach (var error in result.Errors)
-                       {
-                           ModelState.AddModelError(string.Empty, error.Description);
-                       }
-                   }
-               }
-               else
-               {
-                   // Trate o cenário em que o usuário não é encontrado
-                   ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
-               }
-           }
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Login", "Usuarios");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
+                }
+            }
 
-           return View();
+            return View(model);
         }
-         */
+
+
+
     }
 }

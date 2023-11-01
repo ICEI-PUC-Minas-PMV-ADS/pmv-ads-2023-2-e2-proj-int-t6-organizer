@@ -1,0 +1,35 @@
+﻿@model gerenciadorTarefa.Models.RedefinirSenhaViewModel
+
+@{
+    ViewData["Title"] = "Redefinir Senha";
+}
+
+<div class="container mx-auto">
+    <div class="row align-items-center">
+        <div class="col-6 mx-auto">
+            <div class="card align-items-center">
+                <div class="card-body">
+                    <h2 class="card-title mt-5 text-center">Redefinir Senha</h2>
+                    <form asp-action="RedefinirSenha">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <input type="hidden" asp-for="UserId" />
+                        <input type="hidden" asp-for="Token" />
+                        <div class="form-group">
+                            <label asp-for="Senha" class="control-label fontMedia">NOVA SENHA</label>
+                            <input asp-for="Senha" class="form-control inputsLogin" />
+                            <span asp-validation-for="Senha" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ConfirmarSenha" class="control-label fontMedia">CONFIRMAR NOVA SENHA</label>
+                            <input asp-for="ConfirmarSenha" class="form-control inputsLogin" />
+                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success form-control inputsLogin mb-2">Redefinir Senha</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
