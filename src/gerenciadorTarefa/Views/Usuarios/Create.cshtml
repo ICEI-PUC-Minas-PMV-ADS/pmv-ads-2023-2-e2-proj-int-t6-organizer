@@ -7,59 +7,68 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="container mx-auto">
-    <div class="row align-items-center">
-        <div class="col-6 mx-auto">
-            <div class="card-group">
-                <div class="card align-items-center pt-5">
-                    <img class="card-img-top w-50 align-items-center logoLogin" src="~/img/logo.PNG" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text text-center">
-                            Alcance suas metas <br>
-                            gerenciando suas tarefas!
-                        </p>
-                    </div>
-                </div>
-                <div class="card align-items-center">
-                    <div class="card-body">
-                        <h2 class="card-title mt-5 text-center">Crie sua Conta</h2>
+<div class="create">
+
+  <div class="boxesquerda">
+
+        <img class="logoimg" src="~/img/logologin.png" alt="">
+
+        <span class="metas">Alcance suas metas<br />
+            gerenciando suas tarefas!</span>
+
+        <img class="imglogo" src="~/img/imglogin.png" alt="">
+
+
+    </div>  
+
+    <div class="boxdireita"> 
+
+<div class="card-body">
+                        <h2 class="card-title mt-5 text-center text">Crie sua Conta</h2>
                         <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie sua conta</a></strong></p>
 
 
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
-                                <label asp-for="Name" class="control-label mb-1 fontMedia">NOME</label>
+                                <label asp-for="Name" class="control-label mb-1 fontMedia larg">NOME</label>
                                 <input asp-for="Name" class="form-control mb-3 inputsLogin" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Email" class="control-label mb-1 fontMedia">EMAIL</label>
+                                <label asp-for="Email" class="control-label mb-1 fontMedia larg">EMAIL</label>
                                 <input asp-for="Email" class="form-control mb-3 inputsLogin" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Senha" class="control-label mb-1 fontMedia">SENHA</label>
+                                <label asp-for="Senha" class="control-label mb-1 fontMedia larg">SENHA</label>
                                 <input asp-for="Senha" class="form-control mb-3 inputsLogin" />
                                 <span asp-validation-for="Senha" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia">CONFIRMAR SENHA</label>
+                                <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia larg">CONFIRMAR SENHA</label>
                                 <input asp-for="ConfirmarSenha" class="form-control mb-3 inputsLogin" />
-                                <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                                <span asp-validation-for="ConfirmarSenha" class="text-danger larg"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Cadastrar" class="btn btn-success form-control inputsLogin mb-2" />
+                                <input type="submit" value="Cadastrar" class="btn btn-success form-control inputsLogin mb-2 color larg"  />
                                 <p class="text-center mb-5 fontPequena"><a href="/Usuarios/Login">Voltar</a></p>
 
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
+
+
+</div>
+
+
+
+
+
+
+
 <div class="footer">
     @section Scripts {
         @{

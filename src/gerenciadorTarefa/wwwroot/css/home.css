@@ -7,6 +7,7 @@
 .fontMedia {
     font-size: 13px;
     padding-left: 1rem;
+    font-family: 'Poppins';
 }
 
 .inputsLogin {
@@ -14,7 +15,7 @@
 }
 
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
@@ -34,13 +35,15 @@
     margin-right: 8px;
     padding-top: 24px;
     border-radius: 18px;
+    width: 100px;
+    height:100vh;
+
 }
 
 .content {
     width: 100%;
     display: flex;
     margin-top: 18px;
-    margin-left: 18px;
     height: 100vh;
 }
 
@@ -49,9 +52,10 @@
 }
 
 .box-content {
-    margin-right: 18px;
+    margin-right: 24px;
     border: none;
     background-color: #f3f5f9;
+    margin-left: 18px;
 }
 
 .search {
@@ -64,7 +68,7 @@
 }
 
     .search::placeholder {
-        font-family: Poppins;
+        font-family: 'Poppins';
         color: #b4b4b4;
         /* Outros estilos de fonte, como tamanho, cor, etc. */
     }
@@ -125,7 +129,7 @@
 
 .title,
 .subtitle {
-    font-family: 'Poppins';
+    //font-family: 'Poppins';
     font-weight: 700;
     font-size: 38px;
     color: #27104e;
@@ -157,3 +161,47 @@
         width: 55px;
     }
 }
+
+.largura{
+    width:45px
+}
+
+.box-conteudo{
+width:100%
+
+
+
+}
+
+.box-main{
+
+    border-radius:12px;
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  
+}
+.conteudo{
+    width:1000px;
+    padding-top:80px
+}
+
+.top{
+    margin-top:18px
+}
+
+.text{
+    font-family:Poppins
+}
+.box-home{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+    margin-top:0px
+}
+
+

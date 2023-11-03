@@ -7,22 +7,29 @@
 }
 
 
-<div class="d-flex h-100">
-    <div class="card" style="width: 10%;">
+<div class="d-flex h-100 top">
+
+<div class="card sidebar">
         <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
-            <img class="card-img-top" src="~/img/logo.PNG" alt="Card image cap">
+            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
         </a>
         <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
-            <img class="card-img-top" src="~/img/iconPerfil.png" alt="Card image cap">
+            <img class="card-img-top" src="~/img/userimg.png" alt="Card image cap">
         </a>
-        <a href="/Usuarios/logout" class="w-25 mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza de que deseja SAIR do Gerenciador de Tarefas?');">
-            <img class="card-img-top" src="~/img/iconLogout.png" alt="Card image cap">
+       <a href="/Usuarios/logout" class=" mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza de que deseja SAIR do Gerenciador de Tarefas?');">
+            <img class="card-img-top largura" src="~/img/logoutimg.png" alt="Card image cap">
         </a>
     </div>
-    <div class="card align-content-center" style="width: 90%; border: none;">
-         <div class="card"  style="width: 70%; ">
 
-            <h1 class="col-md-9 mx-auto m-5">Gerenciar Perfil</h1>
+
+
+   
+    <div class="box-conteudo" >
+         <div class="card box-main ">
+
+            <div class="conteudo"> 
+
+            <h1 class="col-md-9 mx-auto m-5 text">Gerenciar Perfil</h1>
 
             <form asp-action="Edit">
                 <div class="row">
@@ -31,37 +38,39 @@
                        <input type="hidden" asp-for="Id" />
                         <div class="form-group col-md-8 mx-auto">
                             <label asp-for="Name" class="control-label mb-1 fontMedia">Nome</label>
-                            <input asp-for="Name" class="form-control mb-3 mx-auto inputsLogin" />
+                            <input asp-for="Name" class="form-control mb-3 mx-auto inputsLogin " />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-8 mx-auto">
                             <label asp-for="Email" class="control-label mb-1 fontMedia">E-mail</label>
-                            <input asp-for="Email" class="form-control mb-3 mx-auto inputsLogin" />
+                            <input asp-for="Email" class="form-control mb-3 mx-auto inputsLogin " />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group col-md-8 mx-auto">
                             <label asp-for="Senha" class="control-label mb-1 fontMedia">Nova Senha</label>
-                            <input asp-for="Senha" class="form-control  mb-3 mx-auto inputsLogin" />
+                            <input asp-for="Senha" class="form-control  mb-3 mx-auto inputsLogin " />
                             <span asp-validation-for="Senha" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-8 mx-auto">
                             <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia" >Confirme a Nova Senha</label>
-                            <input asp-for="ConfirmarSenha" class="form-control mb-3 mx-auto inputsLogin" />
+                            <input asp-for="ConfirmarSenha" class="form-control mb-3 mx-auto inputsLogin " />
                             <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-group text-center">
                         <div class="form-group text-center">
-                            <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin" onclick="return confirm('Tem certeza de que ALTERAR seu registro?');" />
-                            <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin">Excluir Cadastro</a>
+                            <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin color " onclick="return confirm('Tem certeza de que ALTERAR seu registro?');" />
+                            <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin  padding">Excluir Cadastro</a>
                             <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
                         </div>
                     </div>
                 </div>
             </form>
+
+</div>
             <!--
             <span id="errorSpan" class="text-danger"></span>
             -->

@@ -1,28 +1,88 @@
-﻿.inputsLogin{
-    border-radius: 2rem;
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+
+.inputsLogin {
+  border-radius: 2rem;
 }
 
 .logoLogin {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-    margin-top: 35%
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  margin-top: 35%;
 }
 
-.fontPequena{
-    font-size: 12px;
+.fontPequena {
+  font-size: 12px;
 }
 
 .fontMedia {
-    font-size: 13px;
-    padding-left: 1rem;
+  font-size: 13px;
+  padding-left: 1rem;
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center; 
-    padding: 10px; 
-    background-color: #f0f0f0; 
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+.teste {
+  font-size: 60px;
+  color: red;
+}
+.login {
+  width: 100%;
+  height: 100vh;
+  display:flex;
+}
+
+.boxesquerda {
+  width: 50%;
+  background-color: #6368d9;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+.boxdireita{
+    width:50%;
+    
+}
+
+.metas {
+  font-family: Poppins;
+  color: white;
+  font-size: 20px;
+  font-weight:300;
+  margin-left:20px
+}
+
+.card-body{
+    margin-top:180px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-family:    Poppins
+}
+
+.larg{
+    width:380px
+}
+.color{
+    background-color: #6368d9;
+}
+.text{
+    font-size:40px;
+    font-weight:300;
+}
+.senha{
+  width: 100%;
+  height: 100vh;
+  display:flex;
+
 }
