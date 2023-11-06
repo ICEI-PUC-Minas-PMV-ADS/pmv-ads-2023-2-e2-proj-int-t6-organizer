@@ -6,9 +6,9 @@ namespace gerenciadorTarefa.Models
     {
         internal readonly string Senha;
 
-        [Required]
-        [EmailAddress]
         [Display(Name = "E-mail")]
+        [Required(ErrorMessage = "O campo {0} é de preenchimento obrigatório.")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }
 }

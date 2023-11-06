@@ -1,0 +1,33 @@
+﻿@model gerenciadorTarefa.Models.EsqueciMinhaSenhaViewModel
+
+<link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
+
+
+@{
+    ViewData["Title"] = "LinkRecuperacaoEnviado";
+}
+
+
+<div class="container mx-auto">
+    <div class="row align-items-center">
+        <div>
+           <h1 class="text-primary">E-mail de Redefinição de Senha Enviado</h1>
+           <hr />
+
+           <p>
+               Uma mensagem contendo o link para redefinição de sua senha foi enviado para seu e-mail. Acesse sua caixa de mensagens e clique no link recebido para redefinir sua senha.
+           </p>
+           <p>
+               Acessa sua caixa de mensagens e clique no link para dar continuidade ao processo de redefinição de senha. Se quiser voltar a página principal, clique no botão abaixo.
+           </p>
+           <a asp-action="Login" asp-controller="Usuarios" class="btn btn-outline-secondary">Voltar à Página Principal</a>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>

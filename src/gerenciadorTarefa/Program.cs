@@ -1,9 +1,11 @@
 using gerenciadorTarefa.Models;
+using gerenciadorTarefa.Services;
+using gerenciadorTarefa.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,14 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
+    options.ConsentCookie.HttpOnly = true;
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
-
-
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddTransient<EmailService, EmailService>();
-
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -48,7 +46,13 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedAccount = false;
 });
+
+builder.Services.Configure<SendinBlueSettings>(builder.Configuration.GetSection(nameof(SendinBlueSettings)));
+builder.Services.AddSingleton<IEmailService, SendinBlueService>();  
 
 var app = builder.Build();
 

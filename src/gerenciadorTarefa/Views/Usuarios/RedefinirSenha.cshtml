@@ -11,21 +11,28 @@
                 <div class="card-body">
                     <h2 class="card-title mt-5 text-center">Redefinir Senha</h2>
                     <form asp-action="RedefinirSenha">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <input type="hidden" asp-for="UserId" />
+                        <div asp-validation-summary="All" class="row"></div>
+                        <input type="hidden" asp-for="@Model.Token" />
                         <input type="hidden" asp-for="Token" />
                         <div class="form-group">
-                            <label asp-for="Senha" class="control-label fontMedia">NOVA SENHA</label>
-                            <input asp-for="Senha" class="form-control inputsLogin" />
-                            <span asp-validation-for="Senha" class="text-danger"></span>
+                            <label asp-for="@Model.Email" class="control-label fontMedia">EMAIL</label>
+                            <input asp-for="@Model.Email" class="form-control inputsLogin" />
+                            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@Model.NovaSenha" class="control-label fontMedia">NOVA SENHA</label>
+                            <input asp-for="@Model.NovaSenha" class="form-control inputsLogin" />
+                            <span asp-validation-for="@Model.NovaSenha" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="ConfirmarSenha" class="control-label fontMedia">CONFIRMAR NOVA SENHA</label>
-                            <input asp-for="ConfirmarSenha" class="form-control inputsLogin" />
-                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                            <label asp-for="@Model.ConfNovaSenha" class="control-label fontMedia">CONFIRMAR NOVA SENHA</label>
+                            <input asp-for="@Model.ConfNovaSenha" class="form-control inputsLogin" />
+                            <span asp-validation-for="@Model.ConfNovaSenha" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success form-control inputsLogin mb-2">Redefinir Senha</button>
+                            <a asp-action="Login" asp-controller="Usuarios" class="btn btn-outline-secondary mt-3 mb-3">Cancelar</a>
+                            <button type="submit" class="btn btn-primary form-control inputsLogin mb-2">Redefinir Senha</button>
                         </div>
                     </form>
                 </div>

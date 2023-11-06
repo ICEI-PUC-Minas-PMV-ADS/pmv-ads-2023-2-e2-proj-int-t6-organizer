@@ -5,21 +5,25 @@ namespace gerenciadorTarefa.Models
     public class RedefinirSenhaViewModel
     {
         [Required]
-        [EmailAddress]
+        public string Token { get; set; }
+
         [Display(Name = "E-mail")]
+        [Required(ErrorMessage ="O campo {0} é de preenchimento obrigatório.")]
+        [DataType(DataType.EmailAddress)]
+
         public string Email { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
         [Display(Name = "Nova Senha")]
-        public string Senha { get; set; }
-
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar Nova Senha")]
-        [Compare("Senha", ErrorMessage = "As senhas não coincidem.")]
-        public string ConfirmarSenha { get; set; }
+        [Required(ErrorMessage = "O campo {0} é de preenchimento obrigatório.")]
+        public string NovaSenha { get; set; }
 
-        public string UserId { get; set; }
-        public string Token { get; set; }
+        [Display(Name = "Confirmação da Nova Senha")]
+        [DataType(DataType.Password)]
+        [Compare(nameof(NovaSenha), ErrorMessage = "As senhas não coincidem.")]
+        [Required(ErrorMessage = "O campo {0} é de preenchimento obrigatório.")]
+
+        public string ConfNovaSenha { get; set; }
+
     }
 }

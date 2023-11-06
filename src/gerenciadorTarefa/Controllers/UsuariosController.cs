@@ -1,10 +1,14 @@
 ﻿using gerenciadorTarefa.Models;
+using gerenciadorTarefa.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NETCore.MailKit.Core;
 using System.Security.Claims;
+using System.Text;
+using IEmailService = gerenciadorTarefa.Services.IEmailService;
 
 namespace gerenciadorTarefa.Controllers
 {
@@ -14,14 +18,14 @@ namespace gerenciadorTarefa.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly AppDbContext _context;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
 
         public UsuariosController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             AppDbContext context,
-            EmailService emailService)
+            IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -267,81 +271,76 @@ namespace gerenciadorTarefa.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-
-                if (user == null)
+                if(_userManager.Users.AsNoTracking().Any(u => u.NormalizedEmail == model.Email.ToUpper().Trim()))
                 {
-                    ModelState.AddModelError("Email", "E-mail não encontrado.");
-                    return View(model);
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var urlConfirmacao = Url.Action(nameof(RedefinirSenha), "Usuarios", new { token }, Request.Scheme);
+                    var mensagem = new StringBuilder();
+                    mensagem.Append($"<p>Olá,</p>");
+                    mensagem.Append($"<p>Houve uma solicitação de redefinição de senha para seu usuário em nosso site. Se não foi você quem realizou a solicitação, gentileza desconsiderar essa mensagem. </br> Caso tenha sido você, clique no link abaixo para criar sua nova senha:</p>");
+
+
+                    mensagem.Append($"<p><a href='{urlConfirmacao}'>Redefinir Senha</a></p>");
+                    mensagem.Append($"<p>Atenciosamente,<br>Equipe de Suporte</p>");
+                    await _emailService.SendEmailAsync(model.Email,
+                                                       "Redefinição de Senha",
+                                                       "",
+                                                       mensagem.ToString());
+                    return View(nameof(EmailRedefinicaoEnviado));
+
                 }
-
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Action("RedefinirSenha", "Usuarios", new { userId = user.Id, token = token }, protocol: HttpContext.Request.Scheme);
-
-                var emailService = new EmailService(_configuration); // Injete a IConfiguration no construtor do EmailService
-                emailService.SendEmailAsync(model.Email, "Redefinição de Senha", "Clique no seguinte link para redefinir sua senha: " + callbackUrl);
-
-                TempData["SuccessMessage"] = "Link para recuperação de senha enviado para o e-mail.";
-                return RedirectToAction("Login", "Usuarios");
+                else
+                {
+                    ModelState.AddModelError(string.Empty, 
+                        $"Usuário/e-mail <b>{model.Email}</b>não encontrado.");
+                    return View();
+                }
             }
-
-            return View(model);
+            else
+            {
+                return View(model);
+            }
         }
-
 
         [AllowAnonymous]
-        public IActionResult RedefinirSenha(string userId, string token)
+        public IActionResult EmailRedefinicaoEnviado()
         {
-            if (userId == null || token == null)
-            {
-                return BadRequest();
-            }
-
-            var model = new RedefinirSenhaViewModel
-            {
-                UserId = userId,
-                Token = token
-            };
-
-            return View(model);
+            return View();
         }
 
-
+        [AllowAnonymous]
+        public IActionResult RedefinirSenha(string token)
+        {
+            var modelo = new RedefinirSenhaViewModel();
+            modelo.Token = token;
+            return View(modelo);
+        }
+       
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<IActionResult> RedefinirSenha(RedefinirSenhaViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByIdAsync(model.UserId);
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var resultado = await _userManager.ResetPasswordAsync(
+                    user, model.Token, model.NovaSenha);
 
-                if (user != null)
+                if (resultado.Succeeded)
                 {
-                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Senha);
-
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Login", "Usuarios");
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
-                    }
+                    TempData["SuccessMessage"] = "Senha redefinida com sucesso! Agora você já pode fazer login com a nova senha.";
+                    return View(nameof(Login));
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
+                    ModelState.AddModelError(string.Empty, "Não foi possível redefinir senha. Verifique se preencheu a senha corretamente. Se o problema persistir, entre em contato com o suporte.");
+                    return View(model);
                 }
             }
 
             return View(model);
         }
-
-
 
     }
 }

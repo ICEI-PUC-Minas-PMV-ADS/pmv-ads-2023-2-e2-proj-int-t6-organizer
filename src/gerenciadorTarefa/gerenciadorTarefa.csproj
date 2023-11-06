@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Settings\GMailSettings.cs" />
     <Compile Remove="Views\Usuarios\RecuperarSenha.cs" />
   </ItemGroup>
 
@@ -53,10 +54,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="MimeKit" Version="4.2.0" />
+    <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
+    <PackageReference Include="SendGrid" Version="9.28.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NovaPasta\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\NovaPasta1\" />
   </ItemGroup>
