@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-    EnvironmentName = Environments.Staging
+    EnvironmentName = Environments.Development
 });
 
 
@@ -59,12 +59,11 @@ builder.Services.Configure<SendinBlueSettings>(builder.Configuration.GetSection(
 builder.Services.AddSingleton<IEmailService, SendinBlueService>();  
 
 var app = builder.Build();
-/*
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-}*/
+}
 
 app.UseHttpsRedirection();
 
