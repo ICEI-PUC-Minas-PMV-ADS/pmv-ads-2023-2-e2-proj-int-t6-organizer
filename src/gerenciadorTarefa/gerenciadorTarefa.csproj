@@ -26,8 +26,6 @@
     <Content Remove="wwwroot\css\Interface.cs" />
     <Content Remove="wwwroot\css\site - Cópia.css" />
     <Content Remove="wwwroot\css\StyleSheet.css" />
-    <Content Remove="wwwroot\js\site.js" />
-    <Content Remove="wwwroot\js\usuariosCreate.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,7 +57,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\NovaPasta1\" />
   </ItemGroup>
 
