@@ -1,0 +1,77 @@
+﻿@model gerenciadorTarefa.Models.ViewModel.MetaViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>MetaViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Categoria" class="control-label"></label>
+                <select asp-for="Categoria" class="form-control" asp-items="Html.GetEnumSelectList<Categoria>()"></select>
+                <span asp-validation-for="Categoria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prazo" class="control-label"></label>
+                <input asp-for="Prazo" class="form-control" />
+                <span asp-validation-for="Prazo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="addTask">Adicionar</button>
+            </div>
+
+            <div id="taskContainer">
+ 
+                <div class="form-group">
+                    <label for="Tarefas[0].Nome">Nome da Tarefa</label>
+                    <input type="text" name="Tarefas[0].Nome" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var taskCount = 0;
+
+            $("#addTask").click(function () {
+                var taskHtml = `
+                            <div class="form-group">
+                                <label for="Tarefas[${taskCount}].Nome">Nome da Tarefa</label>
+                                <input type="text" name="Tarefas[${taskCount}].Nome" class="form-control" />
+                            </div>
+                        `;
+
+                $("#taskContainer").append(taskHtml);
+                taskCount++;
+            });
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
