@@ -1,11 +1,9 @@
 ﻿using gerenciadorTarefa.Models;
-using gerenciadorTarefa.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NETCore.MailKit.Core;
 using System.Security.Claims;
 using System.Text;
 using IEmailService = gerenciadorTarefa.Services.IEmailService;

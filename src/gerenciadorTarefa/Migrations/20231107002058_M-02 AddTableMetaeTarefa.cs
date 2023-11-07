@@ -26,7 +26,7 @@ namespace gerenciadorTarefa.Migrations
                 {
                     table.PrimaryKey("PK_MetaViewModel", x => x.Id);
                 });
-
+            /*
             migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
@@ -40,7 +40,7 @@ namespace gerenciadorTarefa.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.Id);
-                });
+                });*/
 
             migrationBuilder.CreateTable(
                 name: "TarefaViewModel",
