@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    EnvironmentName = Environments.Staging
+});
+
 
 builder.Services.AddControllersWithViews();
 
@@ -55,12 +59,12 @@ builder.Services.Configure<SendinBlueSettings>(builder.Configuration.GetSection(
 builder.Services.AddSingleton<IEmailService, SendinBlueService>();  
 
 var app = builder.Build();
-
+/*
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-}
+}*/
 
 app.UseHttpsRedirection();
 
