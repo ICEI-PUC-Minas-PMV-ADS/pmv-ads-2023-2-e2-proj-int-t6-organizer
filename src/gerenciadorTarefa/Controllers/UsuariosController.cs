@@ -183,18 +183,21 @@ namespace gerenciadorTarefa.Controllers
 
                 if (result.Succeeded)
                 {
-                    var userClaims = await _userManager.GetClaimsAsync(currentUser);
-                    var nameClaim = userClaims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(currentUser);
+                    var resetResult = await _userManager.ResetPasswordAsync(currentUser, token, usuario.Senha);
 
-                    if (nameClaim != null)
+                    if (resetResult.Succeeded)
                     {
-                        await _userManager.RemoveClaimAsync(currentUser, nameClaim);
+                        TempData["SuccessMessage"] = "Perfil atualizado com sucesso. Faça login novamente.";
+                        return RedirectToAction("Login", "Usuarios");
                     }
-
-                    await HttpContext.SignOutAsync();
-                    TempData["SuccessMessage"] = "Perfil atualizado com sucesso. Faça login novamente.";
-                    return RedirectToAction("Login", "Usuarios");
-
+                    else
+                    {
+                        foreach (var error in resetResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
                 }
                 else
                 {
@@ -207,8 +210,6 @@ namespace gerenciadorTarefa.Controllers
 
             return View(usuario);
         }
-
-
 
         //Delete
         [HttpGet]
