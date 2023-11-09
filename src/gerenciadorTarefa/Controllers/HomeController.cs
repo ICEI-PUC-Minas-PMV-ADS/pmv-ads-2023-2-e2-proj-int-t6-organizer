@@ -1,4 +1,5 @@
 ﻿using gerenciadorTarefa.Models;
+using gerenciadorTarefa.Models.ViewModel;
 using gerenciadorTarefa.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,19 +11,28 @@ namespace gerenciadorTarefa.Controllers
     public class HomeController : Controller
     {
         private readonly IEmailService _emailService;
+        private readonly AppDbContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, IEmailService emailService)
+        public HomeController(ILogger<HomeController> logger, IEmailService emailService, AppDbContext context)
         {
+            _context = context;
             _logger = logger;
             _emailService = emailService;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            var metaViewModels = _context.Metas.Select(meta => new MetaViewModel
+            {
+                // Map properties from your Meta entity to MetaViewModel
+                Categoria = meta.Categoria,
+                Titulo = meta.Titulo,
+                // ... map other properties
+            }).ToList();
 
+            return View(metaViewModels);
+        }
         public IActionResult Privacy()
         {
             return View();

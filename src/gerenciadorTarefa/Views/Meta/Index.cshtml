@@ -9,25 +9,31 @@
 <div class="card-container">
     @foreach (var item in Model)
     {
-        <div class="card">
-            <div class="card-header">
-                <h3>@Html.DisplayFor(modelItem => item.Titulo)</h3>
+        if (item != null)
+        { // Check if item is not null
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Html.DisplayFor(modelItem => item.Titulo)</h3>
                     <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
                     <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                </div>
+                <div class="card-body">
+                    <p><strong>Categoria:</strong> @Html.DisplayFor(modelItem => item.Categoria)</p>
+                    <p><strong>Prazo:</strong> @Html.DisplayFor(modelItem => item.Prazo)</p>
+                    <p><strong>Status:</strong> @Html.DisplayFor(modelItem => item.Status)</p>
+                    <p><strong>Tarefas:</strong></p>
+                    @* @foreach (var tarefa in item.Tarefas)
+            {
+            if (tarefa != null)
+            { // Check if tarefa is not null
+            <div class="Task">
+            @tarefa.Nome
+            @tarefa.Status
             </div>
-            <div class="card-body">
-                <p><strong>Categoria:</strong> @Html.DisplayFor(modelItem => item.Categoria)</p>
-                <p><strong>Prazo:</strong> @Html.DisplayFor(modelItem => item.Prazo)</p>
-                <p><strong>Status:</strong> @Html.DisplayFor(modelItem => item.Status)</p>
-                <p><strong>Tarefas:</strong></p>
-                    @foreach (var tarefa in item.Tarefas)
-                    {
-                        <div class="Task">
-                            @tarefa.Nome
-                            @tarefa.Status
-                        </div> 
-                    }
+            }
+            } *@
+                </div>
             </div>
-        </div>
+        }
     }
 </div>

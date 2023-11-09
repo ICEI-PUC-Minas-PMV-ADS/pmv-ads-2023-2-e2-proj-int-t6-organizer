@@ -1,5 +1,5 @@
 ﻿@using System.Security.Claims;
-@model gerenciadorTarefa.Models.Usuario
+@model IEnumerable<gerenciadorTarefa.Models.ViewModel.MetaViewModel>
 <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 
 @{
@@ -20,6 +20,7 @@
 
     </div>
     <div class="card box-content" style="width: 90%;">
+
         <div class="">
 
             <div>
@@ -44,14 +45,44 @@
                     <span class="title "> Criar nova </span>
                     <div class="box4">
                         <span class="title ">Meta</span>
-                        <a href="@Url.Action("Create", "Meta")">
-                            <img class="img-add " src="~/img/addimg.png">
-                        </a>
+                        <img class="img-add " src="~/img/addimg.png">
+
                     </div>
                 </div>
             </div>
         </div>
+        @foreach (var item in Model)
+        {
+            if (item != null)
+            { // Check if item is not null
+                <div class="card">
+                    <div class="card-header">
+                        <h3>@Html.DisplayFor(modelItem => item.Titulo)</h3>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Categoria:</strong> @Html.DisplayFor(modelItem => item.Categoria)</p>
+                        <p><strong>Prazo:</strong> @Html.DisplayFor(modelItem => item.Prazo)</p>
+                        <p><strong>Status:</strong> @Html.DisplayFor(modelItem => item.Status)</p>
+                        <p><strong>Tarefas:</strong></p>
+                        @* @foreach (var tarefa in item.Tarefas)
+                {
+                if (tarefa != null)
+                { // Check if tarefa is not null
+                <div class="Task">
+                @tarefa.Nome
+                @tarefa.Status
+                </div>
+                }
+                } *@
+                    </div>
+                </div>
+            }
+        }
     </div>
+
+
 </div>
 
 

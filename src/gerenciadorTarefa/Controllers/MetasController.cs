@@ -12,18 +12,16 @@ using Microsoft.AspNetCore.Identity;
 public class MetaController : Controller
 {
     private readonly AppDbContext _context;
-
     public MetaController(AppDbContext context)
     {
         _context = context;
     }
 
-    public IActionResult Index()
+   public IActionResult Index()
     {
         return View(new List<MetaViewModel>());
 
     }
-
     public IActionResult Create()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -77,7 +75,7 @@ public class MetaController : Controller
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
         }
 
