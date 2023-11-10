@@ -1,0 +1,25 @@
+.title{
+  font-size: 33px;
+  font-weight: 300;
+
+}
+
+.conteudo-edit{
+  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+
+.box-edit {
+  width: 700px;
+margin-top: 80px;
+font-family: poppins;
+background-color: white;
+    padding: 30px;
+    /* border-radius: 8px; */
+    border-radius: 12px;
+    box-shadow: 5px 5px 10px #e5e5e5;
+
+}
+

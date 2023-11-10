@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+
+.content {
+  width: 100%;
+  display: flex;
+  margin-top: 18px;
+  height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  align-items: center;
+  gap: 55px;
+  background-color: #6368d9;
+  margin-right: 8px;
+  padding-top: 24px;
+  border-radius: 18px;
+  width: 100px;
+  height: 100vh;
+}
+
+.imglogo {
+  width: 55px;
+}
+
+.box-content {
+  margin-right: 24px;
+  border: none;
+  background-color: #f3f5f9;
+  margin-left: 18px;
+  display: flex;
+    align-items: center;
+}
+
+.box-form{
+  width: 520px;
+    margin-top: 150px;
+    font-family: poppins;
+}
+
+.row{
+  width:100%;
+  margin-left:0px;
+  margin-right:0px;
+}
+
+.col-md-4{
+ 
+  width: 100%;}
+
+  .title{
+    font-size: 40px;
+    font-weight: 300;
+
+  }
+
+  .control-label {
+    margin-top: 12px;
+    font-size: 20px;
+    color: grey;
+}
+
+.radius {
+  border-radius: 2rem;
+  margin-top: 4px;
+  height: 45px;
+}
+
+.btn-primary {
+  background-color: #6368d9;
+  width: 380px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 2rem;
+  margin-top: 14px;
+  width: 100%;
+}
+.voltar {
+  width: 498px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+}

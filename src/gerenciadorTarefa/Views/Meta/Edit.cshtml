@@ -1,58 +1,94 @@
 ﻿@model gerenciadorTarefa.Models.ViewModel.MetaViewModel
+@using System.Security.Claims;
+<link rel="stylesheet" href="~/css/edit.css" asp-append-version="true" />
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Meta</h4>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="Id" />
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="Categoria" class="control-label"></label>
-                <select asp-for="Categoria" class="form-control" asp-items="Html.GetEnumSelectList<Categoria>()"></select>
-                <span asp-validation-for="Categoria" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Prazo" class="control-label"></label>
-                <input asp-for="Prazo" class="form-control" />
-                <span asp-validation-for="Prazo" class="text-danger"></span>
-            </div>
-
-            <div id="taskContainer">
-                @for (var i = 0; i < Model.Tarefas.Count; i++)
-                {
-                    <div class="form-group">
-                        <label asp-for="Tarefas[i].Nome" class="control-label"></label>
-                        <input asp-for="Tarefas[i].Nome" class="form-control" />
-                    </div>
-                }
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="content">
+    <div class="card sidebar">
+        <a href="/Home/Index">
+            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+        </a>
+        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+            <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
+        </a>
+        <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
+            <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
+        </a>
     </div>
+
+    <div class="card box-content" style="width: 90%;">
+
+        <div class="box-form">
+            <h1 class="title">Editar Meta</h1>
+
+            <hr/>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label asp-for="Categoria" class="control-label radius"></label>
+                            <select asp-for="Categoria" class="form-control radius"
+                                asp-items="Html.GetEnumSelectList<Categoria>()"></select>
+                            <span asp-validation-for="Categoria" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Titulo" class="control-label radius" ></label>
+                            <input asp-for="Titulo" class="form-control radius" />
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Prazo" class="control-label"></label>
+                            <input asp-for="Prazo" class="form-control radius" />
+                            <span asp-validation-for="Prazo" class="text-danger"></span>
+                        </div>
+
+                        <div id="taskContainer">
+                            @for (var i = 0; i < Model.Tarefas.Count; i++)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="Tarefas[i].Nome" class="control-label"></label>
+                                    <input asp-for="Tarefas[i].Nome" class="form-control radius" />
+                                </div>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Salvar" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="voltar">
+                <a asp-action="Index">Voltar</a>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
 </div>
 
 
-<div>
-    <a asp-action="Index">Voltar</a>
-</div>
+
+
 
 @section Scripts {
     @{

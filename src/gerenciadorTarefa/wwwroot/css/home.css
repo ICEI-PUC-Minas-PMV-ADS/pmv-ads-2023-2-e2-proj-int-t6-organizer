@@ -93,6 +93,7 @@
   padding-left: 24px;
   justify-content: space-around;
   border-radius: 18px;
+  box-shadow: 5px 5px 10px #e5e5e5;
 }
 
 .box2 {
@@ -111,6 +112,7 @@
   flex-direction: column;
   justify-content: center;
   padding-left: 40px;
+  box-shadow: 5px 5px 10px #e5e5e5;
 
   @media (width >= 1660px) {
     padding-left: 65px;
@@ -151,6 +153,7 @@
 .box4 {
   display: flex;
   gap: 32px;
+ 
 }
 
 .img-add {
@@ -263,14 +266,14 @@
 }
 .prazo{
   color:#b3b3b3;
-  font-size:16px
+  font-size:14px
 
 }
 
 .barra-de-progresso-container {
   position: relative;
   width: 100%;
-  height: 14px;
+  height: 10px;
   background-color: #f0f0f0;
   margin-top: 10px;
   border-radius: 8px;
