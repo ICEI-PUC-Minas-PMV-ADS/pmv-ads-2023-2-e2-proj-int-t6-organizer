@@ -1,3 +1,4 @@
 ﻿# Ignorar a pasta bin e obj
 bin/
 obj/
+.vs/gerenciadorTarefa/FileContentIndex
