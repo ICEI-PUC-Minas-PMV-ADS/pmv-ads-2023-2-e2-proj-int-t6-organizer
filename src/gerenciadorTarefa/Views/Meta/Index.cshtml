@@ -22,16 +22,13 @@
                     <p><strong>Prazo:</strong> @Html.DisplayFor(modelItem => item.Prazo)</p>
                     <p><strong>Status:</strong> @Html.DisplayFor(modelItem => item.Status)</p>
                     <p><strong>Tarefas:</strong></p>
-                    @* @foreach (var tarefa in item.Tarefas)
-            {
-            if (tarefa != null)
-            { // Check if tarefa is not null
-            <div class="Task">
-            @tarefa.Nome
-            @tarefa.Status
-            </div>
-            }
-            } *@
+                    @foreach (var tarefa in item.Tarefas)
+                    {
+                        <div class="Task">
+                            @tarefa.Nome
+                            @tarefa.Status
+                        </div>
+                    }
                 </div>
             </div>
         }
