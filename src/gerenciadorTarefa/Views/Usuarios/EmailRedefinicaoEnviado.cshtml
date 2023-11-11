@@ -1,6 +1,6 @@
 ﻿@model gerenciadorTarefa.Models.EsqueciMinhaSenhaViewModel
 
-<link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
 
 
 @{
@@ -8,8 +8,14 @@
 }
 
 
-<div class="container mx-auto">
-    <div class="row align-items-center">
+<div class="content container mx-auto">
+    <div class="card sidebar">
+        <a href="/Usuarios/Login">
+            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+        </a>
+    </div>
+
+    <div class="row align-items-center box-content" style="width: 90%;">
         <div>
            <h1 class="text-primary">E-mail de Redefinição de Senha Enviado</h1>
            <hr />
