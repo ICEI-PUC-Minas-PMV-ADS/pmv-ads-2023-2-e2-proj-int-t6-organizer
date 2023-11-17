@@ -10,7 +10,7 @@
 <div class="d-flex h-100 top">
 
 <div class="card sidebar">
-        <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
+        <a href="/Meta/Index">
             <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
         </a>
         <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
@@ -63,8 +63,7 @@
                     <div class="form-group text-center">
                         <div class="form-group text-center">
                             <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin color " onclick="return confirm('Tem certeza de que ALTERAR seu registro?');" />
-                            <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin  padding">Excluir Cadastro</a>
-                            <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
+                            <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin  padding">Excluir Cadastro</a>                          
                         </div>
                     </div>
                 </div>

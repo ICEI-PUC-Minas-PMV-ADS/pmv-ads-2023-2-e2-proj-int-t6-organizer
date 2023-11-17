@@ -11,7 +11,7 @@
 
 <div class="content">
     <div class="card sidebar">
-        <a href="/Home/Index">
+        <a href="/Meta/Index">
             <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
         </a>
         <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
@@ -67,9 +67,6 @@
                             </div>
 
                         </div>
-
-
-
                         <div class="form-group">
                             <input type="submit" value="Salvar" class="btn btn-primary" />
                         </div>
@@ -77,12 +74,6 @@
                     </form>
                 </div>
             </div>
-
-
-            <div class="voltar">
-                <a asp-action="Index">Voltar</a>
-            </div>
-
         </div>
 
     </div>
@@ -98,17 +89,18 @@
 
             $("#addTask").click(function () {
                 var taskHtml = `
-                                <div class="form-group">
-                                    <label for="Tarefas[${taskCount}].Nome">Nome da Tarefa</label>
-                                    <input type="text" name="Tarefas[${taskCount}].Nome" class="form-control" />
-                                </div>
-                            `;
+                                    <div class="form-group">
+                                        <label for="Tarefas[${taskCount}].Nome"></label>
+                                        <input type="text" name="Tarefas[${taskCount}].Nome" class="form-control radius" placeholder="Nome da tarefa" />
+                                    </div>
+                                `;
 
                 $("#taskContainer").append(taskHtml);
                 taskCount++;
             });
         });
     </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

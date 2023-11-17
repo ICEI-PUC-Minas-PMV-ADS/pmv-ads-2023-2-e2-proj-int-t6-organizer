@@ -106,7 +106,7 @@ public class MetaController : Controller
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Meta");
             }
         }
 
@@ -194,7 +194,7 @@ public class MetaController : Controller
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Meta");
         }
 
         return View(metaViewModel);
@@ -249,7 +249,7 @@ public class MetaController : Controller
         _context.Metas.Remove(meta);
         await _context.SaveChangesAsync();
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Meta");
     }
 
 

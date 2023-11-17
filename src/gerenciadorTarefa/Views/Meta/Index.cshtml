@@ -8,7 +8,7 @@
 
 <div class="content">
     <div class="card sidebar">
-        <a href="/Home/Index">
+        <a href="/Meta/Index">
             <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
         </a>
         <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
@@ -53,7 +53,7 @@
                      onclick="loadCategory('Profissional')">
                     <span>Profissional</span>
                 </div>
-                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Acadêmico')">
+                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Academico')">
                     <span>Acadêmico</span>
                 </div>
             </div>
