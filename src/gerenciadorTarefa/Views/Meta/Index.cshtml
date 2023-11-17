@@ -1,36 +1,200 @@
-﻿@model IEnumerable<gerenciadorTarefa.Models.ViewModel.MetaViewModel>
+﻿@using System.Security.Claims;
+@model IEnumerable<gerenciadorTarefa.Models.ViewModel.MetaViewModel>
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home Page";
 }
-<p>
-    <a asp-action="Create">Criar meta</a>
-</p>
-<div class="card-container">
-    @foreach (var item in Model)
-    {
-        if (item != null)
-        { // Check if item is not null
-            <div class="card">
-                <div class="card-header">
-                    <h3>@Html.DisplayFor(modelItem => item.Titulo)</h3>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+
+<div class="content">
+    <div class="card sidebar">
+        <a href="/Home/Index">
+            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+        </a>
+        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+            <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
+        </a>
+        <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
+            <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
+        </a>
+    </div>
+
+    <div class="card box-content" style="width: 90%;">
+        <div>
+            <input class="search" type="text" id="pesquisaInput" placeholder="Pesquisar">
+            <img class="lupaimg" src="~/img/lupaimg.png" alt="Lupa">
+        </div>
+
+        <div class="box-header">
+            <div class="box1">
+                <div class="box2">
+                    <span class="title">Gerenciador de Metas</span>
+                    <span class="subtitle">Organize, gerencie e realize!</span>
                 </div>
-                <div class="card-body">
-                    <p><strong>Categoria:</strong> @Html.DisplayFor(modelItem => item.Categoria)</p>
-                    <p><strong>Prazo:</strong> @Html.DisplayFor(modelItem => item.Prazo)</p>
-                    <p><strong>Status:</strong> @Html.DisplayFor(modelItem => item.Status)</p>
-                    <p><strong>Tarefas:</strong></p>
-                    @foreach (var tarefa in item.Tarefas)
+                <div>
+                    <img class="img-header" src="~/img/img-header.png">
+                </div>
+            </div>
+            <div class="box3">
+                <span class="title "> Criar nova </span>
+                <div class="box4">
+                    <span class="title ">Meta</span>
+                    <img class="img-add " src="~/img/addimg.png" onclick="irParaPaginaCreate()">
+                </div>
+            </div>
+        </div>
+
+        <div class="box-list">
+            <div class="box-buttons">
+                <div id="elementoAlvo-Pessoal" class="btn-categoria pessoal" onclick="loadCategory('Pessoal')">
+                    <span>Pessoal</span>
+                </div>
+                <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
+                     onclick="loadCategory('Profissional')">
+                    <span>Profissional</span>
+                </div>
+                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Acadêmico')">
+                    <span>Acadêmico</span>
+                </div>
+            </div>
+
+            <div class="card-list">
+                <div class="card-list">
+                    @{
+                        var index = 0;
+                    }
+                    @foreach (var item in Model)
                     {
-                        <div class="Task">
-                            @tarefa.Nome
-                            @tarefa.Status
-                        </div>
+                        if (item != null)
+                        {
+                            <div class="gap" data-category="@item.Categoria">
+                                <div class="card1">
+                                    <span>@Html.DisplayFor(modelItem => item.Titulo)</span>
+                                    <div>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                                    </div>
+                                    <div>
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                                    </div>
+                                    <div class="flex">
+                                        <img class="height" src="~/img/edit.png" alt="" onclick="toggleOpcoesEdicao(event)">
+                                        <div class="opcoes-edicao" style="display: none;">
+                                            <a href="#" onclick="editarMeta('@item.Id')">Editar</a>
+                                            <a href="#" onclick="excluirMeta('@item.Id')">Excluir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="prazo">@Html.DisplayFor(modelItem => item.Prazo)</span>
+                                </div>
+                                <div class="barra-de-progresso-container">
+                                    <div class="barra-de-progresso" id="@($"progresso-{index}")">
+                                        <div class="barra">
+                                            <div class="progresso-text">Progresso</div>
+                                            <div class="porcentagem-text" id="@($"porcentagem-{index}")">0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkbox-options">
+                                    @foreach (var tarefa in item.Tarefas)
+                                    {
+                                        <div class="checkbox-option">
+                                            <input type="checkbox" id="@($"checkbox-{item.Id}-{tarefa.Id}")" onchange="atualizarProgresso('@item.Id', '@tarefa.Id')">
+                                            <label for="@($"checkbox-{item.Id}-{tarefa.Id}")">@tarefa.Nome</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        index++;
+
                     }
                 </div>
             </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function loadCategory(category) {
+        console.log(category)
+        var categoryItems = document.querySelectorAll(`.gap[data-category="${category}"]`);
+        console.log(categoryItems)
+
+        var allItems = document.querySelectorAll('.gap');
+        allItems.forEach(item => {
+            item.style.display = 'none';
+        });
+
+        categoryItems.forEach(item => {
+            item.style.display = 'block';
+        });
+
+        // Adicionar classe para destacar o botão da categoria selecionada
+        var buttons = document.querySelectorAll('.btn-categoria');
+        buttons.forEach(button => {
+            button.classList.remove('categoria-selecionada');
+        });
+
+        var selectedButton = document.getElementById(`elementoAlvo-${category}`);
+        if (selectedButton) {
+            selectedButton.classList.add('categoria-selecionada');
         }
     }
-</div>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadCategory('Profissional');
+    });
+
+    function atualizarProgresso(itemId) {
+        console.log(itemId)
+        var checkboxes = document.querySelectorAll(`input[type="checkbox"][id="checkbox1-${itemId}"]`);
+        var progressoId = `progresso-${itemId}`;
+        var checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+
+        console.log(checkboxesMarcados)
+        console.log(checkboxes.length)
+        var progresso = ((checkboxesMarcados / checkboxes.length) * 100).toFixed(1);
+        console.log(progresso)
+
+        // Ensure the progress bar container and text elements exist
+        var progressBar = document.getElementById(progressoId);
+        var progressText = document.querySelector(`#${progressoId} .porcentagem-text`);
+
+        if (progressBar && progressText) {
+            progressBar.style.width = progresso + '%';
+            progressText.textContent = progresso + '%';
+        }
+    }
+
+    function toggleOpcoesEdicao(event) {
+        var opcoesEdicao = event.target.nextElementSibling; // Obtém o próximo elemento irmão
+
+        if (opcoesEdicao.style.display === 'none' || opcoesEdicao.style.display === '') {
+            opcoesEdicao.style.display = 'block';
+        } else {
+            opcoesEdicao.style.display = 'none';
+        }
+    }
+
+    document.getElementById('pesquisaInput').addEventListener('input', function (event) {
+        var termoPesquisa = event.target.value.toLowerCase();
+        var metas = document.querySelectorAll('.gap');
+
+        for (var i = 0; i < metas.length; i++) {
+            var nomeMeta = metas[i].querySelector('.card1 span').innerText.toLowerCase();
+
+            if (nomeMeta.includes(termoPesquisa)) {
+                metas[i].style.display = 'block';
+            } else {
+                metas[i].style.display = 'none';
+            }
+        }
+    });
+
+    function irParaPaginaCreate() {
+        // Redireciona para a página Create
+        window.location.href = '/Meta/Create'; // Substitua 'SuaController' pelo nome real do seu controller
+        console.log("teste")
+    }
+</script>

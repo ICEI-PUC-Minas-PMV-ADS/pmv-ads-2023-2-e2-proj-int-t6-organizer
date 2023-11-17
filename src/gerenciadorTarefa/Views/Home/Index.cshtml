@@ -59,98 +59,12 @@
             </div>
 
             <div class="card-list">
-                @{
-                    var index = 0;
-                }
-
-                @foreach (var item in Model)
-
-
-                {
-
-
-                    if (item != null)
-                    {
-                        <div class="gap" data-category="@item.Categoria">
-                            <div class="card1">
-                                <span>@Html.DisplayFor(modelItem => item.Titulo)</span>
-
-                                <div class="flex">
-                                    <img class="height" src="~/img/edit.png" alt="" onclick="toggleOpcoesEdicao(event)">
-                                    <div class="opcoes-edicao" style="display: none;">
-                                        <a href="#" onclick="editarMeta('@item.Id')">Editar</a>
-                                        <a href="#" onclick="excluirMeta('@item.Id')">Excluir</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="prazo">@Html.DisplayFor(modelItem => item.Prazo)</span>
-                            </div>
-                            <div class="barra-de-progresso-container">
-                                <div class="barra-de-progresso" id="@($"progresso-{index}")">
-                                    <div class="barra">
-                                        <div class="progresso-text">Progresso</div>
-                                        <div class="porcentagem-text">0%</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkbox-options">
-                                <div class="checkbox-option">
-                                    <input type="checkbox" id="@($"checkbox1-{index}")" onchange="atualizarProgresso('@index')">
-                                    <label for="@($"checkbox1-{index}")">Opção 1</label>
-                                </div>
-                                <div class="checkbox-option">
-                                    <input type="checkbox" id="@($"checkbox1-{index}")" onchange="atualizarProgresso('@index')">
-                                    <label for="@($"checkbox1-{index}")">Opção 1</label>
-                                </div>
-                                <div class="checkbox-option">
-                                    <input type="checkbox" id="@($"checkbox1-{index}")" onchange="atualizarProgresso('@index')">
-                                    <label for="@($"checkbox1-{index}")">Opção 1</label>
-                                </div>
-                                <div class="checkbox-option">
-                                    <input type="checkbox" id="@($"checkbox1-{index}")" onchange="atualizarProgresso('@index')">
-                                    <label for="@($"checkbox1-{index}")">Opção 1</label>
-                                </div>
-                                <div class="checkbox-option">
-                                    <input type="checkbox" id="@($"checkbox1-{index}")" onchange="atualizarProgresso('@index')">
-                                    <label for="@($"checkbox1-{index}")">Opção 1</label>
-                                </div>
-                                <div class="checkbox-option">
-                                    <input type="checkbox" id="@($"checkbox1-{index}")" onchange="atualizarProgresso('@index')">
-                                    <label for="@($"checkbox1-{index}")">Opção 1</label>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    }
-                    index++;
-
-                }
+                <a href="/Meta/Index" class="btn-categoria academico">Carregar</a>
             </div>
+
         </div>
     </div>
 </div>
-
-@* @foreach (var item in Model)
-{
-if (item != null)
-{
-<div class="card lista-de-metas">
-<div class="card-header">
-<h3>@Html.DisplayFor(modelItem => item.Titulo)</h3>
-<a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-<a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
-</div>
-<div class="card-body">
-<p><strong>Categoria:</strong> @Html.DisplayFor(modelItem => item.Categoria)</p>
-<p><strong>Prazo:</strong> @Html.DisplayFor(modelItem => item.Prazo)</p>
-<p><strong>Status:</strong> @Html.DisplayFor(modelItem => item.Status)</p>
-<p><strong>Tarefas:</strong></p>
-</div>
-</div>
-}
-} *@
 
 <div class="footer">
     @section Scripts {
