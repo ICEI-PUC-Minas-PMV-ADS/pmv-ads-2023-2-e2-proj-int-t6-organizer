@@ -88,10 +88,10 @@
                                     <span class="prazo">@Html.DisplayFor(modelItem => item.Prazo)</span>
                                 </div>
                                 <div class="barra-de-progresso-container">
-                                    <div class="barra-de-progresso" id="@($"progresso-{index}")">
+                                    <div class="barra-de-progresso" id="@($"progresso-{item.Id}")">
                                         <div class="barra">
                                             <div class="progresso-text">Progresso</div>
-                                            <div class="porcentagem-text" id="@($"porcentagem-{index}")">0%</div>
+                                            <div class="porcentagem-text" id="@($"porcentagem-{item.Id}")">0%</div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                     @foreach (var tarefa in item.Tarefas)
                                     {
                                         <div class="checkbox-option">
-                                            <input type="checkbox" id="@($"checkbox-{item.Id}-{tarefa.Id}")" onchange="atualizarProgresso('@item.Id', '@tarefa.Id')">
+                                            <input type="checkbox" id="@($"checkbox-{item.Id}")" onchange="atualizarProgresso('@item.Id')">
                                             <label for="@($"checkbox-{item.Id}-{tarefa.Id}")">@tarefa.Nome</label>
                                         </div>
                                     }
@@ -148,7 +148,7 @@
 
     function atualizarProgresso(itemId) {
         console.log(itemId)
-        var checkboxes = document.querySelectorAll(`input[type="checkbox"][id="checkbox1-${itemId}"]`);
+        var checkboxes = document.querySelectorAll(`input[type="checkbox"][id="checkbox-${itemId}"]`);
         var progressoId = `progresso-${itemId}`;
         var checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
 
