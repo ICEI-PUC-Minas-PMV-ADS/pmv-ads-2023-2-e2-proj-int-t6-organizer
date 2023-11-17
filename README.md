@@ -917,994 +917,187 @@ Estas estruturas e operações são essenciais para o registro, autenticação e
 
 ### Artefatos desenvolvidos
 
-A tabela a seguir contempla os artefatos desenvolvidos nesta etapa (Etapa 3 - Desenvolvimento da solução - Fase 1):
+A tabela a seguir contempla os artefatos desenvolvidos:
 
 
 |ID    | Descrição do Requisito  | Artefato(s) produzido(s) |
 |------|-----------------------------------------|----|
-|RF-01| Gerenciar o acesso do usuário | dbo.Usuarios  / HomeController.cs  / UsuariosController.cs / home.css  / site.css  / usuariosCreate.css  / usuariosLogin.css  / AppDbContext.cs  / ErrorViewModel.cs  / Usuario.cs  / Create.cshtml  / Delete.cshtml  / Details.cshtml  / Edit.cshtml  / Index.cshtml  / Login.cshtml  / _Layout.cshml  / Program.cs   | 
+|RF-01, RF-02, RF-03, RF-04, RF-05, RF-06, RF-07 | Gerenciar acesso do usuário, metas e tarefas, O sistema deve permitir o usuario atualizar o status da tarefa, emitir o status atual da meta, pesquisar meta e/ou tarefa e filtrar meta | Controllers: HomeController.cs, MetasController.cs, UsuariosController.cs <hr> Models: AppDbContext.cs, ErrorViewModel.cs, EsqueciMinhaSenhaViewModel.cs, Meta.cs, MetaViewModel.cs, RedefinirSenhaViewModel.cs, Tarefa.cs, Usuario.cs, UsuarioMetaViewModel.cs <hr> Views: Home-Index.cshtml, Meta-Create.cshtml, Meta-Delete.cshtml, Meta-Edit.cshtml, Meta-Index.cshtml, Shared-Error.cshtml, Shared-_Layout.cshtml, Shared-_Layout.cshtml.css, Shared-_ValidationScriptsPartial.cshtml, Usuarios-Login.cshtml, Usuarios-ViewImports.cshtml, Usuarios-ViewStart.cshtml  <hr> Services: IEmailService.cs, SendinBlueService.cs <hr> Settings: SendinBlueSettings.cs <hr> wwwroot/css: Interface.cs, StyleSheet.css, create.css, delete.css, edit.css, home.css, newsenha.css, site.css, usuariosCreate.css, usuariosLogin.css |
 
 
-* dbo.Usuarios
-```
-CREATE TABLE [dbo].[Usuarios] (
-    [Id]    INT            IDENTITY (1, 1) NOT NULL,
-    [Name]  NVARCHAR (MAX) NOT NULL,
-    [Email] NVARCHAR (450) NOT NULL,
-    [Senha] NVARCHAR (MAX) NOT NULL,
-    CONSTRAINT [PK_Usuarios] PRIMARY KEY CLUSTERED ([Id] ASC)
-);
+* Controllers
+
+	* HomeController.cs
+
+ 	 ```
+	 ```
+	* MetasController.cs
+
+ 	 ```
+	 ```
+	* UsuariosController.cs
+
+ 	 ```
+	 ```
+	<hr>
 
 
-GO
-CREATE UNIQUE NONCLUSTERED INDEX [IX_Usuarios_Email]
-    ON [dbo].[Usuarios]([Email] ASC);
-```
+* Models
 
-*  HomeController.cs
-```
-using gerenciadorTarefa.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+	* AppDbContext.cs
+ 	 ```
+	 ```
 
-namespace gerenciadorTarefa.Controllers
-{
-    public class HomeController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
+	* ErrorViewModel.cs
+ 	 ```
+	 ```
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+	* EsqueciMinhaSenhaViewModel.cs
+ 	 ```
+	 ```
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
-}
-```
-
-*  UsuariosController.cs 
-```
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using gerenciadorTarefa.Models;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-
-namespace gerenciadorTarefa.Controllers
-{
-    //[Authorize]
-    public class UsuariosController : Controller
-    {
-        private readonly AppDbContext _context;
-
-        public UsuariosController(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Usuarios
-        public async Task<IActionResult> Index()
-        {
-              return View(await _context.Usuarios.ToListAsync());
-        }
-
-        [AllowAnonymous]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login (Usuario usuario)
-        {
-            var dados = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
-
-            if (dados != null)
-            {
-                bool senhaOk = BCrypt.Net.BCrypt.Verify(usuario.Senha, dados.Senha);
-
-                if (!senhaOk)
-                {
-                    ViewBag.Message = "Usuário e/ou senha inválidos!";
-                }
-                else
-                {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, dados.Name),
-                        new Claim(ClaimTypes.NameIdentifier, dados.Id.ToString()),
-                        new Claim(ClaimTypes.Email, dados.Email)
-                    };
-
-                    var usuarioIdentity = new ClaimsIdentity(claims, "login");
-                    ClaimsPrincipal principal = new ClaimsPrincipal(usuarioIdentity);
-
-                    var props = new AuthenticationProperties
-                    {
-                        AllowRefresh = true,
-                        ExpiresUtc = DateTime.UtcNow.ToLocalTime().AddHours(8),
-                        IsPersistent = true,
-                    };
-
-                    await HttpContext.SignInAsync(principal, props);
-
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                ViewBag.Message = "Usuário e/ou senha inválidos!";
-            }
-            return View();
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Usuarios");
-        }
-
-        // GET: Usuarios/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // GET: Usuarios/Create
-        [AllowAnonymous]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
-        {
-            if (ModelState.IsValid)
-            {
-                if (usuario.Senha != usuario.ConfirmarSenha)
-                {
-                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
-                    return View(usuario);
-                }
-
-                if (_context.Usuarios.Any(u => u.Email == usuario.Email))
-                {
-                    ModelState.AddModelError("Email", "Este email já está em uso.");
-                    return View(usuario);
-                }
-
-                
-                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Cadastro criado com sucesso! Realize login para iniciar.";
-
-                return RedirectToAction("Login", "Usuarios");
-            }
-            return View(usuario);
-        }
-
-        // GET: Usuarios/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // POST: Usuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Senha,ConfirmarSenha")] Usuario usuario)
-        {
-            if (id != usuario.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                if (usuario.Senha != usuario.ConfirmarSenha)
-                {
-                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
-                    return View(usuario);
-                }
-
-                try
-                {
-                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
-                    _context.Update(usuario);
-                   
-                    await _context.SaveChangesAsync();
-
-                    TempData["SuccessMessageEdit"] = "Cadastro criado com sucesso! Realize login para iniciar.";
-
-                    await HttpContext.SignOutAsync();
-                    return RedirectToAction("Login", "Usuarios");
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioExists(usuario.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-            return View(usuario);
-        }
-
-        // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Usuarios == null)
-            {
-                return Problem("Entity set 'AppDbContext.Usuarios'  is null.");
-            }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                _context.Usuarios.Remove(usuario);
-            }
-            
-            await _context.SaveChangesAsync();
-
-            await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Usuarios");
-        }
-
-        private bool UsuarioExists(int id)
-        {
-          return _context.Usuarios.Any(e => e.Id == id);
-        }
-    }
-}
-```
-
-* home.css
-``` .fontPequena {
-    font-size: 12px;
-}
-
-.fontMedia {
-    font-size: 13px;
-    padding-left: 1rem;
-}
-.inputsLogin {
-    border-radius: 2rem;
-}
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center; 
-    padding: 10px; 
-    background-color: #f0f0f0; 
-}
-```
-
-*  site.css
-```
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-    width: 100%;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-```
+	* Meta.cs
+ 	 ```
+	 ```
  
-*  usuariosCreate.css
-```
-.inputsLogin{
-    border-radius: 2rem;
-}
-
-.logoLogin {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-    margin-top: 35%
-}
-
-.fontPequena{
-    font-size: 12px;
-}
-
-.fontMedia {
-    font-size: 13px;
-    padding-left: 1rem;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center; 
-    padding: 10px; 
-    background-color: #f0f0f0; 
-}
-```
-
-*  usuariosLogin.css
-```
-.inputsLogin{
-    border-radius: 2rem;
-}
-
-.logoLogin {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-    margin-top: 35%
-}
-
-.fontPequena{
-    font-size: 12px;
-}
-
-.fontMedia {
-    font-size: 13px;
-    padding-left: 1rem;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center; 
-    padding: 10px; 
-    background-color: #f0f0f0; 
-}
-```
-
-*  AppDbContext.cs
-```
-using Microsoft.EntityFrameworkCore;
-
-namespace gerenciadorTarefa.Models
-{
-    public class AppDbContext : DbContext
-    {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
-        public DbSet<Usuario> Usuarios { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Usuario>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
-        }
-    }
-}
-```
-
-*  ErrorViewModel.cs
-```
-namespace gerenciadorTarefa.Models
-{
-    public class ErrorViewModel
-    {
-        public string? RequestId { get; set; }
-
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
-}
-```
-
-*  Usuario.cs
-```
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace gerenciadorTarefa.Models
-{
-    [Table("Usuarios")]
-    public class Usuario
-    {
-        [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage ="Informe o nome")]
-        public string Name { get; set; }
-
-        [Required(ErrorMessage ="Informe o e-mail")]
-        [EmailAddress(ErrorMessage = "Informe um email válido.")]
-        public string Email { get; set;}
-
-        [Required(ErrorMessage ="Informe a senha")]
-        [DataType(DataType.Password)]
-        public string Senha { get; set; }
-
-        [NotMapped]
-        [Required(ErrorMessage = "Repita a senha")]
-        [DataType(DataType.Password)]
-        public string ConfirmarSenha { get; set; }
-
-    }
-}
-```
-
-*  Create.cshtml
-```
-@model gerenciadorTarefa.Models.Usuario
-<link rel="stylesheet" href="~/css/usuariosCreate.css" asp-append-version="true" />
-
-
-@{
-    ViewData["Title"] = "Create";
-}
-
-<div class="container mx-auto">
-    <div class="row align-items-center">
-        <div class="col-6 mx-auto">
-            <div class="card-group">
-                <div class="card align-items-center pt-5">
-                    <img class="card-img-top w-50 align-items-center logoLogin" src="~/img/logo.PNG" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text text-center">
-                            Alcance suas metas <br>
-                            gerenciando suas tarefas!
-                        </p>
-                    </div>
-                </div>
-                <div class="card align-items-center">
-                    <div class="card-body">
-                        <h2 class="card-title mt-5 text-center">Crie sua Conta</h2>
-                        <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie sua conta</a></strong></p>
-
-
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="Name" class="control-label mb-1 fontMedia">NOME</label>
-                                <input asp-for="Name" class="form-control mb-3 inputsLogin" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Email" class="control-label mb-1 fontMedia">EMAIL</label>
-                                <input asp-for="Email" class="form-control mb-3 inputsLogin" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Senha" class="control-label mb-1 fontMedia">SENHA</label>
-                                <input asp-for="Senha" class="form-control mb-3 inputsLogin" />
-                                <span asp-validation-for="Senha" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia">CONFIRMAR SENHA</label>
-                                <input asp-for="ConfirmarSenha" class="form-control mb-3 inputsLogin" />
-                                <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Cadastrar" class="btn btn-success form-control inputsLogin mb-2" />
-                                <p class="text-center mb-5 fontPequena"><a href="/Usuarios/Login">Voltar</a></p>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="footer">
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
-</div>
-```
-
-*  Delete.cshtml
-```
-@model gerenciadorTarefa.Models.Usuario
-
-@{
-    ViewData["Title"] = "Delete";
-}
-
-<div class="form-group text-center">
-
-    <h1 class="mb-5">Exclusão de cadastro</h1>
-    <p class="mb-5">Todos os seus dados serão apagados do sistema Gerenciador de Tarefas, tem certeza disso?</p>
-
-    <a asp-action="Edit" asp-controller="Usuarios" asp-route-id="@Model.Id" class="btn btn-secondary m-4 col-md-3 inputsLogin">Cancelar</a>
-    <input type="submit" value="Excluir cadastro" class="btn btn-danger m-4 col-md-3 inputsLogin"/>
-    <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
-</div>
-```
-
-*  Details.cshtml
-```
-@model gerenciadorTarefa.Models.Usuario
-<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Gerenciar Perfil</h1>
-
-    <div class="d-flex h-100">
-        <div class="card" style="width: 20%; border: 2px solid red;">
-            <img class="card-img-top w-25 mx-auto mb-3 mt-3" src="~/img/logo.PNG" alt="Card image cap">
-             <img class="card-img-top w-25 mx-auto mb-3 mt-3 mx-auto" src="~/img/iconPerfil.png" alt="Card image cap">
-        </div>
-        <div class="card" style="width: 80%; border: 2px solid green;">
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Email)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Email)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Senha)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Senha)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.ConfirmarSenha)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.ConfirmarSenha)
-                </dd>
-            </dl>
-        </div>
-    </div>
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-
-<div class="footer">
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
-</div>
-```
-
-*  Edit.cshtml
-```
-@model gerenciadorTarefa.Models.Usuario
-@using System.Security.Claims;
-<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-
-@{
-    ViewData["Title"] = "Edit";
-}
-
-@{
-    var successMessage = TempData["SuccessMessageEdit"] as string;
-}
-
-@if (!string.IsNullOrEmpty(successMessage))
-{
-    <div class="alert alert-success">
-        @successMessage
-    </div>
-}
-
-<div class="d-flex h-100">
-    <div class="card" style="width: 10%;">
-        <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
-            <img class="card-img-top" src="~/img/logo.PNG" alt="Card image cap">
-        </a>
-        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
-            <img class="card-img-top" src="~/img/iconPerfil.png" alt="Card image cap">
-        </a>
-        <a href="/Usuarios/Login" class="w-25 mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza de que deseja SAIR do Gerenciador de Tarefas?');">
-            <img class="card-img-top" src="~/img/iconLogout.png" alt="Card image cap">
-        </a>
-    </div>
-    <div class="card align-content-center" style="width: 90%; border: none;">
-         <div class="card"  style="width: 70%; ">
-
-            <h1 class="col-md-9 mx-auto m-5">Gerenciar Perfil</h1>
-
-            <form asp-action="Edit">
-                <div class="row">
-                    <div class="col-md-6 align-content-center">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="Id" />
-                        <div class="form-group col-md-8 mx-auto">
-                            <label asp-for="Name" class="control-label mb-1 fontMedia">Nome</label>
-                            <input asp-for="Name" class="form-control mb-3 mx-auto inputsLogin" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-8 mx-auto">
-                            <label asp-for="Email" class="control-label mb-1 fontMedia">E-mail</label>
-                            <input asp-for="Email" class="form-control mb-3 mx-auto inputsLogin" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group col-md-8 mx-auto">
-                            <label asp-for="Senha" class="control-label mb-1 fontMedia">Nova Senha</label>
-                            <input asp-for="Senha" class="form-control  mb-3 mx-auto inputsLogin" />
-                            <span asp-validation-for="Senha" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-8 mx-auto">
-                            <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia">Confirme a Nova Senha</label>
-                            <input asp-for="ConfirmarSenha" class="form-control mb-3 mx-auto inputsLogin" />
-                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group text-center">
-                        <div class="form-group text-center">
-                            <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin" onclick="return confirm('Tem certeza de que ALTERAR seu registro?');" />
-                            <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin">Excluir Cadastro</a>
-                            <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
-                        </div>
-                    </div>
-
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-<div class="footer">
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
-</div>
-```
-
-*  Index.cshtml
-```
-@model IEnumerable<gerenciadorTarefa.Models.Usuario>
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Senha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ConfirmarSenha)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Senha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConfirmarSenha)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-```
-
-*  Login.cshtml
-```
-@model gerenciadorTarefa.Models.Usuario
-<link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
-
-
-@{
-    ViewData["Title"] = "Login";
-}
-
-@{
-    var successMessage = TempData["SuccessMessage"] as string;
-}
-
-@if (ViewBag.Message != null)
-{
-    <div class="alert alert-danger">
-        @ViewBag.Message
-    </div>
-}
-
-
-@if (!string.IsNullOrEmpty(successMessage))
-{
-    <div class="alert alert-success">
-        @successMessage
-    </div>
-}
-
-<div class="container mx-auto">
-    <div class="row align-items-center">
-        <div class="col-6 mx-auto">
-            <div class="card-group">
-                <div class="card align-items-center pt-5">
-                    <img class="card-img-top w-50 align-items-center logoLogin" src="~/img/logo.PNG" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text text-center">Alcance suas metas <br>
-                            gerenciando suas tarefas!
-                         </p>
-                    </div>
-                </div>
-                <div class="card align-items-center">
-                    <div class="card-body">
-                        <h2 class="card-title mt-5 text-center">Login</h2>
-                        <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie sua conta</a></strong></p>
-                        <form asp-action="Login">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="Email" class="control-label mb-1 fontMedia">E-MAIL</label>
-                                <input asp-for="Email" class="form-control mb-3 inputsLogin" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Senha" class="control-label mb-1 fontMedia">SENHA</label>
-                                <input asp-for="Senha" class="form-control mb-3 inputsLogin" />
-                                <span asp-validation-for="Senha" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Login" class="btn btn-success form-control inputsLogin mb-2" />
-                                <a class ="text-center mb-5 fontPequena">
-                                    <p>Esqueci minha senha</p>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="footer">
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
-</div>
-```
-
-*  _Layout.cshml
-```
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-a {
-  color: #0077cc;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
-}
-```
-
-*  Program.cs
-```
-using gerenciadorTarefa.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.Configure<CookiePolicyOptions>(Options =>
-{
-    Options.CheckConsentNeeded = context => true;
-    Options.MinimumSameSitePolicy = SameSiteMode.None;
-});
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.AccessDeniedPath = "/Usuarios/AccessDenied";
-        options.LoginPath = "/Usuarios/Login";
-    });
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Usuarios}/{action=Login}/{id?}");
-
-app.Run();
-```
+	* MetaViewModel.cs
+ 	 ```
+	 ```
+
+	* RedefinirSenhaViewModel.cs
+ 	 ```
+	 ```
+
+	* Tarefa.cs
+ 	 ```
+	 ```
+
+	* Usuario.cs
+ 	 ```
+	 ```
+
+	* UsuarioMetaViewModel.cs
+ 	 ```
+	 ```
+	<hr>
+
+* Views
+
+	* Home
+
+		* Index.cshtml
+ 	 	```
+		```
+
+	* Meta
+
+		* Create.cshtml
+		```
+		```
+  
+		* Delete.cshtml
+		```
+		```
+
+		* Edit.cshtml
+		```
+		```
+
+		* Index.cshtml
+		```
+		```
+
+	* Shared
+
+		* Error.cshtml
+		```
+		```
+
+		* _Layout.cshtml
+		```
+		```
+
+		* _Layout.cshtml.css
+		```
+		```
+
+		* _ValidationScriptsPartial.cshtml
+		```
+		```
+
+	* Usuarios
+
+		* Login.cshtml
+		```
+		```
+
+		* ViewImports.cshtml
+		```
+		```
+
+		* ViewStart.cshtml
+		```
+		```
+	<hr>
+
+* Services
+
+	*  SendinBlueService.cs
+	```
+	```
+	<hr>
+
+* Settings
+
+	* SendinBlueSettings.cs
+	```
+	```
+	<hr>
+
+* wwwroot
+
+	* css
+
+		* Interface.cs
+		```
+		```
+
+		* StyleSheet.css
+		```
+		```
+		
+		* create.css
+		```
+		```
+
+		* delete.css
+		```
+		```
+
+		* edit.css
+		```
+		```
+
+		* home.css
+		```
+		```
+
+		* newsenha.css
+		```
+		```
+
+		* site.css
+		```
+		```
+
+		* usuariosCreate.css
+		```
+		```
+
+		* usuariosLogin.css
+		```
+		```
+	<hr>
 
   
 ## <a name="implementacao">Implementação da Solução</a>
