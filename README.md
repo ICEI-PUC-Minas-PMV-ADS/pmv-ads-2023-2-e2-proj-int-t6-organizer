@@ -922,7 +922,7 @@ A tabela a seguir contempla os artefatos desenvolvidos:
 
 |ID    | Descrição do Requisito  | Artefato(s) produzido(s) |
 |------|-----------------------------------------|----|
-|RF-01, RF-02, RF-03, RF-04, RF-05, RF-06, RF-07 | Gerenciar acesso do usuário, metas e tarefas, O sistema deve permitir o usuario atualizar o status da tarefa, emitir o status atual da meta, pesquisar meta e/ou tarefa e filtrar meta | Controllers: HomeController.cs, MetasController.cs, UsuariosController.cs <hr> Models: AppDbContext.cs, ErrorViewModel.cs, EsqueciMinhaSenhaViewModel.cs, Meta.cs, MetaViewModel.cs, RedefinirSenhaViewModel.cs, Tarefa.cs, Usuario.cs, UsuarioMetaViewModel.cs <hr> Views: Home-Index.cshtml, Meta-Create.cshtml, Meta-Delete.cshtml, Meta-Edit.cshtml, Meta-Index.cshtml, Shared-Error.cshtml, Shared-_Layout.cshtml, Shared-_Layout.cshtml.css, Shared-_ValidationScriptsPartial.cshtml, Usuarios-Login.cshtml, Usuarios-ViewImports.cshtml, Usuarios-ViewStart.cshtml  <hr> Services: IEmailService.cs, SendinBlueService.cs <hr> Settings: SendinBlueSettings.cs <hr> wwwroot/css: Interface.cs, StyleSheet.css, create.css, delete.css, edit.css, home.css, newsenha.css, site.css, usuariosCreate.css, usuariosLogin.css |
+|RF-01, RF-02, RF-03, RF-04, RF-05, RF-06, RF-07 | Gerenciar acesso do usuário, metas e tarefas, O sistema deve permitir o usuario atualizar o status da tarefa, emitir o status atual da meta, pesquisar meta e/ou tarefa e filtrar meta | Controllers: HomeController.cs, MetasController.cs, UsuariosController.cs <hr> Models: AppDbContext.cs, ErrorViewModel.cs, EsqueciMinhaSenhaViewModel.cs, Meta.cs, MetaViewModel.cs, RedefinirSenhaViewModel.cs, Tarefa.cs, Usuario.cs, UsuarioMetaViewModel.cs <hr> Views: Home-Index.cshtml, Meta-Create.cshtml, Meta-Delete.cshtml, Meta-Edit.cshtml, Meta-Index.cshtml, Shared-Error.cshtml, Shared-_Layout.cshtml, Shared-_Layout.cshtml.css, Shared-_ValidationScriptsPartial.cshtml, Usuarios-Login.cshtml, Usuarios-ViewImports.cshtml, Usuarios-ViewStart.cshtml  <hr> Services: IEmailService.cs, SendinBlueService.cs <hr> Settings: SendinBlueSettings.cs <hr> wwwroot/css: create.css, delete.css, edit.css, home.css, site.css, usuariosCreate.css, usuariosLogin.css |
 
 
 * Controllers
@@ -930,14 +930,672 @@ A tabela a seguir contempla os artefatos desenvolvidos:
 	* HomeController.cs
 
  	 ```
+	using gerenciadorTarefa.Models;
+	using gerenciadorTarefa.Models.ViewModel;
+	using gerenciadorTarefa.Services;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.Extensions.Logging;
+	using System.Diagnostics;
+	using System.Text;
+	
+	namespace gerenciadorTarefa.Controllers
+	{
+	    public class HomeController : Controller
+	    {
+	        private readonly IEmailService _emailService;
+	        private readonly AppDbContext _context;
+	        private readonly ILogger<HomeController> _logger;
+	
+	        public HomeController(ILogger<HomeController> logger, IEmailService emailService, AppDbContext context)
+	        {
+	            _context = context;
+	            _logger = logger;
+	            _emailService = emailService;
+	        }
+	
+	        public IActionResult Index()
+	        {
+	            var metaViewModels = _context.Metas.Select(meta => new MetaViewModel
+	            {
+	                // Map properties from your Meta entity to MetaViewModel
+	                Categoria = meta.Categoria,
+	                Titulo = meta.Titulo,
+	                // ... map other properties
+	            }).ToList();
+	
+	            return View(metaViewModels);
+	        }
+	        public IActionResult Privacy()
+	        {
+	            return View();
+	        }
+	
+	        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+	        public IActionResult Error()
+	        {
+	            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+	        }
+	
+	        public async Task<IActionResult> EnviarEmailTeste()
+	        {
+	            var html = new StringBuilder();
+	            html.Append("<h1>Teste de Serviço de Envio de E-mail</h1>");
+	            html.Append("<p>Este é um teste do serviço de envio de e-mails usando ASP.NET Core.</p>");
+	            await _emailService.SendEmailAsync("gerenciadordetarefasorganizer@gmail.com", "Teste de Serviço de Email", string.Empty, html.ToString());
+	            TempData["SuccessMessage"] = "Uma mensagem foi enviada para o e-mail gerenciadordetarefasorganizer@gmail.com.";
+	            return RedirectToAction(nameof(Index));
+	        }
+	    }
+	}		
 	 ```
 	* MetasController.cs
 
  	 ```
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.EntityFrameworkCore;
+	using gerenciadorTarefa.Models;
+	using System;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using Microsoft.AspNetCore.Mvc.Rendering;
+	using System.Security.Claims;
+	using gerenciadorTarefa.Models.ViewModel;
+	using Microsoft.AspNetCore.Identity;
+	
+	public class MetaController : Controller
+	{
+	    private readonly AppDbContext _context;
+	    public MetaController(AppDbContext context)
+	    {
+	        _context = context;
+	    }
+	
+	    public IActionResult Index()
+	    {
+	        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	
+	        if (!string.IsNullOrEmpty(userId))
+	        {
+	
+	            var metas = _context.Metas
+	             .Where(m => m.UsuarioId == userId)
+	             .Include(m => m.Tarefas)
+	             .ToList();
+	
+	            var metaViewModels = metas.Select(meta => new MetaViewModel
+	            {
+	                Id = meta.Id,
+	                Categoria = meta.Categoria,
+	                Titulo = meta.Titulo,
+	                Prazo = meta.Prazo,
+	                Status = meta.Status,
+	                DataRegistro = meta.DataRegistro,
+	                UsuarioId = meta.UsuarioId,
+	                Tarefas = meta.Tarefas.Select(tarefa => new TarefaViewModel
+	                {
+	                    Id = tarefa.Id,
+	                    Nome = tarefa.Nome,
+	                    Status = tarefa.Status,
+	                }).ToList()
+	            }).ToList();
+	
+	            return View(metaViewModels);
+	        }
+	        else
+	        {
+	            return View(new List<MetaViewModel>());
+	        }
+	    }
+	    public IActionResult Create()
+	    {
+	        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	
+	        if (!string.IsNullOrEmpty(userId))
+	        {
+	            var novaMetaViewModel = new MetaViewModel
+	            {
+	                UsuarioId = userId
+	            };
+	
+	            return View(novaMetaViewModel);
+	        }
+	
+	        return RedirectToAction("ErrorAction");
+	    }
+	
+	    [HttpPost]
+	    [AutoValidateAntiforgeryToken]
+	    public async Task<IActionResult> Create(MetaViewModel metaViewModel)
+	    {
+	        if (ModelState.IsValid)
+	        {
+	            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	
+	            if (!string.IsNullOrEmpty(userId))
+	            {
+	                var meta = new Meta
+	                {
+	                    Categoria = metaViewModel.Categoria,
+	                    Titulo = metaViewModel.Titulo,
+	                    Prazo = metaViewModel.Prazo,
+	                    Status = metaViewModel.Status,
+	                    DataRegistro = metaViewModel.DataRegistro,
+	                    UsuarioId = userId
+	                };
+	
+	                _context.Metas.Add(meta);
+	                await _context.SaveChangesAsync();
+	
+	                foreach (var tarefaViewModel in metaViewModel.Tarefas)
+	                {
+	                    var tarefa = new Tarefa
+	                    {
+	                        Nome = tarefaViewModel.Nome,
+	                        Status = tarefaViewModel.Status,
+	                        MetasId = meta.Id
+	                    };
+	
+	                    _context.Tarefas.Add(tarefa);
+	                }
+	
+	                await _context.SaveChangesAsync();
+	                return RedirectToAction("Index", "Home");
+	            }
+	        }
+	
+	        return View(metaViewModel);
+	    }
+	
+	
+	    public IActionResult Edit(int id)
+	    {
+	        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	
+	        if (string.IsNullOrEmpty(userId))
+	        {
+	            return RedirectToAction("ErrorAction");
+	        }
+	
+	        var meta = _context.Metas
+	            .Include(m => m.Tarefas)
+	            .SingleOrDefault(m => m.Id == id && m.UsuarioId == userId);
+	
+	        if (meta == null)
+	        {
+	            return NotFound();
+	        }
+	
+	        var metaViewModel = new MetaViewModel
+	        {
+	            Categoria = meta.Categoria,
+	            Titulo = meta.Titulo,
+	            Prazo = meta.Prazo,
+	            Status = meta.Status,
+	            DataRegistro = meta.DataRegistro,
+	            UsuarioId = userId,
+	            Tarefas = meta.Tarefas.Select(t => new TarefaViewModel
+	            {
+	                Id = t.Id,
+	                Nome = t.Nome,
+	                Status = t.Status
+	            }).ToList()
+	        };
+	
+	        return View(metaViewModel);
+	    }
+	
+	    [HttpPost]
+	    [AutoValidateAntiforgeryToken]
+	    public async Task<IActionResult> Edit(int id, MetaViewModel metaViewModel)
+	    {
+	        if (ModelState.IsValid)
+	        {
+	            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	
+	            if (string.IsNullOrEmpty(userId))
+	            {
+	                return RedirectToAction("ErrorAction");
+	            }
+	
+	            var meta = await _context.Metas
+	                .Include(m => m.Tarefas)
+	                .SingleOrDefaultAsync(m => m.Id == id && m.UsuarioId == userId);
+	
+	            if (meta == null)
+	            {
+	                return NotFound();
+	            }
+	
+	            meta.Categoria = metaViewModel.Categoria;
+	            meta.Titulo = metaViewModel.Titulo;
+	            meta.Prazo = metaViewModel.Prazo;
+	            meta.Status = metaViewModel.Status;
+	            meta.DataRegistro = metaViewModel.DataRegistro;
+	
+	            meta.Tarefas ??= new List<Tarefa>();  // Inicializa se for nulo
+	
+	            foreach (var tarefaViewModel in metaViewModel.Tarefas)
+	            {
+	                var tarefa = meta.Tarefas.SingleOrDefault(t => t.Id == tarefaViewModel.Id);
+	
+	                if (tarefa != null)
+	                {
+	                    tarefa.Nome = tarefaViewModel.Nome;
+	                    tarefa.Status = tarefaViewModel.Status;
+	                }
+	            }
+	
+	            await _context.SaveChangesAsync();
+	
+	            return RedirectToAction(nameof(Index));
+	        }
+	
+	        return View(metaViewModel);
+	    }
+	
+	
+	
+	
+	    public async Task<IActionResult> Delete(int id)
+	    {
+	        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	
+	        if (string.IsNullOrEmpty(userId))
+	        {
+	            return RedirectToAction("ErrorAction");
+	        }
+	
+	        var meta = await _context.Metas
+	            .Include(m => m.Tarefas)
+	            .FirstOrDefaultAsync(m => m.Id == id && m.UsuarioId == userId);
+	
+	        if (meta == null)
+	        {
+	            return NotFound();
+	        }
+	
+	        return View("Delete", meta);
+	    }
+	
+	
+	
+	    [HttpPost, ActionName("Delete")]
+	    [ValidateAntiForgeryToken]
+	    public async Task<IActionResult> DeleteConfirmed(int id)
+	    {
+	        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	
+	        if (string.IsNullOrEmpty(userId))
+	        {
+	            return RedirectToAction("ErrorAction");
+	        }
+	
+	        var meta = await _context.Metas
+	            .Include(m => m.Tarefas)
+	            .FirstOrDefaultAsync(m => m.Id == id && m.UsuarioId == userId);
+	
+	        if (meta == null)
+	        {
+	            return NotFound();
+	        }
+	
+	        _context.Metas.Remove(meta);
+	        await _context.SaveChangesAsync();
+	
+	        return RedirectToAction("Index", "Home");
+	    }
+	
+	
+	}
 	 ```
 	* UsuariosController.cs
 
  	 ```
+	using gerenciadorTarefa.Models;
+	using Microsoft.AspNetCore.Authentication;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Identity;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.EntityFrameworkCore;
+	using System.Security.Claims;
+	using System.Text;
+	using IEmailService = gerenciadorTarefa.Services.IEmailService;
+	
+	namespace gerenciadorTarefa.Controllers
+	{
+	    //[Authorize]
+	    public class UsuariosController : Controller
+	    {
+	        private readonly UserManager<IdentityUser> _userManager;
+	        private readonly SignInManager<IdentityUser> _signInManager;
+	        private readonly AppDbContext _context;
+	        private readonly IEmailService _emailService;
+	        private readonly IConfiguration _configuration;
+	
+	        public UsuariosController(
+	            UserManager<IdentityUser> userManager,
+	            SignInManager<IdentityUser> signInManager,
+	            AppDbContext context,
+	            IEmailService emailService)
+	        {
+	            _userManager = userManager;
+	            _signInManager = signInManager;
+	            _context = context;
+	            _emailService = emailService;
+	        }
+	        //Index
+	        public async Task<IActionResult> Index()
+	        {
+	            var users = await _userManager.Users.ToListAsync();
+	            return View(users);
+	        }
+	
+	        //Login
+	
+	        [AllowAnonymous]
+	        public IActionResult Login()
+	        {
+	            return View();
+	        }
+	
+	        [HttpPost]
+	        [AllowAnonymous]
+	        public async Task<IActionResult> Login(Usuario usuario)
+	        {
+	            var user = await _userManager.FindByEmailAsync(usuario.Email);
+	
+	            if (user != null)
+	            {
+	                var result = await _signInManager.PasswordSignInAsync(user, usuario.Senha, false, lockoutOnFailure: false);
+	
+	                if (result.Succeeded)
+	                {
+	                    return RedirectToAction("Index", "Home");
+	                }
+	            }
+	
+	            ModelState.AddModelError(string.Empty, "Usuário e/ou senha inválidos.");
+	            return View();
+	        }
+	
+	        //Logout
+	        [AllowAnonymous]
+	        public async Task<IActionResult> Logout()
+	        {
+	            await _signInManager.SignOutAsync();
+	            return RedirectToAction("Login", "Usuarios");
+	        }
+	
+	        //Details
+	        public async Task<IActionResult> Details(int? id)
+	        {
+	            if (id == null)
+	            {
+	                return NotFound();
+	            }
+	
+	            var usuario = await _userManager.FindByIdAsync(id.ToString());
+	
+	            if (usuario == null)
+	            {
+	                return NotFound();
+	            }
+	
+	            return View(usuario);
+	        }
+	            
+	        //Create
+	        [AllowAnonymous]
+	        public IActionResult Create()
+	        {
+	            return View();
+	        }
+	
+	        [HttpPost]
+	        [ValidateAntiForgeryToken]
+	        [AllowAnonymous]
+	        public async Task<IActionResult> Create([Bind("Id, Name, Email, Senha, ConfirmarSenha")] Usuario usuario)
+	        {
+	            if (ModelState.IsValid)
+	            {
+	                if (usuario.Senha != usuario.ConfirmarSenha)
+	                {
+	                    ModelState.AddModelError("ConfirmarSenha", "A senha e a confirmação de senha não coincidem.");
+	                    return View(usuario);
+	                }
+	
+	                var existingUser = await _userManager.FindByEmailAsync(usuario.Email);
+	
+	                if (existingUser != null)
+	                {
+	                    ModelState.AddModelError("Email", "Este email já está em uso.");
+	                    return View(usuario);
+	                }
+	
+	                var user = new IdentityUser
+	                {
+	                    UserName = usuario.Name,
+	                    Email = usuario.Email
+	                };
+	
+	                var result = await _userManager.CreateAsync(user, usuario.Senha);
+	
+	                if (result.Succeeded)
+	                {
+	                    TempData["SuccessMessage"] = "Cadastro criado com sucesso! Realize login para iniciar.";
+	                    return RedirectToAction("Login", "Usuarios");
+	                }
+	                else
+	                {
+	                    foreach (var error in result.Errors)
+	                    {
+	                        ModelState.AddModelError(string.Empty, error.Description);
+	                    }
+	                }
+	            }
+	
+	            return View(usuario);
+	        }
+	
+	        //Edit
+	        public async Task<IActionResult> Edit()
+	        {
+	            var user = await _userManager.GetUserAsync(User);
+	
+	            if (user == null)
+	            {
+	                return NotFound();
+	            }
+	
+	            var usuario = new Usuario
+	            {
+	                Name = user.UserName,
+	                Email = user.Email
+	            };
+	
+	            return View(usuario);
+	        }
+	
+	        [HttpPost]
+	        [ValidateAntiForgeryToken]
+	        public async Task<IActionResult> Edit(Usuario usuario)
+	        {
+	            if (ModelState.IsValid)
+	            {
+	                var currentUser = await _userManager.GetUserAsync(User);
+	
+	                if (currentUser == null)
+	                {
+	                    return NotFound();
+	                }
+	
+	                currentUser.UserName = usuario.Name; 
+	                currentUser.Email = usuario.Email; 
+	
+	                var result = await _userManager.UpdateAsync(currentUser);
+	
+	                if (result.Succeeded)
+	                {
+	                    var token = await _userManager.GeneratePasswordResetTokenAsync(currentUser);
+	                    var resetResult = await _userManager.ResetPasswordAsync(currentUser, token, usuario.Senha);
+	
+	                    if (resetResult.Succeeded)
+	                    {
+	                        TempData["SuccessMessage"] = "Perfil atualizado com sucesso. Faça login novamente.";
+	                        return RedirectToAction("Login", "Usuarios");
+	                    }
+	                    else
+	                    {
+	                        foreach (var error in resetResult.Errors)
+	                        {
+	                            ModelState.AddModelError(string.Empty, error.Description);
+	                        }
+	                    }
+	                }
+	                else
+	                {
+	                    foreach (var error in result.Errors)
+	                    {
+	                        ModelState.AddModelError(string.Empty, error.Description);
+	                    }
+	                }
+	            }
+	
+	            return View(usuario);
+	        }
+	
+	        //Delete
+	        [HttpGet]
+	        public async Task<IActionResult> Delete(Usuario usuario)
+	        {
+	            var user = await _userManager.GetUserAsync(User);
+	
+	            if (user == null)
+	            {
+	                return NotFound("Usuário não encontrado.");
+	            }
+	
+	            return View(usuario);
+	        }
+	
+	        [HttpPost]
+	        [ValidateAntiForgeryToken]
+	        public async Task<IActionResult> DeleteConfirmed(Usuario usuario)
+	        {
+	            var user = await _userManager.GetUserAsync(User);
+	
+	            if (user == null)
+	            {
+	                return NotFound("Usuário não encontrado.");
+	            }
+	
+	            var result = await _userManager.DeleteAsync(user);
+	
+	            if (result.Succeeded)
+	            {
+	                await _signInManager.SignOutAsync();
+	                return RedirectToAction("Login", "Usuarios");
+	            }
+	            else
+	            {
+	                foreach (var error in result.Errors)
+	                {
+	                    ModelState.AddModelError(string.Empty, error.Description);
+	                }
+	            }
+	
+	            return View(usuario);
+	        }
+	
+	
+	
+	        // Esqueci Minha Senha
+	        [AllowAnonymous]
+	        public IActionResult EsqueciMinhaSenha()
+	        {
+	            return View();
+	        }
+	
+	        [HttpPost]
+	        [ValidateAntiForgeryToken]
+	        [AllowAnonymous]
+	        public async Task<IActionResult> EsqueciMinhaSenha(EsqueciMinhaSenhaViewModel model)
+	        {
+	            if (ModelState.IsValid)
+	            {
+	                if(_userManager.Users.AsNoTracking().Any(u => u.NormalizedEmail == model.Email.ToUpper().Trim()))
+	                {
+	                    var user = await _userManager.FindByEmailAsync(model.Email);
+	                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+	                    var urlConfirmacao = Url.Action(nameof(RedefinirSenha), "Usuarios", new { token }, Request.Scheme);
+	                    var mensagem = new StringBuilder();
+	                    mensagem.Append($"<p>Olá,</p>");
+	                    mensagem.Append($"<p>Houve uma solicitação de redefinição de senha para seu usuário em nosso site. Se não foi você quem realizou a solicitação, gentileza desconsiderar essa mensagem. </br> Caso tenha sido você, clique no link abaixo para criar sua nova senha:</p>");
+	
+	
+	                    mensagem.Append($"<p><a href='{urlConfirmacao}'>Redefinir Senha</a></p>");
+	                    mensagem.Append($"<p>Atenciosamente,<br>Equipe de Suporte</p>");
+	                    await _emailService.SendEmailAsync(model.Email,
+	                                                       "Redefinição de Senha",
+	                                                       "",
+	                                                       mensagem.ToString());
+	                    return View(nameof(EmailRedefinicaoEnviado));
+	
+	                }
+	                else
+	                {
+	                    ModelState.AddModelError(string.Empty, 
+	                        $"Usuário/e-mail <b>{model.Email}</b>não encontrado.");
+	                    return View();
+	                }
+	            }
+	            else
+	            {
+	                return View(model);
+	            }
+	        }
+	
+	        [AllowAnonymous]
+	        public IActionResult EmailRedefinicaoEnviado()
+	        {
+	            return View();
+	        }
+	
+	        [AllowAnonymous]
+	        public IActionResult RedefinirSenha(string token)
+	        {
+	            var modelo = new RedefinirSenhaViewModel();
+	            modelo.Token = token;
+	            return View(modelo);
+	        }
+	       
+	        [HttpPost]
+	        [AllowAnonymous]
+	        public async Task<IActionResult> RedefinirSenha(RedefinirSenhaViewModel model)
+	        {
+	            if (ModelState.IsValid)
+	            {
+	                var user = await _userManager.FindByEmailAsync(model.Email);
+	                var resultado = await _userManager.ResetPasswordAsync(
+	                    user, model.Token, model.NovaSenha);
+	
+	                if (resultado.Succeeded)
+	                {
+	                    TempData["SuccessMessage"] = "Senha redefinida com sucesso! Agora você já pode fazer login com a nova senha.";
+	                    return View(nameof(Login));
+	                }
+	                else
+	                {
+	                    ModelState.AddModelError(string.Empty, "Não foi possível redefinir senha. Verifique se preencheu a senha corretamente. Se o problema persistir, entre em contato com o suporte.");
+	                    return View(model);
+	                }
+	            }
+	
+	            return View(model);
+	        }
+	
+	    }
+	}
 	 ```
 	<hr>
 
@@ -946,38 +1604,247 @@ A tabela a seguir contempla os artefatos desenvolvidos:
 
 	* AppDbContext.cs
  	 ```
+	using Microsoft.AspNetCore.Identity;
+	using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+	using Microsoft.EntityFrameworkCore;
+	using gerenciadorTarefa.Models.ViewModel;
+	
+	namespace gerenciadorTarefa.Models
+	{
+	    public class AppDbContext : IdentityDbContext<IdentityUser>
+	    {
+	        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+	
+	        public DbSet<Meta> Metas { get; set; }
+	
+	        public DbSet<Tarefa> Tarefas { get; set; }
+	
+	        public DbSet<Usuario> Usuarios { get; set; }
+	
+	        public DbSet<gerenciadorTarefa.Models.ViewModel.MetaViewModel> MetaViewModel { get; set; }
+	    }
+	}
 	 ```
 
 	* ErrorViewModel.cs
  	 ```
+	namespace gerenciadorTarefa.Models
+	{
+	    public class ErrorViewModel
+	    {
+	        public string? RequestId { get; set; }
+	
+	        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+	    }
+	}
 	 ```
 
 	* EsqueciMinhaSenhaViewModel.cs
  	 ```
+	using System.ComponentModel.DataAnnotations;
+
+	namespace gerenciadorTarefa.Models
+	{
+	    public class EsqueciMinhaSenhaViewModel
+	    {
+	        internal readonly string Senha;
+	
+	        [Display(Name = "E-mail")]
+	        [Required(ErrorMessage = "O campo {0} é de preenchimento obrigatório.")]
+	        [DataType(DataType.EmailAddress)]
+	        public string Email { get; set; }
+	    }
+	}
 	 ```
 
 	* Meta.cs
  	 ```
+	using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations.Schema;
+	
+	namespace gerenciadorTarefa.Models
+	{
+	    [Table("Metas")]
+	    public class Meta
+	    {
+	        [Key]
+	        public int Id { get; set; }
+	
+	        [Required(ErrorMessage = "Informe a Categoria")]
+	        public Categoria Categoria { get; set; }
+	
+	        [Required(ErrorMessage = "Informe o Titulo")]
+	        public string Titulo { get; set; }
+	
+	        [Required(ErrorMessage = "Informe o Prazo")]
+	        public DateTime Prazo { get; set; } = DateTime.Now.Date;
+	
+	        public int Status { get; set; }
+	
+	        public DateTime DataRegistro { get; set; } = DateTime.Now;
+	
+	        public string UsuarioId { get; set; }
+	
+	        public Usuario Usuario { get; set; }
+	
+	        public ICollection<Tarefa> Tarefas { get; set; }
+	
+	    }
+	    public enum Categoria { Profissional, Academico, Pessoal }
+	
+	}
+	
 	 ```
  
 	* MetaViewModel.cs
  	 ```
+	using System.ComponentModel.DataAnnotations;
+	
+	namespace gerenciadorTarefa.Models.ViewModel
+	{
+	    public class MetaViewModel
+	    {
+	        public int Id { get; set; }
+	
+	        [Required(ErrorMessage = "Informe a Categoria")]
+	        public Categoria Categoria { get; set; }
+	
+	        [Required(ErrorMessage = "Informe o Titulo")]
+	        public string Titulo { get; set; }
+	
+	        [Required(ErrorMessage = "Informe o Prazo")]
+	        public DateTime Prazo { get; set; } = DateTime.Now.Date;
+	
+	        public int Status { get; set; }
+	
+	        public DateTime DataRegistro { get; set; } = DateTime.Now;
+	
+	        public string UsuarioId { get; set; }
+	
+	        public List<TarefaViewModel> Tarefas { get; set; }
+	    }
+	
+	    public class TarefaViewModel
+	
+	    {
+	        public int Id { get; set; }
+	
+	        [Required(ErrorMessage = "Informe a Tarefa")]
+	        public string Nome { get; set; }
+	
+	        public bool Status { get; set; }
+	
+	        public DateTime DataCriacao { get; set; }
+	
+	    }
+	}
 	 ```
 
 	* RedefinirSenhaViewModel.cs
  	 ```
+	using System.ComponentModel.DataAnnotations;
+	
+	namespace gerenciadorTarefa.Models
+	{
+	    public class RedefinirSenhaViewModel
+	    {
+	        [Required]
+	        public string Token { get; set; }
+	
+	        [Display(Name = "E-mail")]
+	        [Required(ErrorMessage ="O campo {0} é de preenchimento obrigatório.")]
+	        [DataType(DataType.EmailAddress)]
+	
+	        public string Email { get; set; }
+	
+	        [Display(Name = "Nova Senha")]
+	        [DataType(DataType.Password)]
+	        [Required(ErrorMessage = "O campo {0} é de preenchimento obrigatório.")]
+	        public string NovaSenha { get; set; }
+	
+	        [Display(Name = "Confirmação da Nova Senha")]
+	        [DataType(DataType.Password)]
+	        [Compare(nameof(NovaSenha), ErrorMessage = "As senhas não coincidem.")]
+	        [Required(ErrorMessage = "O campo {0} é de preenchimento obrigatório.")]
+	
+	        public string ConfNovaSenha { get; set; }
+	
+	    }
+	}
 	 ```
 
 	* Tarefa.cs
  	 ```
+	using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations.Schema;
+	
+	namespace gerenciadorTarefa.Models
+	{
+	    [Table("Tarefas")]
+	    public class Tarefa
+	    {
+	        [Key]
+	        public int Id { get; set; }
+	
+	        [Required(ErrorMessage = "Informe o Nome")]
+	        public string Nome { get; set; }
+	
+	
+	        public bool Status { get; set; }
+	
+	
+	        public int MetasId { get; set; }
+	
+	        public Meta Metas { get; set; }
+	
+	    }
+	}
 	 ```
 
 	* Usuario.cs
  	 ```
+	using System.ComponentModel.DataAnnotations;
+	
+	namespace gerenciadorTarefa.Models
+	{
+	    public class Usuario
+	    {
+	        [Key]
+	        public string Id { get; set; }
+	
+	        [Required(ErrorMessage ="Informe seu nome")]
+	        public string Name { get; set; }
+	
+	        [Required(ErrorMessage ="Informe seu e-mail")]
+	        [EmailAddress(ErrorMessage = "Informe um email válido.")]
+	        public string Email { get; set;}
+	
+	        [Required(ErrorMessage ="Informe a senha")]
+	        [DataType(DataType.Password)]
+	        public string Senha { get; set; }
+	
+	        [Required(ErrorMessage = "Repita a senha")]
+	        [DataType(DataType.Password)]
+	        [Compare("Senha", ErrorMessage = "A senha e a confirmação de senha não coincidem.")]
+	        public string ConfirmarSenha { get; set; }
+	
+	    }
+	}
 	 ```
 
 	* UsuarioMetaViewModel.cs
  	 ```
+	using System.Collections.Generic;
+	using gerenciadorTarefa.Models;
+	
+	namespace gerenciadorTarefa.Models.ViewModel
+	{
+	    public class UsuarioMetaViewModel
+	    {
+	        public Usuario Usuario { get; set; }
+	        public List<Meta> Metas { get; set; }
+	    }
+	}
 	 ```
 	<hr>
 
@@ -987,63 +1854,1404 @@ A tabela a seguir contempla os artefatos desenvolvidos:
 
 		* Index.cshtml
  	 	```
+		@using System.Security.Claims;
+		@model IEnumerable<gerenciadorTarefa.Models.ViewModel.MetaViewModel>
+		<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+		
+		@{
+		    ViewData["Title"] = "Home Page";
+		}
+		
+		<div class="content">
+		    <div class="card sidebar">
+		        <a href="/Home/Index">
+		            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+		        </a>
+		        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+		            <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
+		        </a>
+		        <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
+		            <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
+		        </a>
+		    </div>
+		
+		    <div class="card box-content" style="width: 90%;">
+		        <div>
+		            <input class="search" type="text" id="pesquisaInput" placeholder="Pesquisar">
+		            <img class="lupaimg" src="~/img/lupaimg.png" alt="Lupa">
+		        </div>
+		
+		        <div class="box-header">
+		            <div class="box1">
+		                <div class="box2">
+		                    <span class="title">Gerenciador de Metas</span>
+		                    <span class="subtitle">Organize, gerencie e realize!</span>
+		                </div>
+		                <div>
+		                    <img class="img-header" src="~/img/img-header.png">
+		                </div>
+		            </div>
+		            <div class="box3">
+		                <span class="title "> Criar nova </span>
+		                <div class="box4">
+		                    <span class="title ">Meta</span>
+		                    <img class="img-add " src="~/img/addimg.png" onclick="irParaPaginaCreate()">
+		                </div>
+		            </div>
+		        </div>
+		
+		        <div class="box-list">
+		            <div class="box-buttons">
+		                <div id="elementoAlvo-Pessoal" class="btn-categoria pessoal" onclick="loadCategory('Pessoal')">
+		                    <span>Pessoal</span>
+		                </div>
+		                <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
+		                    onclick="loadCategory('Profissional')">
+		                    <span>Profissional</span>
+		                </div>
+		                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Acadêmico')">
+		                    <span>Acadêmico</span>
+		                </div>
+		            </div>
+		
+		            <div class="card-list">
+		                <a href="/Meta/Index" class="btn-categoria academico">Carregar</a>
+		            </div>
+		
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="footer">
+		    @section Scripts {
+		        @{
+		            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		        }
+		    }
+		</div>
+		<script>
+		    function loadCategory(category) {
+		        console.log(category)
+		        var categoryItems = document.querySelectorAll(`.gap[data-category="${category}"]`);
+		        console.log(categoryItems)
+		
+		        var allItems = document.querySelectorAll('.gap');
+		        allItems.forEach(item => {
+		            item.style.display = 'none';
+		        });
+		
+		        categoryItems.forEach(item => {
+		            item.style.display = 'block';
+		        });
+		
+		        // Adicionar classe para destacar o botão da categoria selecionada
+		        var buttons = document.querySelectorAll('.btn-categoria');
+		        buttons.forEach(button => {
+		            button.classList.remove('categoria-selecionada');
+		        });
+		
+		        var selectedButton = document.getElementById(`elementoAlvo-${category}`);
+		        if (selectedButton) {
+		            selectedButton.classList.add('categoria-selecionada');
+		        }
+		    }
+		
+		    document.addEventListener('DOMContentLoaded', function () {
+		        loadCategory('Profissional');
+		    });
+		
+		    function atualizarProgresso(itemId) {
+		        console.log(itemId)
+		        var checkboxes = document.querySelectorAll(`input[type="checkbox"][id="checkbox1-${itemId}"]`);
+		        var progressoId = `progresso-${itemId}`;
+		        var checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+		
+		        console.log(checkboxesMarcados)
+		        console.log(checkboxes.length)
+		        var progresso = ((checkboxesMarcados / checkboxes.length) * 100).toFixed(1);
+		        console.log(progresso)
+		
+		        // Ensure the progress bar container and text elements exist
+		        var progressBar = document.getElementById(progressoId);
+		        var progressText = document.querySelector(`#${progressoId} .porcentagem-text`);
+		
+		        if (progressBar && progressText) {
+		            progressBar.style.width = progresso + '%';
+		            progressText.textContent = progresso + '%';
+		        }
+		    }
+		
+		    function toggleOpcoesEdicao(event) {
+		        var opcoesEdicao = event.target.nextElementSibling; // Obtém o próximo elemento irmão
+		
+		        if (opcoesEdicao.style.display === 'none' || opcoesEdicao.style.display === '') {
+		            opcoesEdicao.style.display = 'block';
+		        } else {
+		            opcoesEdicao.style.display = 'none';
+		        }
+		    }
+		
+		    document.getElementById('pesquisaInput').addEventListener('input', function (event) {
+		        var termoPesquisa = event.target.value.toLowerCase();
+		        var metas = document.querySelectorAll('.gap');
+		
+		        for (var i = 0; i < metas.length; i++) {
+		            var nomeMeta = metas[i].querySelector('.card1 span').innerText.toLowerCase();
+		
+		            if (nomeMeta.includes(termoPesquisa)) {
+		                metas[i].style.display = 'block';
+		            } else {
+		                metas[i].style.display = 'none';
+		            }
+		        }
+		    });
+		
+		    function irParaPaginaCreate() {
+		        // Redireciona para a página Create
+		        window.location.href = '/Meta/Create'; // Substitua 'SuaController' pelo nome real do seu controller
+		        console.log("teste")
+		    }
+		</script>
 		```
 
 	* Meta
 
 		* Create.cshtml
 		```
+		  @model gerenciadorTarefa.Models.ViewModel.MetaViewModel
+		@using System.Security.Claims;
+		<link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
+		
+		
+		@{
+		    ViewData["Title"] = "Create";
+		}
+		
+		
+		
+		<div class="content">
+		    <div class="card sidebar">
+		        <a href="/Home/Index">
+		            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+		        </a>
+		        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+		            <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
+		
+		        </a>
+		        <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
+		            <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
+		        </a>
+		
+		    </div>
+		    <div class="card box-content" style="width: 90%;">
+		
+		        <div class="box-form">
+		            <h1 class="title">Criar Nova Meta</h1>
+		
+		
+		            <hr />
+		            <div class="row">
+		                <div class="">
+		                    <form asp-action="Create">
+		                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		                        <div class="form-group">
+		                            <label asp-for="Categoria" class="control-label "></label>
+		                            <select asp-for="Categoria" class="form-control radius"
+		                                asp-items="Html.GetEnumSelectList<Categoria>()"></select>
+		                            <span asp-validation-for="Categoria" class="text-danger"></span>
+		                        </div>
+		                        <div class="form-group">
+		                            <label asp-for="Titulo" class="control-label "></label>
+		                            <input asp-for="Titulo" class="form-control radius" />
+		                            <span asp-validation-for="Titulo" class="text-danger"></span>
+		                        </div>
+		                        <div class="form-group">
+		                            <label asp-for="Prazo" class="control-label "></label>
+		                            <input asp-for="Prazo" class="form-control radius" />
+		                            <span asp-validation-for="Prazo" class="text-danger"></span>
+		                        </div>
+		
+		                        <div class="add-tarefa">
+		
+		                            <div class="form-group">
+		                               
+		                            </div>
+		
+		                            <div id="taskContainer">
+		
+		                                <div class="form-group tarefas">
+		                                    <label for="Tarefas[0].Nome">Tarefas</label>
+		                                     <button class="add" type="button" id="addTask">Adicionar</button>
+		                                    <input type="text" name="Tarefas[0].Nome" class="form-control radius" placeholder="Nome da tarefa"/>
+		                                </div>
+		                            </div>
+		
+		                        </div>
+		
+		
+		
+		                        <div class="form-group">
+		                            <input type="submit" value="Salvar" class="btn btn-primary" />
+		                        </div>
+		
+		                    </form>
+		                </div>
+		            </div>
+		
+		
+		            <div class="voltar">
+		                <a asp-action="Index">Voltar</a>
+		            </div>
+		
+		        </div>
+		
+		    </div>
+		</div>
+		
+		
+		
+		
+		@section Scripts {
+		    <script>
+		        $(document).ready(function () {
+		            var taskCount = 0;
+		
+		            $("#addTask").click(function () {
+		                var taskHtml = `
+		                                <div class="form-group">
+		                                    <label for="Tarefas[${taskCount}].Nome">Nome da Tarefa</label>
+		                                    <input type="text" name="Tarefas[${taskCount}].Nome" class="form-control" />
+		                                </div>
+		                            `;
+		
+		                $("#taskContainer").append(taskHtml);
+		                taskCount++;
+		            });
+		        });
+		    </script>
+		    @{
+		        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		    }
+		}
 		```
   
 		* Delete.cshtml
 		```
+		@model gerenciadorTarefa.Models.Meta
+		<link rel="stylesheet" href="~/css/delete.css" asp-append-version="true" />
+		
+		@{
+		    ViewData["Title"] = "Delete";
+		}
+		
+		
+		<div class="conteudo-edit">
+		
+		    <div class="box-edit">
+		
+		        <h3 class="title">Tem certeza que quer excluir essa meta?</h3>
+		        <div>
+		            <hr />
+		            <dl class="row">
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.Categoria)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.Categoria)
+		                </dd>
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.Titulo)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.Titulo)
+		                </dd>
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.Prazo)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.Prazo)
+		                </dd>
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.Status)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.Status)
+		                </dd>
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.DataRegistro)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.DataRegistro)
+		                </dd>
+		            </dl>
+		
+		            <form asp-action="Delete">
+		                <input type="hidden" asp-for="Id" />
+		                <input type="submit" value="Sim" class="btn btn-danger" /> |
+		                <a asp-action="Index">Não</a>
+		            </form>
+		        </div>
+		    </div>
+		
+		</div>
 		```
 
 		* Edit.cshtml
 		```
+		@model gerenciadorTarefa.Models.ViewModel.MetaViewModel
+		@using System.Security.Claims;
+		<link rel="stylesheet" href="~/css/edit.css" asp-append-version="true" />
+		
+		@{
+		    ViewData["Title"] = "Edit";
+		}
+		
+		<div class="content">
+		    <div class="card sidebar">
+		        <a href="/Home/Index">
+		            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+		        </a>
+		        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+		            <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
+		        </a>
+		        <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
+		            <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
+		        </a>
+		    </div>
+		
+		    <div class="card box-content" style="width: 90%;">
+		
+		        <div class="box-form">
+		            <h1 class="title">Editar Meta</h1>
+		
+		            <hr/>
+		
+		
+		            <div class="row">
+		                <div class="col-md-4">
+		                    <form asp-action="Edit" method="post">
+		                        <input type="hidden" asp-for="Id" />
+		
+		                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		
+		                        <div class="form-group">
+		                            <label asp-for="Categoria" class="control-label radius"></label>
+		                            <select asp-for="Categoria" class="form-control radius"
+		                                asp-items="Html.GetEnumSelectList<Categoria>()"></select>
+		                            <span asp-validation-for="Categoria" class="text-danger"></span>
+		                        </div>
+		
+		                        <div class="form-group">
+		                            <label asp-for="Titulo" class="control-label radius" ></label>
+		                            <input asp-for="Titulo" class="form-control radius" />
+		                            <span asp-validation-for="Titulo" class="text-danger"></span>
+		                        </div>
+		
+		                        <div class="form-group">
+		                            <label asp-for="Prazo" class="control-label"></label>
+		                            <input asp-for="Prazo" class="form-control radius" />
+		                            <span asp-validation-for="Prazo" class="text-danger"></span>
+		                        </div>
+		
+		                        <div id="taskContainer">
+		                            @for (var i = 0; i < Model.Tarefas.Count; i++)
+		                            {
+		                                <div class="form-group">
+		                                    <label asp-for="Tarefas[i].Nome" class="control-label"></label>
+		                                    <input asp-for="Tarefas[i].Nome" class="form-control radius" />
+		                                </div>
+		                            }
+		                        </div>
+		
+		                        <div class="form-group">
+		                            <input type="submit" value="Salvar" class="btn btn-primary" />
+		                        </div>
+		                    </form>
+		                </div>
+		            </div>
+		
+		
+		            <div class="voltar">
+		                <a asp-action="Index">Voltar</a>
+		            </div>
+		
+		        </div>
+		
+		    </div>
+		
+		</div>
+		
+		@section Scripts {
+		    @{
+		        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		    }
+		}
 		```
 
 		* Index.cshtml
 		```
+		@using System.Security.Claims;
+		@model IEnumerable<gerenciadorTarefa.Models.ViewModel.MetaViewModel>
+		<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+		
+		@{
+		    ViewData["Title"] = "Home Page";
+		}
+		
+		<div class="content">
+		    <div class="card sidebar">
+		        <a href="/Home/Index">
+		            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+		        </a>
+		        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+		            <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
+		        </a>
+		        <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
+		            <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
+		        </a>
+		    </div>
+		
+		    <div class="card box-content" style="width: 90%;">
+		        <div>
+		            <input class="search" type="text" id="pesquisaInput" placeholder="Pesquisar">
+		            <img class="lupaimg" src="~/img/lupaimg.png" alt="Lupa">
+		        </div>
+		
+		        <div class="box-header">
+		            <div class="box1">
+		                <div class="box2">
+		                    <span class="title">Gerenciador de Metas</span>
+		                    <span class="subtitle">Organize, gerencie e realize!</span>
+		                </div>
+		                <div>
+		                    <img class="img-header" src="~/img/img-header.png">
+		                </div>
+		            </div>
+		            <div class="box3">
+		                <span class="title "> Criar nova </span>
+		                <div class="box4">
+		                    <span class="title ">Meta</span>
+		                    <img class="img-add " src="~/img/addimg.png" onclick="irParaPaginaCreate()">
+		                </div>
+		            </div>
+		        </div>
+		
+		        <div class="box-list">
+		            <div class="box-buttons">
+		                <div id="elementoAlvo-Pessoal" class="btn-categoria pessoal" onclick="loadCategory('Pessoal')">
+		                    <span>Pessoal</span>
+		                </div>
+		                <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
+		                     onclick="loadCategory('Profissional')">
+		                    <span>Profissional</span>
+		                </div>
+		                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Acadêmico')">
+		                    <span>Acadêmico</span>
+		                </div>
+		            </div>
+		
+		            <div class="card-list">
+		                <div class="card-list">
+		                    @{
+		                        var index = 0;
+		                    }
+		                    @foreach (var item in Model)
+		                    {
+		                        if (item != null)
+		                        {
+		                            <div class="gap" data-category="@item.Categoria">
+		                                <div class="card1">
+		                                    <span>@Html.DisplayFor(modelItem => item.Titulo)</span>
+		                                    <div>
+		                                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+		                                    </div>
+		                                    <div>
+		                                        <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+		                                    </div>
+		                                    <div class="flex">
+		                                        <img class="height" src="~/img/edit.png" alt="" onclick="toggleOpcoesEdicao(event)">
+		                                        <div class="opcoes-edicao" style="display: none;">
+		                                            <a href="#" onclick="editarMeta('@item.Id')">Editar</a>
+		                                            <a href="#" onclick="excluirMeta('@item.Id')">Excluir</a>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                                <div>
+		                                    <span class="prazo">@Html.DisplayFor(modelItem => item.Prazo)</span>
+		                                </div>
+		                                <div class="barra-de-progresso-container">
+		                                    <div class="barra-de-progresso" id="@($"progresso-{index}")">
+		                                        <div class="barra">
+		                                            <div class="progresso-text">Progresso</div>
+		                                            <div class="porcentagem-text" id="@($"porcentagem-{index}")">0%</div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                                <div class="checkbox-options">
+		                                    @foreach (var tarefa in item.Tarefas)
+		                                    {
+		                                        <div class="checkbox-option">
+		                                            <input type="checkbox" id="@($"checkbox-{item.Id}-{tarefa.Id}")" onchange="atualizarProgresso('@item.Id', '@tarefa.Id')">
+		                                            <label for="@($"checkbox-{item.Id}-{tarefa.Id}")">@tarefa.Nome</label>
+		                                        </div>
+		                                    }
+		                                </div>
+		                            </div>
+		                        }
+		                        index++;
+		
+		                    }
+		                </div>
+		            </div>
+		
+		        </div>
+		    </div>
+		</div>
+		<script>
+		    function loadCategory(category) {
+		        console.log(category)
+		        var categoryItems = document.querySelectorAll(`.gap[data-category="${category}"]`);
+		        console.log(categoryItems)
+		
+		        var allItems = document.querySelectorAll('.gap');
+		        allItems.forEach(item => {
+		            item.style.display = 'none';
+		        });
+		
+		        categoryItems.forEach(item => {
+		            item.style.display = 'block';
+		        });
+		
+		        // Adicionar classe para destacar o botão da categoria selecionada
+		        var buttons = document.querySelectorAll('.btn-categoria');
+		        buttons.forEach(button => {
+		            button.classList.remove('categoria-selecionada');
+		        });
+		
+		        var selectedButton = document.getElementById(`elementoAlvo-${category}`);
+		        if (selectedButton) {
+		            selectedButton.classList.add('categoria-selecionada');
+		        }
+		    }
+		
+		    document.addEventListener('DOMContentLoaded', function () {
+		        loadCategory('Profissional');
+		    });
+		
+		    function atualizarProgresso(itemId) {
+		        console.log(itemId)
+		        var checkboxes = document.querySelectorAll(`input[type="checkbox"][id="checkbox1-${itemId}"]`);
+		        var progressoId = `progresso-${itemId}`;
+		        var checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+		
+		        console.log(checkboxesMarcados)
+		        console.log(checkboxes.length)
+		        var progresso = ((checkboxesMarcados / checkboxes.length) * 100).toFixed(1);
+		        console.log(progresso)
+		
+		        // Ensure the progress bar container and text elements exist
+		        var progressBar = document.getElementById(progressoId);
+		        var progressText = document.querySelector(`#${progressoId} .porcentagem-text`);
+		
+		        if (progressBar && progressText) {
+		            progressBar.style.width = progresso + '%';
+		            progressText.textContent = progresso + '%';
+		        }
+		    }
+		
+		    function toggleOpcoesEdicao(event) {
+		        var opcoesEdicao = event.target.nextElementSibling; // Obtém o próximo elemento irmão
+		
+		        if (opcoesEdicao.style.display === 'none' || opcoesEdicao.style.display === '') {
+		            opcoesEdicao.style.display = 'block';
+		        } else {
+		            opcoesEdicao.style.display = 'none';
+		        }
+		    }
+		
+		    document.getElementById('pesquisaInput').addEventListener('input', function (event) {
+		        var termoPesquisa = event.target.value.toLowerCase();
+		        var metas = document.querySelectorAll('.gap');
+		
+		        for (var i = 0; i < metas.length; i++) {
+		            var nomeMeta = metas[i].querySelector('.card1 span').innerText.toLowerCase();
+		
+		            if (nomeMeta.includes(termoPesquisa)) {
+		                metas[i].style.display = 'block';
+		            } else {
+		                metas[i].style.display = 'none';
+		            }
+		        }
+		    });
+		
+		    function irParaPaginaCreate() {
+		        // Redireciona para a página Create
+		        window.location.href = '/Meta/Create'; // Substitua 'SuaController' pelo nome real do seu controller
+		        console.log("teste")
+		    }
+		</script>
 		```
 
 	* Shared
 
 		* Error.cshtml
 		```
+		  @model ErrorViewModel
+		@{
+		    ViewData["Title"] = "Error";
+		}
+		
+		<h1 class="text-danger">Error.</h1>
+		<h2 class="text-danger">An error occurred while processing your request.</h2>
+		
+		@if (Model.ShowRequestId)
+		{
+		    <p>
+		        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+		    </p>
+		}
+		
+		<h3>Development Mode</h3>
+		<p>
+		    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+		</p>
+		<p>
+		    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+		    It can result in displaying sensitive information from exceptions to end users.
+		    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
+		    and restarting the app.
+		</p>
 		```
 
 		* _Layout.cshtml
 		```
+		﻿@{
+		    Layout = null; // Para remover o layout padrão
+		}
+		<!DOCTYPE html>
+		<html lang="en">
+		
+		<head>
+		    <meta charset="utf-8" />
+		    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		    <title>@ViewData["Title"] - gerenciadorTarefa</title>
+		    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+		    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+		    <link rel="stylesheet" href="~/css/usuariosCreate.css" asp-append-version="true" />
+		    <link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
+		    <link rel="stylesheet" href="" asp-append-version="true" />
+		    <link rel="stylesheet" href="~/gerenciadorTarefa.styles.css" asp-append-version="true" />
+		</head>
+		
+		<body>
+		@*     @if (!User.Identity.IsAuthenticated)
+		    {
+		        <header>
+		            <nav class="container-fluid mt-5">
+		                <div class="row justify-content-center">
+		                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+		                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		                        <span class="navbar-toggler-icon"></span>
+		                    </button>
+		                    <div class="col-md-10">
+		                        <ul class="navbar-nav align-items-end">
+		                        </ul>
+		                    </div>
+		                </div>
+		            </nav>
+		        </header>
+		    } *@
+		
+		    <div class="container-fluid">
+		        <main role="main" class="pb-3 bacgr">
+		            @RenderBody()
+		
+		        </main>
+		    </div>
+		
+		    <script>
+		        window.addEventListener("beforeunload", function (e) {
+		            if (@User.Identity.IsAuthenticated) {
+		                e.preventDefault();
+		                fetch("/Usuarios/Logout", {
+		                    method: "POST",
+		                    headers: {
+		                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+		                    }
+		                }).then(function () {
+		                    window.location.href = "/Usuarios/Login";
+		                });
+		            }
+		        });
+		    </script>
+		
+		    <footer class="border-top footer text-muted">
+		        <div class="container">
+		            &copy; 2023 - gerenciadorTarefa
+		        </div>
+		    </footer>
+		    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+		    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		    <!--
+		    <script src="~/js/site.js" asp-append-version="true"></script>
+		    <script src="~/js/usuariosCreate.js" asp-append-version="true"></script>
+		    -->
+		    @await RenderSectionAsync("Scripts", required: false)
+		</body>
+		
+		</html>
 		```
 
 		* _Layout.cshtml.css
 		```
+		/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+		for details on configuring this project to bundle and minify static web assets. */
+		
+		a.navbar-brand {
+		  white-space: normal;
+		  text-align: center;
+		  word-break: break-all;
+		}
+		
+		a {
+		  color: #0077cc;
+		}
+		
+		.btn-primary {
+		  color: #fff;
+		  background-color: #1b6ec2;
+		  border-color: #1861ac;
+		}
+		
+		.nav-pills .nav-link.active,
+		.nav-pills .show > .nav-link {
+		  color: #fff;
+		  background-color: #1b6ec2;
+		  border-color: #1861ac;
+		}
+		
+		.border-top {
+		  border-top: 1px solid #e5e5e5;
+		}
+		.border-bottom {
+		  border-bottom: 1px solid #e5e5e5;
+		}
+		
+		.box-shadow {
+		  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+		}
+		
+		button.accept-policy {
+		  font-size: 1rem;
+		  line-height: inherit;
+		}
+		
+		.footer {
+		  position: fixed;
+		  bottom: 0;
+		  width: 100%;
+		  white-space: nowrap;
+		  //line-height: 60px;
+		}
+		.bacgr{
+		  background-color: #f3f5f9;
+		}
 		```
 
 		* _ValidationScriptsPartial.cshtml
 		```
+		<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 		```
 
 	* Usuarios
 
-		* Login.cshtml
+		* Create.cshtml
 		```
+		@model gerenciadorTarefa.Models.Usuario
+		
+		<link rel="stylesheet" href="~/css/usuariosCreate.css" asp-append-version="true" />
+		
+		
+		@{
+		    ViewData["Title"] = "Create";
+		}
+		
+		<div class="create">
+		
+		  <div class="boxesquerda">
+		
+		        <img class="logoimg" src="~/img/logologin.png" alt="">
+		
+		        <span class="metas">Alcance suas metas<br />
+		            gerenciando suas tarefas!</span>
+		
+		        <img class="imglogo" src="~/img/imglogin.png" alt="">
+		
+		
+		    </div>  
+		
+		    <div class="boxdireita"> 
+		
+		<div class="card-body">
+		                        <h2 class="card-title mt-5 text-center text">Crie sua Conta</h2>
+		                        <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie sua conta</a></strong></p>
+		
+		
+		                        <form asp-action="Create">
+		                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		                            <div class="form-group">
+		                                <label asp-for="Name" class="control-label mb-1 fontMedia larg">NOME</label>
+		                                <input asp-for="Name" class="form-control mb-3 inputsLogin" />
+		                                <span asp-validation-for="Name" class="text-danger"></span>
+		                            </div>
+		                            <div class="form-group">
+		                                <label asp-for="Email" class="control-label mb-1 fontMedia larg">EMAIL</label>
+		                                <input asp-for="Email" class="form-control mb-3 inputsLogin" />
+		                                <span asp-validation-for="Email" class="text-danger"></span>
+		                            </div>
+		                            <div class="form-group">
+		                                <label asp-for="Senha" class="control-label mb-1 fontMedia larg">SENHA</label>
+		                                <input asp-for="Senha" class="form-control mb-3 inputsLogin" />
+		                                <span asp-validation-for="Senha" class="text-danger"></span>
+		                            </div>
+		                            <div class="form-group">
+		                                <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia larg">CONFIRMAR SENHA</label>
+		                                <input asp-for="ConfirmarSenha" class="form-control mb-3 inputsLogin" />
+		                                <span asp-validation-for="ConfirmarSenha" class="text-danger larg"></span>
+		                            </div>
+		                            <div class="form-group">
+		                                <input type="submit" value="Cadastrar" class="btn btn-success form-control inputsLogin mb-2 color larg"  />
+		                                <p class="text-center mb-5 fontPequena"><a href="/Usuarios/Login">Voltar</a></p>
+		
+		                            </div>
+		                        </form>
+		                    </div>
+
+		</div>
+	
+		</div>
+		
+		<div class="footer">
+		    @section Scripts {
+		        @{
+		            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		        }
+		    }
+		</div>
+		```
+  
+  		* Delete.cshtml
+		```
+		@model gerenciadorTarefa.Models.Usuario
+		@using System.Security.Claims;
+		@{
+		    ViewData["Title"] = "Delete";
+		}
+		
+		<div class="form-group text-center">
+		
+		    <h1 class="mb-5">Exclusão de cadastro</h1>
+		    <p class="mb-5">Todos os seus dados serão apagados do sistema Gerenciador de Tarefas, tem certeza disso?</p>
+		
+		    <form asp-action="DeleteConfirmed">
+		        <a asp-action="Edit" asp-controller="Usuarios" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-secondary m-4 col-md-3 inputsLogin">Cancelar</a>
+		        <input type="submit" value="Excluir cadastro" class="btn btn-danger m-4 col-md-3 inputsLogin" />
+		        <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Retornar para a tela inicial</a></p>
+		    </form>
+		 </div>
+		```
+  		* Details.cshtml
+		```
+		@model gerenciadorTarefa.Models.Usuario
+		<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+		
+		@{
+		    ViewData["Title"] = "Details";
+		}
+		
+		<h1>Gerenciar Perfil</h1>
+		
+		    <div class="d-flex h-100">
+		        <div class="card" style="width: 20%; border: 2px solid red;">
+		            <img class="card-img-top w-25 mx-auto mb-3 mt-3" src="~/img/logo.PNG" alt="Card image cap">
+		             <img class="card-img-top w-25 mx-auto mb-3 mt-3 mx-auto" src="~/img/iconPerfil.png" alt="Card image cap">
+		        </div>
+		        <div class="card" style="width: 80%; border: 2px solid green;">
+		            <dl class="row">
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.Name)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.Name)
+		                </dd>
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.Email)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.Email)
+		                </dd>
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.Senha)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.Senha)
+		                </dd>
+		                <dt class="col-sm-2">
+		                    @Html.DisplayNameFor(model => model.ConfirmarSenha)
+		                </dt>
+		                <dd class="col-sm-10">
+		                    @Html.DisplayFor(model => model.ConfirmarSenha)
+		                </dd>
+		            </dl>
+		        </div>
+		    </div>
+		
+		<div>
+		    <a asp-action="Edit" asp-route-id="@Model?.Id"></a> 
+		    <a asp-action="Index">Back to List</a>
+		</div>
+		
+		<div class="footer">
+		    @section Scripts {
+		        @{
+		            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		        }
+		    }
+		</div>
+		```
+  		* Edit.cshtml
+		```
+		@model gerenciadorTarefa.Models.Usuario
+		@using System.Security.Claims;
+		<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+		
+		@{
+		    ViewData["Title"] = "Edit";
+		}
+		
+		
+		<div class="d-flex h-100 top">
+		
+		<div class="card sidebar">
+		        <a href="/Home/Index" class="w-50 mx-auto mb-3 mt-3">
+		            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+		        </a>
+		        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
+		            <img class="card-img-top" src="~/img/userimg.png" alt="Card image cap">
+		        </a>
+		       <a href="/Usuarios/logout" class=" mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza de que deseja SAIR do Gerenciador de Tarefas?');">
+		            <img class="card-img-top largura" src="~/img/logoutimg.png" alt="Card image cap">
+		        </a>
+		    </div>
+		
+		
+		
+		   
+		    <div class="box-conteudo" >
+		         <div class="card box-main ">
+		
+		            <div class="conteudo"> 
+		
+		            <h1 class="col-md-9 mx-auto m-5 text">Gerenciar Perfil</h1>
+		
+		            <form asp-action="Edit">
+		                <div class="row">
+		                    <div class="col-md-6 align-content-center">
+		                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		                       <input type="hidden" asp-for="Id" />
+		                        <div class="form-group col-md-8 mx-auto">
+		                            <label asp-for="Name" class="control-label mb-1 fontMedia">Nome</label>
+		                            <input asp-for="Name" class="form-control mb-3 mx-auto inputsLogin " />
+		                            <span asp-validation-for="Name" class="text-danger"></span>
+		                        </div>
+		                        <div class="form-group col-md-8 mx-auto">
+		                            <label asp-for="Email" class="control-label mb-1 fontMedia">E-mail</label>
+		                            <input asp-for="Email" class="form-control mb-3 mx-auto inputsLogin " />
+		                            <span asp-validation-for="Email" class="text-danger"></span>
+		                        </div>
+		                    </div>
+		                    <div class="col-md-6">
+		                        <div class="form-group col-md-8 mx-auto">
+		                            <label asp-for="Senha" class="control-label mb-1 fontMedia">Nova Senha</label>
+		                            <input asp-for="Senha" class="form-control  mb-3 mx-auto inputsLogin " />
+		                            <span asp-validation-for="Senha" class="text-danger"></span>
+		                        </div>
+		                        <div class="form-group col-md-8 mx-auto">
+		                            <label asp-for="ConfirmarSenha" class="control-label mb-1 fontMedia" >Confirme a Nova Senha</label>
+		                            <input asp-for="ConfirmarSenha" class="form-control mb-3 mx-auto inputsLogin " />
+		                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+		                        </div>
+		                    </div>
+		
+		                    <div class="form-group text-center">
+		                        <div class="form-group text-center">
+		                            <input type="submit" value="Alterar informações" class="btn btn-success m-4 col-md-3 inputsLogin color " onclick="return confirm('Tem certeza de que ALTERAR seu registro?');" />
+		                            <a href="@Url.Action("Delete", "Usuarios", new { id = Model.Id })" class="btn btn-danger m-4 col-md-3 inputsLogin  padding">Excluir Cadastro</a>
+		                            <p class="text-center mb-5 fontPequena"><a href="/Home/Index">Voltar</a></p>
+		                        </div>
+		                    </div>
+		                </div>
+		            </form>
+		
+		</div>
+		            <!--
+		            <span id="errorSpan" class="text-danger"></span>
+		            -->
+		        </div>
+		    </div>
+		</div>
+		
+		<div>
+		    <!--<a asp-action="Index">Back to List</a>-->
+		</div>
+		<div class="footer">
+		    @section Scripts {
+		        @{
+		            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		        }
+		    }
+		</div>
+		```
+  		* EmailRedefinicaoEnviado.cshtml
+		```
+		@model gerenciadorTarefa.Models.EsqueciMinhaSenhaViewModel
+		
+		<link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
+		
+		
+		@{
+		    ViewData["Title"] = "LinkRecuperacaoEnviado";
+		}
+		
+		
+		<div class="content container mx-auto">
+		    <div class="card sidebar">
+		        <a href="/Usuarios/Login">
+		            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+		        </a>
+		    </div>
+		
+		    <div class="row align-items-center box-content" style="width: 90%;">
+		        <div>
+		           <h1 class="text-primary">E-mail de Redefinição de Senha Enviado</h1>
+		           <hr />
+		
+		           <p>
+		               Uma mensagem contendo o link para redefinição de sua senha foi enviado para seu e-mail. Acesse sua caixa de mensagens e clique no link recebido para redefinir sua senha.
+		           </p>
+		           <p>
+		               Acessa sua caixa de mensagens e clique no link para dar continuidade ao processo de redefinição de senha. Se quiser voltar a página principal, clique no botão abaixo.
+		           </p>
+		           <a asp-action="Login" asp-controller="Usuarios" class="btn btn-outline-secondary">Voltar à Página Principal</a>
+		        </div>
+		    </div>
+		</div>
+		<div class="footer">
+		    @section Scripts {
+		        @{
+		            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		        }
+		    }
+		</div>
+		```
+  		* EsqueciMinhaSenha.cshtml
+		```
+		@model gerenciadorTarefa.Models.EsqueciMinhaSenhaViewModel
+		
+		<link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
+		
+		
+		@{
+		    ViewData["Title"] = "EsqueciMinhaSenha";
+		}
+		
+		<div class="senha" >
+		    
+		    <div class="boxesquerda" >
+		<img class="logoimg" src="~/img/logologin.png" alt="">
+		
+		        <span class="metas">Alcance suas metas<br />
+		            gerenciando suas tarefas!</span>
+		
+		        <img class="imglogo" src="~/img/imglogin.png" alt="">
+		
+		
+		
+		
+		    </div>
+		
+		    <div class="boxdireita"  > 
+		    
+		     <div class="card-body">
+		                        <h2 class="card-title mt-5 text-left">Esqueceu sua Senha?</h2>
+		                        <p class="card-text mt-3 mb-4 text-left fontPequena">Cadastre nova senha</p>
+		                        <form asp-action="EsqueciMinhaSenha" method="post">
+		                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		                            <div class="form-group mt-5">
+		                                <label asp-for="Email" class="control-label mb-1 fontMedia">E-MAIL</label>
+		                                <input asp-for="Email" class="form-control mb-3 inputsLogin larg" required />
+		                                <span asp-validation-for="Email" class="text-danger"></span>
+		                            </div>
+		                            <div class="form-group">
+		                                <input type="submit" value="Enviar" class="btn btn-success form-control inputsLogin mb-2 larg color" />
+		                            </div>
+		                            <div class="form-group">
+		                                <p class="text-center mb-5 fontPequena"><a href="/Usuarios/Login">Voltar</a></p>
+		                            </div>
+		
+		                        </form>
+		                    </div>
+		
+		               </div>    
+		     </div>
+		
+		<div class="footer">
+		    @section Scripts {
+		        @{
+		            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		        }
+		    }
+		</div>
+		```
+  		* Index.cshtml
+		```
+		@model IEnumerable<gerenciadorTarefa.Models.Usuario>
+		
+		@{
+		    ViewData["Title"] = "Index";
+		}
+		
+		<h1>Index</h1>
+		
+		<p>
+		    <a asp-action="Create">Create New</a>
+		</p>
+		<table class="table">
+		    <thead>
+		        <tr>
+		            <th>
+		                @Html.DisplayNameFor(model => model.Name)
+		            </th>
+		            <th>
+		                @Html.DisplayNameFor(model => model.Email)
+		            </th>
+		            <th>
+		                @Html.DisplayNameFor(model => model.Senha)
+		            </th>
+		            <th>
+		                @Html.DisplayNameFor(model => model.ConfirmarSenha)
+		            </th>
+		            <th></th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		@foreach (var item in Model) {
+		        <tr>
+		            <td>
+		                @Html.DisplayFor(modelItem => item.Name)
+		            </td>
+		            <td>
+		                @Html.DisplayFor(modelItem => item.Email)
+		            </td>
+		            <td>
+		                @Html.DisplayFor(modelItem => item.Senha)
+		            </td>
+		            <td>
+		                @Html.DisplayFor(modelItem => item.ConfirmarSenha)
+		            </td>
+		            <td>
+		                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+		                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+		                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+		            </td>
+		        </tr>
+		}
+		    </tbody>
+		</table>
+		```
+  		* Login.cshtml
+		```
+		@model gerenciadorTarefa.Models.Usuario
+		<link rel="stylesheet" href="~/css/usuariosLogin.css" asp-append-version="true" />
+		
+		
+		@{
+		    ViewData["Title"] = "Login";
+		}
+		
+		@{
+		    var successMessage = TempData["SuccessMessage"] as string;
+		}
+		
+		@if (ViewBag.Message != null)
+		{
+		    <div class="alert alert-danger">
+		        @ViewBag.Message
+		    </div>
+		}
+		
+		
+		@if (!string.IsNullOrEmpty(successMessage))
+		{
+		    <div class="alert alert-success">
+		        @successMessage
+		    </div>
+		}
+		
+		
+		<div class="login">
+		
+		    <div class="boxesquerda">
+		
+		        <img class="logoimg" src="~/img/logologin.png" alt="">
+		
+		        <span class="metas">Alcance suas metas<br />
+		            gerenciando suas tarefas!</span>
+		
+		        <img class="imglogo" src="~/img/imglogin.png" alt="">
+		
+		
+		    </div>
+		    <div class="boxdireita">
+		
+		        <div class="card-body">
+		            <h2 class="card-title mt-5 text-center text">Login</h2>
+		            <p class="card-text mt-3 mb-4 text-center fontPequena">Novo aqui? <strong><a href="/Usuarios/Create">Crie
+		                        sua conta</a></strong></p>
+		            <form asp-action="Login">
+		                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		                <div class="form-group">
+		                    <label asp-for="Email" class="control-label mb-1 fontMedia">E-MAIL</label>
+		                    <input asp-for="Email" class="form-control mb-3 inputsLogin larg" />
+		                    <span asp-validation-for="Email" class="text-danger"></span>
+		                </div>
+		                <div class="form-group">
+		                    <label asp-for="Senha" class="control-label mb-1 fontMedia">SENHA</label>
+		                    <input asp-for="Senha" class="form-control mb-3 inputsLogin larg" />
+		                    <span asp-validation-for="Senha" class="text-danger"></span>
+		                </div>
+		                <div class="form-group">
+		                    <input type="submit" value="Login"
+		                        class="btn btn-success form-control inputsLogin mb-2 larg color" />
+		                    <a href="@Url.Action("EsqueciMinhaSenha", "Usuarios")" class="text-center mb-5 fontPequena">
+		                        <p>
+		                            Esqueci minha senha
+		                        </p>
+		                    </a>
+		                </div>
+		            </form>
+		        </div>
+		
+		    </div>
+		
+		</div>
+		
+		
+		
+		<div class="footer">
+		    @section Scripts {
+		        @{
+		            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		        }
+		    }
+		</div>
+		```
+  		
+  		* RedefinirSenha.cshtml
+		```
+		@model gerenciadorTarefa.Models.RedefinirSenhaViewModel
+		
+		<link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
+		
+		@{
+		    ViewData["Title"] = "Redefinir Senha";
+		}
+		
+		<div class="content">
+		    <div class="card sidebar">
+		        <a href="/Usuarios/Login">
+		            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+		        </a>
+		    </div>
+		    <div class="card box-content mt-5" style="width: 90%;">
+		                    <h2 class="text-center">Redefinir Senha</h2>
+		                    <form asp-action="RedefinirSenha">
+		                        <div asp-validation-summary="All" class="row"></div>
+		                        <input type="hidden" asp-for="@Model.Token" />
+		                        <input type="hidden" asp-for="Token" />
+		                        <div class="form-group">
+		                            <label asp-for="@Model.Email" class="control-label fontMedia">EMAIL</label>
+		                            <input asp-for="@Model.Email" class="form-control inputsLogin" />
+		                            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+		                        </div>
+		
+		                        <div class="form-group">
+		                            <label asp-for="@Model.NovaSenha" class="control-label fontMedia">NOVA SENHA</label>
+		                            <input asp-for="@Model.NovaSenha" class="form-control inputsLogin" />
+		                            <span asp-validation-for="@Model.NovaSenha" class="text-danger"></span>
+		                        </div>
+		                        <div class="form-group">
+		                            <label asp-for="@Model.ConfNovaSenha" class="control-label fontMedia">CONFIRMAR NOVA SENHA</label>
+		                            <input asp-for="@Model.ConfNovaSenha" class="form-control inputsLogin" />
+		                            <span asp-validation-for="@Model.ConfNovaSenha" class="text-danger"></span>
+		                        </div>
+		                        <div class="form-group">
+		                            <a asp-action="Login" asp-controller="Usuarios" class="btn btn-outline-secondary mt-3 mb-3">Cancelar</a>
+		                            <button type="submit" class="btn btn-primary form-control inputsLogin mb-2">Redefinir Senha</button>
+		                        </div>
+		                    </form>
+		    </div>
+		</div>
 		```
 
-		* ViewImports.cshtml
-		```
-		```
-
-		* ViewStart.cshtml
-		```
-		```
 	<hr>
 
 * Services
 
 	*  SendinBlueService.cs
 	```
+	using Microsoft.Extensions.Options;
+	using gerenciadorTarefa.Settings;
+	using MimeKit;
+	using MailKit.Net.Smtp;
+	
+	namespace gerenciadorTarefa.Services
+	
+	{
+	    public class SendinBlueService : IEmailService
+	    {
+	        private readonly SendinBlueSettings _emailSettings;
+	        public SendinBlueService(IOptions<SendinBlueSettings> emailSettings)
+	        {
+	            _emailSettings = emailSettings.Value;
+	        }
+	
+	        public async Task SendEmailAsync(string emailDestinatario, string assunto, string mensagemTexto, string mensagemHtml)
+	        {
+	            var mensagem = new MimeMessage();
+	            mensagem.From.Add(new MailboxAddress(_emailSettings.NomeRemetente, _emailSettings.EmailRemetente));
+	            mensagem.To.Add(MailboxAddress.Parse(emailDestinatario));
+	            mensagem.Subject = assunto;
+	            var builder = new BodyBuilder { TextBody = mensagemTexto, HtmlBody = mensagemHtml };
+	            mensagem.Body = builder.ToMessageBody();
+	            
+	            try 
+	            {
+	                var smtpClient = new SmtpClient();
+	                smtpClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+	                await smtpClient.ConnectAsync(_emailSettings.EnderecoServidor, _emailSettings.PortaServidor).ConfigureAwait(false);
+	                await smtpClient.AuthenticateAsync(_emailSettings.EmailRemetente, _emailSettings.Senha).ConfigureAwait(false);
+	                await smtpClient.SendAsync(mensagem).ConfigureAwait(false);
+	                await smtpClient.DisconnectAsync(true).ConfigureAwait(false);
+	            }
+	            catch (Exception ex) 
+	            {
+	                throw new InvalidOperationException(ex.Message);
+	            }
+	        }
+	    }
+	}
 	```
 	<hr>
 
@@ -1051,54 +3259,925 @@ A tabela a seguir contempla os artefatos desenvolvidos:
 
 	* SendinBlueSettings.cs
 	```
+	namespace gerenciadorTarefa.Settings
+	{
+	    public class SendinBlueSettings
+	    {
+	        public string NomeRemetente { get; set; }
+	        public string EmailRemetente { get; set; }
+	        public string Senha { get; set; }
+	        public string EnderecoServidor { get; set; }
+	        public int PortaServidor { get; set; }
+	        public string UsarSsl { get; set; }
+	    }
+	}
 	```
 	<hr>
 
 * wwwroot
 
 	* css
-
-		* Interface.cs
-		```
-		```
-
-		* StyleSheet.css
-		```
-		```
 		
 		* create.css
 		```
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+		
+		.content {
+		  width: 100%;
+		  display: flex;
+		  margin-top: 18px;
+		  height: 100vh;
+		  justify-content:center;
+		  font-family: poppins;  
+		}
+		
+		.sidebar {
+		  display: flex;
+		  align-items: center;
+		  gap: 55px;
+		  background-color: #6368d9;
+		  margin-right: 8px;
+		  padding-top: 24px;
+		  border-radius: 18px;
+		  width: 100px;
+		  height:100vh;
+		
+		}
+		.width {
+		  width: auto;
+		}
+		
+		.imglogo {
+		  width: 55px;
+		}
+		
+		.box-content {
+		  margin-right: 24px;
+		  border: none;
+		  background-color: #f3f5f9;
+		  margin-left: 18px;
+		  display: flex;
+		  align-items: center;
+		  
+		
+		}
+		
+		.box-form{
+		
+		  width:520px;
+		  margin-top: 150px
+		}
+		
+		.title{
+		
+		  font-size: 40px;
+		    font-weight: 300;
+		
+		}
+		
+		.radius{
+		  border-radius:2rem;
+		  margin-top: 4px;
+		  height:45px
+		}
+		
+		.control-label{
+		  margin-top: 12px;
+		  font-size:20px;
+		  color: grey;
+		}
+		.add{
+		  background-color: #6368d9;
+		    color: white;
+		    border: none;
+		    border-radius: 6px;
+		    font-size: 15px;
+		    margin-top: 6px;
+		}
+		
+		.btn-primary{
+		  background-color: #6368d9;
+		    width: 380px;
+		    align-items: center;
+		    display: flex;
+		    justify-content: center;
+		    border-radius: 2rem;
+		    margin-top:14px;
+		    width:520px
+		}
+		
+		.tarefas{
+		  font-size: 20px;
+		    color: grey;
+		    margin-top:11px;
+		}
+		
+		
+		.voltar{
+		
+		  width: 520px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    margin-top:12px;
+		}
 		```
 
 		* delete.css
 		```
+		.title{
+		  font-size: 33px;
+		  font-weight: 300;
+		
+		}
+		
+		.conteudo-edit{
+		  width: 100%;
+		    display: flex;
+		    align-items: center;
+		    justify-content:center;
+		}
+		
+		.box-edit {
+		  width: 700px;
+		margin-top: 80px;
+		font-family: poppins;
+		background-color: white;
+		    padding: 30px;
+		    /* border-radius: 8px; */
+		    border-radius: 12px;
+		    box-shadow: 5px 5px 10px #e5e5e5;
+		
+		}
+
 		```
 
 		* edit.css
 		```
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+		
+		.content {
+		  width: 100%;
+		  display: flex;
+		  margin-top: 18px;
+		  height: 100vh;
+		}
+		
+		.sidebar {
+		  display: flex;
+		  align-items: center;
+		  gap: 55px;
+		  background-color: #6368d9;
+		  margin-right: 8px;
+		  padding-top: 24px;
+		  border-radius: 18px;
+		  width: 100px;
+		  height: 100vh;
+		}
+		
+		.imglogo {
+		  width: 55px;
+		}
+		
+		.box-content {
+		  margin-right: 24px;
+		  border: none;
+		  background-color: #f3f5f9;
+		  margin-left: 18px;
+		  display: flex;
+		    align-items: center;
+		}
+		
+		.box-form{
+		  width: 520px;
+		    margin-top: 150px;
+		    font-family: poppins;
+		}
+		
+		.row{
+		  width:100%;
+		  margin-left:0px;
+		  margin-right:0px;
+		}
+		
+		.col-md-4{
+		 
+		  width: 100%;}
+		
+		  .title{
+		    font-size: 40px;
+		    font-weight: 300;
+		
+		  }
+		
+		  .control-label {
+		    margin-top: 12px;
+		    font-size: 20px;
+		    color: grey;
+		}
+		
+		.radius {
+		  border-radius: 2rem;
+		  margin-top: 4px;
+		  height: 45px;
+		}
+		
+		.btn-primary {
+		  background-color: #6368d9;
+		  width: 380px;
+		  align-items: center;
+		  display: flex;
+		  justify-content: center;
+		  border-radius: 2rem;
+		  margin-top: 14px;
+		  width: 100%;
+		}
+		.voltar {
+		  width: 498px;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  margin-top: 12px;
+		}
 		```
 
 		* home.css
 		```
-		```
-
-		* newsenha.css
-		```
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+		
+		.fontPequena {
+		  font-size: 12px;
+		}
+		
+		.fontMedia {
+		  font-size: 13px;
+		  padding-left: 1rem;
+		  font-family: 'Poppins';
+		}
+		
+		.inputsLogin {
+		  border-radius: 2rem;
+		}
+		
+		.footer {
+		  position: fixed;
+		  bottom: 0;
+		  width: 100%;
+		  text-align: center;
+		  padding: 10px;
+		  background-color: #f0f0f0;
+		}
+		
+		.width {
+		  width: auto;
+		}
+		
+		.sidebar {
+		  display: flex;
+		  align-items: center;
+		  gap: 55px;
+		  background-color: #6368d9;
+		  margin-right: 8px;
+		  padding-top: 24px;
+		  border-radius: 18px;
+		  width: 100px;
+		  height: 100vh;
+		}
+		
+		.content {
+		  width: 100%;
+		  display: flex;
+		  margin-top: 18px;
+		  height: 100vh;
+		}
+		
+		.imglogo {
+		  width: 55px;
+		}
+		
+		.box-content {
+		  margin-right: 24px;
+		  border: none;
+		  background-color: #f3f5f9;
+		  margin-left: 18px;
+		}
+		
+		.search {
+		  border: none;
+		  height: 45px;
+		  width: 350px;
+		  padding-left: 24px;
+		  border-radius: 12px;
+		  margin-right: 6px;
+		}
+		
+		.search::placeholder {
+		  font-family: 'Poppins';
+		  color: #b4b4b4;
+		  /* Outros estilos de fonte, como tamanho, cor, etc. */
+		}
+		
+		.lupaimg {
+		  cursor: pointer;
+		}
+		
+		.box-header {
+		  width: 100%;
+		  display: flex;
+		  align-items: center;
+		  gap: 24px;
+		}
+		
+		.box1 {
+		  display: flex;
+		  align-items: center;
+		  height: 150px;
+		  background-color: white;
+		  width: 75%;
+		  margin-top: 20px;
+		  padding-left: 24px;
+		  justify-content: space-around;
+		  border-radius: 18px;
+		  box-shadow: 5px 5px 10px #e5e5e5;
+		}
+		
+		.box2 {
+		  display: flex;
+		  flex-direction: column;
+		  gap: 12px;
+		}
+		
+		.box3 {
+		  height: 150px;
+		  width: 25%;
+		  border-radius: 18px;
+		  background-color: white;
+		  margin-top: 20px;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  padding-left: 40px;
+		  box-shadow: 5px 5px 10px #e5e5e5;
+		
+		  @media (width >= 1660px) {
+		    padding-left: 65px;
+		  }
+		
+		  @media (width <= 1160px) {
+		    padding-left: 25px;
+		  }
+		}
+		
+		.img-header {
+		  margin-top: -60px;
+		  width: 90%;
+		}
+		
+		.title,
+		.subtitle {
+		  //font-family: 'Poppins';
+		  font-weight: 700;
+		  font-size: 38px;
+		  color: #27104e;
+		
+		  @media (width <= 1340px) {
+		    font-size: 28px;
+		  }
+		}
+		
+		.subtitle {
+		  font-size: 22px;
+		  font-weight: 400;
+		  color: #898686;
+		
+		  @media (width <= 1340px) {
+		    font-size: 18px;
+		  }
+		}
+		
+		.box4 {
+		  display: flex;
+		  gap: 32px;
+		 
+		}
+		
+		.img-add {
+		  cursor: pointer;
+		
+		  @media (width <= 1340px) {
+		    width: 55px;
+		  }
+		}
+		
+		.largura {
+		  width: 45px;
+		}
+		
+		.box-conteudo {
+		  width: 100%;
+		}
+		
+		.box-main {
+		  border-radius: 12px;
+		  height: 100vh;
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		}
+		.conteudo {
+		  width: 1000px;
+		  padding-top: 80px;
+		}
+		
+		.top {
+		  margin-top: 18px;
+		}
+		
+		.text {
+		  font-family: Poppins;
+		}
+		.box-home {
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  align-items: center;
+		  font-family: Poppins;
+		  margin-top: 0px;
+		}
+		
+		.box-list {
+		  display: flex;
+		  flex-direction: column;
+		}
+		
+		.box-buttons {
+		  display: flex;
+		
+		  gap: 22px;
+		  margin-top: 24px;
+		 // margin-bottom: 12px;
+		  padding-left:22px
+		}
+		
+		.btn-categoria {
+		  height: 45px;
+		
+		  width: 180px;
+		  background-color: #6368d9;
+		  color: white;
+		  font-family: poppins;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  border-radius: 18px;
+		  font-size: 16px;
+		  cursor: pointer;
+		}
+		
+		
+		.card-list {
+		    font-family: poppins;
+		    text-align: center;
+		    border-radius: 18px;
+		    height: auto;
+		    padding-right: 12px;
+		    overflow-y: auto;
+		    margin-top: 0px;
+		    max-height: 77vh;
+		    width: 100% /* Ajuste a largura conforme necessário */
+		    /* Estilos da barra de rolagem compatíveis com Firefox */
+		    scrollbar-width: thin;
+		    scrollbar-color: #888888 #f0f0f0;
+		    /* Estilos da barra de rolagem compatíveis com WebKit (Chrome, Safari) */
+		    &::-webkit-scrollbar {
+		      width: 6px; 
+		      /* Ajuste a largura da barra de rolagem conforme necessário */
+		  }
+		
+		  &::-webkit-scrollbar-thumb {
+		      background-color: #888888;
+		      border-radius:8px
+		  }
+		
+		  &::-webkit-scrollbar-track {
+		      background-color: #f0f0f0;
+		  }
+		}
+		.card1{
+		  display:flex;
+		  justify-content: space-between;
+		  font-size: 22px;
+		}
+		
+		.card-list {
+		    font-size: 22px;
+		    justify-content: center;
+		}
+		.prazo{
+		  color:#b3b3b3;
+		  font-size:14px
+		
+		}
+		
+		.barra-de-progresso-container {
+		  position: relative;
+		  width: 100%;
+		  height: 10px;
+		  background-color: #f0f0f0;
+		  margin-top: 10px;
+		  border-radius: 8px;
+		}
+		
+		.barra-de-progresso {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 0; /* A largura será ajustada dinamicamente com JavaScript */
+		  height: 100%;
+		  transition: width 0.5s;
+		  background-color: #DDACF5; /* Cor de fundo da barra de progresso */
+		  border-radius: 0px 8px 8px 0px;
+		}
+		
+		.progresso-text,
+		.porcentagem-text {
+		  position: absolute;
+		  bottom: -20px; /* Ajustando para que fiquem abaixo da barra de progresso */
+		  color:#b3b3b3;
+		  font-size:14px
+		
+		}
+		
+		.progresso-text {
+		  left: 0;
+		  padding-left: 5px; /* Adicionando um pequeno espaçamento à esquerda para melhorar a aparência */
+		}
+		
+		.porcentagem-text {
+		  right: 0;
+		  padding-right: 5px; /* Adicionando um pequeno espaçamento à direita para melhorar a aparência */
+		}
+		
+		.checkbox-options {
+		  display: flex;
+		  justify-content: space-between;
+		  margin-top: 34px;
+		  font-size: 16px;
+		    font-weight: 400;
+		}
+		
+		input[type="checkbox"] {
+		  margin-right: 5px;
+		}
+		
+		
+		#confetes-container {
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  pointer-events: none;
+		  z-index: 9999;
+		}
+		
+		.confete {
+		  position: absolute;
+		  width: 10px;
+		  height: 10px;
+		  background-image: url('caminho-para-a-imagem-do-confete.png');
+		  background-size: cover;
+		  animation: confeteAnimation 4s ease-out infinite;
+		}
+		
+		@keyframes confeteAnimation {
+		  0% {
+		    transform: translate(0, 0) rotate(0deg);
+		  }
+		  100% {
+		    transform: translate(calc(100vw * 1.5), calc(100vh * 1.5)) rotate(720deg);
+		  }
+		}
+		
+		.gap{
+		margin-top:16px;
+		background-color: white;
+		font-family: poppins;
+		    border-radius: 18px;
+		    height: auto;
+		    padding:18px;
+		    padding-left:24px
+		
+		}
+		
+		.height{
+		  height:24px;
+		  cursor:pointer;
+		
+		}
+		
+		#elementoAlvo {
+		  background-color: #6368d9;
+		  font-size: 16px;
+		  transition: background-color 0.3s, font-size 0.3s; /* Adiciona transição suave */
+		}
+		
+		/* Estilos quando o mouse está sobre o elemento */
+		#elementoAlvo:hover {
+		  background-color: #A1A5E8;
+		  font-size: 18px;
+		  font-weight:600;
+		}
+		
+		#elementoAlvo:focus {
+		  background-color: #A1A5E8;
+		  font-size: 18px;
+		  font-weight:600;
+		}
+		
+		.flex{
+		  display:flex;
+		
+		}
+		
+		.opcoes-edicao{
+		  display: flex;
+		    flex-direction: column;
+		    font-size:14px;
+		    font-weight:400;
+		    gap:6px
+		}
+		
+		.btn-categoria.categoria-selecionada {
+		  background-color: #A1A5E8;
+		  font-size: 18px;
+		  font-weight: 600;
+		}
 		```
 
 		* site.css
 		```
+		body {
+		    margin-bottom: 34px;
+		    background-color: #F3F5F9;
+		}
 		```
 
 		* usuariosCreate.css
 		```
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+		
+		.inputsLogin{
+		    border-radius: 2rem;
+		}
+		
+		.logoLogin {
+		    object-fit: contain;
+		    max-width: 100%;
+		    max-height: 100%;
+		    margin-top: 35%
+		}
+		
+		.fontPequena{
+		    font-size: 12px;
+		}
+		
+		.fontMedia {
+		    font-size: 13px;
+		    padding-left: 1rem;
+		}
+		
+		.footer {
+		    position: fixed;
+		    bottom: 0;
+		    width: 100%;
+		    text-align: center; 
+		    padding: 10px; 
+		    background-color: #f0f0f0; 
+		}
+		
+		.create {
+		    width: 100%;
+		    height: 100vh;
+		    display:flex;
+		  }
+		
+		  .boxesquerda {
+		    width: 50%;
+		    background-color: #6368d9;
+		    height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    justify-content: center;
+		    gap: 50px;
+		  }
+		  .boxdireita{
+		    width:50%;
+		    
+		}
+		
+		.card-body{
+		    margin-top:180px;
+		    display:flex;
+		    flex-direction:column;
+		    justify-content:center;
+		    align-items:center;
+		    font-family:    Poppins
+		}
+		
+		.color{
+		    background-color: #6368d9;
+		}
+		.larg{
+		    width:380px
+		}
+		
+		.text{
+		    font-size:40px;
+		    font-weight:300;
+		}
 		```
 
 		* usuariosLogin.css
 		```
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700&display=swap');
+		
+		.inputsLogin {
+		  border-radius: 2rem;
+		}
+		
+		.logoLogin {
+		  object-fit: contain;
+		  max-width: 100%;
+		  max-height: 100%;
+		  margin-top: 35%;
+		}
+		
+		.fontPequena {
+		  font-size: 12px;
+		}
+		
+		.fontMedia {
+		  font-size: 13px;
+		  padding-left: 1rem;
+		}
+		
+		.footer {
+		  position: fixed;
+		  bottom: 0;
+		  width: 100%;
+		  text-align: center;
+		  padding: 10px;
+		  background-color: #f0f0f0;
+		}
+		.teste {
+		  font-size: 60px;
+		  color: red;
+		}
+		.login {
+		  width: 100%;
+		  height: 100vh;
+		  display:flex;
+		}
+		
+		.boxesquerda {
+		  width: 50%;
+		  background-color: #6368d9;
+		  height: 100vh;
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		  justify-content: center;
+		  gap: 50px;
+		}
+		.boxdireita{
+		    width:50%;
+		    
+		}
+		
+		.metas {
+		  font-family: Poppins;
+		  color: white;
+		  font-size: 20px;
+		  font-weight:300;
+		  margin-left:20px
+		}
+		
+		.card-body{
+		    margin-top:180px;
+		    display:flex;
+		    flex-direction:column;
+		    justify-content:center;
+		    align-items:center;
+		    font-family:    Poppins
+		}
+		
+		.larg{
+		    width:380px
+		}
+		.color{
+		    background-color: #6368d9;
+		}
+		.text{
+		    font-size:40px;
+		    font-weight:300;
+		}
+		.senha{
+		  width: 100%;
+		  height: 100vh;
+		  display:flex;
+		
+		}
 		```
-	<hr>
 
+  * Program.cs
+	
+	```
+	using gerenciadorTarefa.Models;
+	using gerenciadorTarefa.Services;
+	using gerenciadorTarefa.Settings;
+	using Microsoft.AspNetCore.Authentication.Cookies;
+	using Microsoft.AspNetCore.Identity;
+	using Microsoft.EntityFrameworkCore;
+	using Microsoft.Extensions.Configuration;
+	using Microsoft.Extensions.DependencyInjection;
+	
+	var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+	{
+	    EnvironmentName = Environments.Development
+	});
+	
+	
+	builder.Services.AddControllersWithViews();
+	
+	builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+	
+	builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+	
+	builder.Services.Configure<CookiePolicyOptions>(options =>
+	{
+	    options.ConsentCookie.HttpOnly = true;
+	    options.CheckConsentNeeded = context => true;
+	    options.MinimumSameSitePolicy = SameSiteMode.None;
+	});
+	
+	builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	    .AddCookie(options =>
+	    {
+	        options.AccessDeniedPath = "/Usuarios/AccessDenied";
+	        options.LoginPath = "/Usuarios/Login";
+	    });
+	
+	builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+	{
+	    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.Zero; 
+	    options.Lockout.MaxFailedAccessAttempts = int.MaxValue; 
+	    options.User.RequireUniqueEmail = true;
+	    options.User.AllowedUserNameCharacters = null;
+	})
+	    .AddEntityFrameworkStores<AppDbContext>()
+	    .AddDefaultTokenProviders();
+	
+	builder.Services.Configure<IdentityOptions>(options =>
+	{
+	    options.Password.RequireDigit = false;
+	    options.Password.RequiredLength = 1;
+	    options.Password.RequireNonAlphanumeric = false;
+	    options.Password.RequireUppercase = false;
+	    options.Password.RequireLowercase = false;
+	    options.SignIn.RequireConfirmedPhoneNumber = false;
+	    options.SignIn.RequireConfirmedEmail = false;
+	    options.SignIn.RequireConfirmedAccount = false;
+	});
+	
+	builder.Services.Configure<SendinBlueSettings>(builder.Configuration.GetSection(nameof(SendinBlueSettings)));
+	builder.Services.AddSingleton<IEmailService, SendinBlueService>();  
+	
+	var app = builder.Build();
+	if (!app.Environment.IsDevelopment())
+	{
+	    app.UseExceptionHandler("/Home/Error");
+	    app.UseHsts();
+	}
+	
+	app.UseHttpsRedirection();
+	
+	app.UseStaticFiles();
+	
+	app.UseRouting();
+	
+	app.UseAuthentication();
+	
+	app.UseAuthorization();
+	
+	app.MapControllerRoute(
+	    name: "default",
+	    pattern: "{controller=Usuarios}/{action=Login}/{id?}");
+	
+	app.Run();
+	
+	```
   
 ## <a name="implementacao">Implementação da Solução</a>
 
