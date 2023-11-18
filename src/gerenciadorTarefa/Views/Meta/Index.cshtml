@@ -69,16 +69,16 @@
                         {
                             <div class="gap" data-category="@item.Categoria">
                                 <div class="card1">
-                                    <span>@Html.DisplayFor(modelItem => item.Titulo)</span>
-                                    <div>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                                    <span class="titulo">@Html.DisplayFor(modelItem => item.Titulo)</span>
+                                    <div class="btn-Edit-Del">
+                                        <a asp-action="Edit" asp-route-id="@item.Id"></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"></a>
                                     </div>
                                     <div class="flex">
                                         <img class="height" src="~/img/edit.png" alt="" onclick="toggleOpcoesEdicao(event)">
                                         <div class="opcoes-edicao" style="display: none;">
-                                            <a href="#" onclick="editarMeta('@item.Id')">Editar</a>
-                                            <a href="#" onclick="excluirMeta('@item.Id')">Excluir</a>
+                                            <a asp-action="Edit" asp-route-id="@item.Id" onclick="editarMeta('@item.Id')">Editar</a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="excluirMeta('@item.Id')">Excluir</a>
                                         </div>
                                     </div>
                                 </div>

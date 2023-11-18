@@ -15,12 +15,12 @@
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  background-color: #f0f0f0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0;
 }
 
 .width {
@@ -258,10 +258,18 @@
       background-color: #f0f0f0;
   }
 }
-.card1{
-  display:flex;
-  justify-content: space-between;
-  font-size: 22px;
+.card1 {
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+}
+
+.titulo {
+    margin-right: 10px;
+}
+
+.btn-Edit-Del {
+    margin-left: auto;
 }
 
 .card-list {
@@ -318,7 +326,7 @@
   justify-content: space-around;
   margin-top: 34px;
   font-size: 16px;
-    font-weight: 400;
+  font-weight: 400;
 }
 
 input[type="checkbox"] {
@@ -392,7 +400,6 @@ font-family: poppins;
 
 .flex{
   display:flex;
-
 }
 
 .opcoes-edicao{
@@ -400,7 +407,8 @@ font-family: poppins;
     flex-direction: column;
     font-size:14px;
     font-weight:400;
-    gap:6px
+    gap:6px;
+    padding-left: 20px;
 }
 
 .btn-categoria.categoria-selecionada {
