@@ -266,6 +266,7 @@
 
 .titulo {
     margin-right: 10px;
+    color: dimgrey;
 }
 
 .btn-Edit-Del {
@@ -313,11 +314,13 @@
 
 .progresso-text {
   left: 0;
+  margin-left: 25px;
   padding-left: 5px; /* Adicionando um pequeno espaçamento à esquerda para melhorar a aparência */
 }
 
 .porcentagem-text {
   right: 0;
+  margin-right: -22px;
   padding-right: 5px; /* Adicionando um pequeno espaçamento à direita para melhorar a aparência */
 }
 
@@ -362,15 +365,16 @@ input[type="checkbox"] {
   }
 }
 
-.gap{
-margin-top:16px;
-background-color: white;
-font-family: poppins;
+.gap {
+    margin-top: 16px;
+    background-color: white;
+    font-family: poppins;
     border-radius: 18px;
     height: auto;
-    padding:18px;
-    padding-left:24px
-
+    padding: 18px;
+    padding-left: 24px;
+    box-shadow: 0px 2px 10px #e5e5e5;
+    margin-bottom: 15px;
 }
 
 .height{
