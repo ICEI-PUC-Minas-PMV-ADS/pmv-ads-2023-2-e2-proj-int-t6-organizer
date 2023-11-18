@@ -4489,6 +4489,214 @@ https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organize
 **************************
 
 
+### <a name="rf01plano">Requisito 02 e 03</a>  
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Caso de Teste</td>
+	<td> 
+		T.02 Verificar se o sistema permite o gerenciamento correto de metas.<br>
+		T.03 Verificar se o sistema permite o gerenciamento correto das tarefas.
+	</td>
+	
+</tr>
+<tr>
+	<td>Requisitos Associados</td>
+	<td> RF-02 - Gerenciar metas.<br>
+	     RF-03 - Gerenciar tarefas.
+	</td>
+</tr>
+<tr>
+	<td>Objetivo do Teste </td>
+	<td>
+		Verificar se é possivel realizar a criação e edição da meta. <br>
+		Verificar se é possivel realizar a criação e edição das tarefas. <br>		
+	</td>
+</tr>
+<tr>
+	<td>Passos</td>
+	<td>
+		¹ Criar uma meta e verificar se as informações da meta e as tarefas são registradas corretamente.<br>
+		² Editar uma meta existente e verificar se as alterações são salvas adequadamente.<br>
+		³ Excluir uma meta e verificar se ela é removida com sucesso.<br>
+	</td>	
+</tr>
+<tr>
+	<td>Critérios de Êxito</td>
+	<td>
+		A meta é criada com sucesso. <br>
+		As informações da meta e tarefa são exibidas corretamente.<br>
+		As alterações efetuadas são exibidas corretamente<br>
+	</td>
+</tr>
+<tr>
+	<td>Critérios de não Êxito</td>
+	<td>
+		A meta não é cadastrada.<br>
+		As alterações não são concluidas. <br>
+	</td>
+</tr>
+</table>
+
+**Registro T.02 e T.03**
+
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+
+**************************
+
+### <a name="rf01plano">Requisito 04 e 05</a>  
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Caso de Teste</td>
+	<td> 
+		T.04 Verificar se o sistema permite que o usuário atualize o status da tarefa corretamente.<br>
+		T.05 Verificar se o sistema exibe o status atual da meta corretamente.
+	</td>
+	
+</tr>
+<tr>
+	<td>Requisitos Associados</td>
+	<td> RF-04 - O sistema deve permitir o usuário atualizar o status da tarefa.<br>
+	     RF-05 - O sistema deve emitir o status atual da meta.
+	</td>
+</tr>
+<tr>
+	<td>Objetivo do Teste </td>
+	<td>
+		Verificar se é possivel marcar as tarefas como conluído. <br>
+		Verificar se é possivel visualizar o progresso atual da meta. <br>		
+	</td>
+</tr>
+<tr>
+	<td>Passos</td>
+	<td>
+		¹ Criar uma meta com tarefas atribuidas.<br>
+		² Marcar as tarefas pelo checkbox.<br>
+		³ Visualizar se a conclusão de tarefas alterar o progresso da meta.<br>
+	</td>	
+</tr>
+<tr>
+	<td>Critérios de Êxito</td>
+	<td>
+		É possivel marcas as tarefas pelo checkbox. <br>
+		A barra de progressao responde corretamente em relação a quantidade de tarefas concluidas.<br>
+	</td>
+</tr>
+<tr>
+	<td>Critérios de não Êxito</td>
+	<td>
+		Não é possivel marcar as tarefas pelo checkbox.<br>
+		A barra de progresso não funciona ou reflete de forma erra o percentual de conclusão. <br>
+	</td>
+</tr>
+</table>
+
+**Registro T.04 e T.05**
+
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+
+**************************
+
+### <a name="rf01plano">Requisito 06</a>  
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Caso de Teste</td>
+	<td> 
+		T.06 Verificar se o sistema retornar corretamente a pesquisa solicitada..<br>
+	</td>
+	
+</tr>
+<tr>
+	<td>Requisitos Associados</td>
+	<td> RF-06 - O sistema deve permitir pesquisar meta e/ou tarefa.<br>
+	</td>
+</tr>
+<tr>
+	<td>Objetivo do Teste </td>
+	<td>
+		Verificar se é possivel pesquisar metas e tarefas	
+	</td>
+</tr>
+<tr>
+	<td>Passos</td>
+	<td>
+		¹ Criar uma meta com tarefas atribuidas.<br>
+		² Pesquise pelo nome da meta ou tarefa existente.<br>
+  		³ Pesquise pelo nome da meta ou tarefa inexistente.<br>
+		
+	</td>	
+</tr>
+<tr>
+	<td>Critérios de Êxito</td>
+	<td>
+		O resultado da pesquisa é retornado de forma correta. <br>
+	</td>
+</tr>
+<tr>
+	<td>Critérios de não Êxito</td>
+	<td>
+		O campo de pesquisa não é capaz de achar o que foi pesquisado.<br>
+	</td>
+</tr>
+</table>
+
+**Registro T.06**
+
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+
+**************************
+
+### <a name="rf01plano">Requisito 07</a>  
+
+<table border="1" cellspacing="1" cellpadding="1" style="border: thin solid black;">
+<tr>
+	<td>Caso de Teste</td>
+	<td> 
+		T.07 Verificar se o sistema retonar meta condizente com o filtro selecionado.
+	</td>
+	
+</tr>
+<tr>
+	<td>Requisitos Associados</td>
+	<td> RF-07 - O sistema deve permitir filtrar meta
+	</td>
+</tr>
+<tr>
+	<td>Objetivo do Teste </td>
+	<td>
+		Verificar se é possivel filtrar as metas	
+	</td>
+</tr>
+<tr>
+	<td>Passos</td>
+	<td>
+		¹ Escolher um filtro disponível e verificar se o sistema retorna a meta de acordo com o critério do mesmo.
+		
+	</td>	
+</tr>
+<tr>
+	<td>Critérios de Êxito</td>
+	<td>
+		O filtro retorna somente as metas da categoria selecionada <br>
+	</td>
+</tr>
+<tr>
+	<td>Critérios de não Êxito</td>
+	<td>
+		O filtro retorna metas de outras categorias<br>
+	</td>
+</tr>
+</table>
+
+**Registro T.07**
+
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+
+**************************
+
+
 ## <a name="apresentacao">Apresentação</a>
 
 ### <a name="apresentacao">Prova de Conceito - POC</a>
