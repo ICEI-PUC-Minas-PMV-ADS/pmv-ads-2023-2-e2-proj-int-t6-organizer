@@ -85,18 +85,23 @@
     <script>
         $(document).ready(function () {
             var taskCount = 0;
-
-            $("#addTask").click(function () {
-                var taskHtml = `
+            
+                $("#addTask").click(function () {
+                if (taskCount < 5) {
+                    var taskHtml = `
                                     <div class="form-group">
                                         <label for="Tarefas[${taskCount}].Nome"></label>
                                         <input type="text" name="Tarefas[${taskCount}].Nome" class="form-control radius" placeholder="Nome da tarefa" />
                                     </div>
                                 `;
 
-                $("#taskContainer").append(taskHtml);
-                taskCount++;
-            });
+                    $("#taskContainer").append(taskHtml);
+                    taskCount++;
+                } else {
+                    alert('É permitido apenas 6 tarefas por meta!')
+                }
+                });
+            
         });
     </script>
 
