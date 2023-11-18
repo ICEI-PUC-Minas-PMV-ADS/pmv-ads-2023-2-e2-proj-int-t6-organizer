@@ -1,17 +1,47 @@
 ﻿@model gerenciadorTarefa.Models.Usuario
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
 @using System.Security.Claims;
 @{
     ViewData["Title"] = "Delete";
 }
 
-<div class="form-group text-center">
+<div class="d-flex h-100 top">
 
-    <h1 class="mb-5">Exclusão de cadastro</h1>
-    <p class="mb-5">Todos os seus dados serão apagados do sistema Gerenciador de Tarefas, tem certeza disso?</p>
+    <div class="card sidebar">
+        <a href="/Meta/Index">
+            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+        </a>
+        <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="w-50 mx-auto mb-3 mt-3 mx-auto">
+            <img class="card-img-top" src="~/img/userimg.png" alt="Card image cap">
+        </a>
+        <a href="/Usuarios/logout" class=" mx-auto mb-3 mt-3" onclick="return confirm('Tem certeza de que deseja SAIR do Gerenciador de Tarefas?');">
+            <img class="card-img-top largura" src="~/img/logoutimg.png" alt="Card image cap">
+        </a>
+    </div>
 
-    <form asp-action="DeleteConfirmed">
-        <a asp-action="Edit" asp-controller="Usuarios" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-secondary m-4 col-md-3 inputsLogin">Cancelar</a>
-        <input type="submit" value="Excluir cadastro" class="btn btn-danger m-4 col-md-3 inputsLogin" />
-        <p class="text-center mb-5 fontPequena"><a href="/Meta/Index">Retornar para a tela inicial</a></p>
-    </form>
- </div>
+    <div class="form-group text-center box-conteudo">
+        <div class="card box-main ">
+
+            <div class="conteudo">
+
+                <h1 class="mt-5 mb-5">Exclusão de cadastro</h1>
+        <p class="mb-5">Todos os seus dados serão apagados do sistema Gerenciador de Tarefas, tem certeza disso?</p>
+
+        <form asp-action="DeleteConfirmed">
+            <a asp-action="Edit" asp-controller="Usuarios" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-secondary m-4 col-md-3 inputsLogin">Cancelar</a>
+            <input type="submit" value="Excluir cadastro" class="btn btn-danger m-4 col-md-3 inputsLogin" />
+            <p class="text-center mb-5 fontPequena"><a href="/Meta/Index">Retornar para a tela inicial</a></p>
+        </form>
+        </div>
+        </div>
+     </div>
+</div>
+
+<div class="footer">
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>

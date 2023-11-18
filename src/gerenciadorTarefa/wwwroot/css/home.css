@@ -36,14 +36,15 @@
   padding-top: 24px;
   border-radius: 18px;
   width: 100px;
-  height: 100vh;
+  height: auto;
 }
 
 .content {
-  width: 100%;
-  display: flex;
-  margin-top: 18px;
-  height: 100vh;
+    width: 100%;
+    display: flex;
+    margin-top: 18px;
+    margin-bottom: 20px;
+    height: 100vh;
 }
 
 .imglogo {
