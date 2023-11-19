@@ -1,107 +1,98 @@
 ﻿@model gerenciadorTarefa.Models.ViewModel.MetaViewModel
 @using System.Security.Claims;
-<link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
 
+<link rel="stylesheet" href="~/css/create.css" asp-append-version="true" />
 
 @{
     ViewData["Title"] = "Create";
 }
 
-
-
 <div class="content">
     <div class="card sidebar">
         <a href="/Meta/Index">
-            <img class="card-img-top width imglogo " src="~/img/logoimg.png" alt="Card image cap">
+            <img class="card-img-top width imglogo" src="~/img/logoimg.png" alt="Card image cap">
         </a>
         <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
             <img class="card-img-top width" src="~/img/userimg.png" alt="Card image cap">
-
         </a>
         <a href="/Usuarios/Logout" onclick="return confirm('Tem certeza que deseja SAIR do Gerenciador de Tarefas?');">
             <img class="card-img-top width" src="~/img/logoutimg.png" alt="Card image cap">
         </a>
-
     </div>
-    <div class="card box-content" style="width: 90%;">
 
+    <div class="card box-content" style="width: 90%;">
         <div class="box-form">
             <h1 class="title">Criar Nova Meta</h1>
-
-
             <hr />
             <div class="row">
                 <div class="">
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                         <div class="form-group">
-                            <label asp-for="Categoria" class="control-label "></label>
-                            <select asp-for="Categoria" class="form-control radius"
-                                asp-items="Html.GetEnumSelectList<Categoria>()"></select>
+                            <label asp-for="Categoria" class="control-label"></label>
+                            <select asp-for="Categoria" class="form-control radius" asp-items="Html.GetEnumSelectList<Categoria>()"></select>
                             <span asp-validation-for="Categoria" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
-                            <label asp-for="Titulo" class="control-label "></label>
+                            <label asp-for="Titulo" class="control-label"></label>
                             <input asp-for="Titulo" class="form-control radius" />
                             <span asp-validation-for="Titulo" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
-                            <label asp-for="Prazo" class="control-label "></label>
+                            <label asp-for="Prazo" class="control-label"></label>
                             <input asp-for="Prazo" class="form-control radius" />
                             <span asp-validation-for="Prazo" class="text-danger"></span>
                         </div>
 
                         <div class="add-tarefa">
-
                             <div class="form-group">
-                               
                             </div>
 
                             <div id="taskContainer">
                                 <div class="form-group tarefas">
-                                    <label for="Tarefas[0].Nome">Tarefas</label>
-                                     <button class="add" type="button" id="addTask">Adicionar</button>
-                                    <input type="text" name="Tarefas[0].Nome" class="form-control radius" placeholder="Nome da tarefa"/>
+                                    <label></label>
+                                    <button class="add" type="button" id="addTask">Adicionar</button>
+                                    <input type="text" name="Tarefas[0].Nome" class="form-control radius" placeholder="Nome da tarefa" />
                                 </div>
                             </div>
-
                         </div>
+
                         <div class="form-group">
                             <input type="submit" value="Salvar" class="btn btn-primary" />
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
-
-
 
 @section Scripts {
     <script>
         $(document).ready(function () {
             var taskCount = 0;
-            
-                $("#addTask").click(function () {
-                if (taskCount < 5) {
-                    var taskHtml = `
-                                    <div class="form-group">
-                                        <label for="Tarefas[${taskCount}].Nome"></label>
-                                        <input type="text" name="Tarefas[${taskCount}].Nome" class="form-control radius" placeholder="Nome da tarefa" />
-                                    </div>
-                                `;
 
+            $("#addTask").click(function () {
+                if (taskCount < 5) {
+                    // Incrementa o contador antes de usá-lo
+                    var currentCount = taskCount++;
+
+                    var taskHtml = `
+                        <div class="form-group tarefas">
+                            <label for="Tarefas_${currentCount}__Nome">Tarefa ${currentCount + 1}</label>
+                            <input type="text" name="Tarefas[${currentCount}].Nome" class="form-control radius" placeholder="Nome da tarefa" />
+                        </div>
+                    `;
+
+                    taskHtml = $(taskHtml);
                     $("#taskContainer").append(taskHtml);
-                    taskCount++;
                 } else {
                     alert('É permitido apenas 6 tarefas por meta!')
                 }
-                });
-            
+            });
         });
     </script>
 

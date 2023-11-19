@@ -103,9 +103,10 @@ public class MetaController : Controller
                     };
 
                     _context.Tarefas.Add(tarefa);
+                    // Salvando cada tarefa individualmente
+                    await _context.SaveChangesAsync();
                 }
 
-                await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Meta");
             }
         }
