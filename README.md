@@ -4540,8 +4540,7 @@ https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organize
 
 **Registro T.02 e T.03**
 
-https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
-
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/0c5fd079-514c-4cf0-b9f3-cf8205faeb5d
 **************************
 
 ### <a name="rf01plano">Requisito 04 e 05</a>  
@@ -4594,7 +4593,7 @@ https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organize
 
 **Registro T.04 e T.05**
 
-https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/5f64588e-3dd4-4b3a-a1ed-8907e39db97d
 
 **************************
 
@@ -4624,8 +4623,7 @@ https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organize
 	<td>
 		¹ Criar uma meta com tarefas atribuidas.<br>
 		² Pesquise pelo nome da meta ou tarefa existente.<br>
-  		³ Pesquise pelo nome da meta ou tarefa inexistente.<br>
-		
+  		³ Pesquise pelo nome da meta ou tarefa inexistente.
 	</td>	
 </tr>
 <tr>
@@ -4644,7 +4642,7 @@ https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organize
 
 **Registro T.06**
 
-https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/e785d682-82ad-4217-876f-8d69259f9e8c
 
 **************************
 
@@ -4692,7 +4690,7 @@ https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organize
 
 **Registro T.07**
 
-https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6d33d40b-f3ce-49f3-bde4-ac0a405972a4
+https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/assets/128756585/6312288e-d124-47bc-96a0-77572e797e8f
 
 **************************
 
