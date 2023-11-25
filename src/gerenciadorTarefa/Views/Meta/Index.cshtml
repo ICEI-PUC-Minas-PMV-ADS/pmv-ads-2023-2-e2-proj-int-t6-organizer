@@ -58,17 +58,21 @@
                 </div>
             </div>
 
-            <div class="box-buttons">
-                <div id="elementoAlvo-Pessoal" class="btn-categoria pessoal" onclick="loadMetas('Todos')">
-                    <span>Todos</span>
+            <!-- Lista suspensa para status -->
+            <div class="dropdown ml-auto">
+                <button onclick="loadMetas('Todos')">
+                    <img class="height" src="~/img/filtro.png" alt="Filtro"/>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="loadMetas('Todos')">Todos</a>
+                    <a href="#" onclick="loadMetas('Andamento')">Andamento</a>
+                    <a href="#" onclick="loadMetas('Concluido')">Concluídos</a>
+                    <a href="#" onclick="loadMetas('Nenhum')">
+                        <img class="height" src="~/img/limpeza-de-dados.png" alt="Limpar" />
+                    </a>
                 </div>
-                <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
-                     onclick="loadMetas('Andamento')">
-                    <span>Andamento</span>
-                </div>
-                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadMetas('Concluido')">
-                    <span>Concluídos</span>
-                </div>
+                <!-- Exibe o filtro selecionado -->
+                <span id="filtroSelecionado"></span>
             </div>
 
             <div class="card-list">
@@ -180,10 +184,18 @@
                 item.style.display = 'none';
             }
         });
+
+        // filtro selecionado
+        var filtroSelecionadoSpan = document.getElementById('filtroSelecionado');
+        if (filtroSelecionadoSpan) {
+            if (selectedStatus === 'Nenhum') {
+                filtroSelecionadoSpan.style.display = 'none';
+            } else {
+                filtroSelecionadoSpan.textContent = selectedStatus;
+                filtroSelecionadoSpan.style.display = 'inline'; // ou 'block' dependendo do estilo desejado
+            }
+        }
     }
-
-
-
 
     function loadCategory(category) {
         console.log(category)
@@ -266,4 +278,5 @@
         window.location.href = '/Meta/Create'; // Substitua 'SuaController' pelo nome real do seu controller
         console.log("teste")
     }
+
 </script>

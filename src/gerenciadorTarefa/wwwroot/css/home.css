@@ -157,11 +157,12 @@
 }
 
 .img-add {
-  cursor: pointer;
+    cursor: pointer;
+    border: none;
 
-  @media (width <= 1340px) {
-    width: 55px;
-  }
+    @media (width <= 1340px) {
+        width: 55px;
+    }
 }
 
 .largura {
@@ -377,10 +378,9 @@ input[type="checkbox"] {
     margin-bottom: 15px;
 }
 
-.height{
-  height:24px;
-  cursor:pointer;
-
+.height {
+    height: 30px;
+    cursor: pointer;
 }
 
 #elementoAlvo {
@@ -419,4 +419,36 @@ input[type="checkbox"] {
   background-color: #A1A5E8;
   font-size: 18px;
   font-weight: 600;
+}
+/* Estilos para a lista suspensa */
+.dropdown {
+    text-align: end;
+    margin: 20px;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    width: max-content;
+    right:0;
+}
+
+    .dropdown-content a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+button {
+    border: none;
 }
