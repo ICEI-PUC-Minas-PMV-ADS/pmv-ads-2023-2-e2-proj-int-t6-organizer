@@ -58,6 +58,19 @@
                 </div>
             </div>
 
+            <div class="box-buttons">
+                <div id="elementoAlvo-Pessoal" class="btn-categoria pessoal" onclick="loadMetas('Todos')">
+                    <span>Todos</span>
+                </div>
+                <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
+                     onclick="loadMetas('Andamento')">
+                    <span>Andamento</span>
+                </div>
+                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadMetas('Concluido')">
+                    <span>Concluídos</span>
+                </div>
+            </div>
+
             <div class="card-list">
                 <div class="card-list">
                     @{
@@ -114,6 +127,64 @@
     </div>
 </div>
 <script>
+    
+        // ... (previous script code)
+
+        // Event listener for any checkbox change
+    function checkboxChanged() {
+            loadMetas(getSelectedStatus());
+    }
+
+    // Function to get the selected status from checkboxes
+    function getSelectedStatus() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var selectedStatus = [];
+
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedStatus.push(checkbox.getAttribute('data-status'));
+            }
+        });
+
+        return selectedStatus;
+    }
+
+    function loadMetas(selectedStatus) {
+        var allItems = document.querySelectorAll('.gap');
+
+        allItems.forEach(function (item) {
+            var status = item.getAttribute('data-status');
+            var checkboxes = item.querySelectorAll('input[type="checkbox"]');
+            var anyCheckboxUnchecked = Array.from(checkboxes).some(function (checkbox) {
+                if (checkboxes.length > 1) {
+                    return checkbox.checked;
+                }
+                
+            });
+            var allCheckboxesChecked = Array.from(checkboxes).every(function (checkbox) {
+                return checkbox.checked;
+            });
+
+            var allCheckboxesUnchecked = Array.from(checkboxes).every(function (checkbox) {
+                return false;
+            });
+
+            if (selectedStatus.length === 0 ||
+                ((selectedStatus.includes('Concluido') && allCheckboxesChecked) ||
+                    (selectedStatus.includes('Andamento') && anyCheckboxUnchecked) ||
+                    (!selectedStatus.includes('Concluido') && !selectedStatus.includes('Andamento'))
+                    || (selectedStatus.includes('NaoConcluido') && !allCheckboxesUnchecked))
+                || selectedStatus.includes('Todos')) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+
+
+
     function loadCategory(category) {
         console.log(category)
         var categoryItems = document.querySelectorAll(`.gap[data-category="${category}"]`);
