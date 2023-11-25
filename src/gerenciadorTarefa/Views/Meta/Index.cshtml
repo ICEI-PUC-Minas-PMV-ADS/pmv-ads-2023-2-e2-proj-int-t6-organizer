@@ -56,7 +56,6 @@
                 <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Academico')">
                     <span>Acadêmico</span>
                 </div>
-            </div>
 
             <!-- Lista suspensa para status -->
             <div class="dropdown ml-auto">
@@ -74,6 +73,7 @@
                 <!-- Exibe o filtro selecionado -->
                 <span id="filtroSelecionado"></span>
             </div>
+        </div>
 
             <div class="card-list">
                 <div class="card-list">
@@ -92,7 +92,7 @@
                                         <a asp-action="Delete" asp-route-id="@item.Id"></a>
                                     </div>
                                     <div class="flex">
-                                        <img class="height" src="~/img/edit.png" alt="" onclick="toggleOpcoesEdicao(event)">
+                                        <img class="height" src="~/img/menu.png" alt="menu" onclick="toggleOpcoesEdicao(event)">
                                         <div class="opcoes-edicao" style="display: none;">
                                             <a asp-action="Edit" asp-route-id="@item.Id" onclick="editarMeta('@item.Id')">Editar</a>
                                             <a asp-action="Delete" asp-route-id="@item.Id" onclick="excluirMeta('@item.Id')">Excluir</a>

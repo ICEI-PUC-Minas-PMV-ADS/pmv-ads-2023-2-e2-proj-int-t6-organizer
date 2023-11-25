@@ -422,8 +422,11 @@ input[type="checkbox"] {
 }
 /* Estilos para a lista suspensa */
 .dropdown {
+    flex-direction: column-reverse;
     text-align: end;
-    margin: 20px;
+    margin-right:30px;
+    margin-bottom: 30px;
+    width: 70%;
 }
 .dropdown-content {
     display: none;
