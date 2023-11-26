@@ -45,35 +45,35 @@
         </div>
 
         <div class="box-list">
-            <div class="box-buttons">
-                <div id="elementoAlvo-Pessoal" class="btn-categoria pessoal" onclick="loadCategory('Pessoal')">
-                    <span>Pessoal</span>
-                </div>
-                <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
-                     onclick="loadCategory('Profissional')">
-                    <span>Profissional</span>
-                </div>
-                <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Academico')">
-                    <span>Acadêmico</span>
-                </div>
+            <div class="guias">
+                <div class="box-buttons">
+                    <div id="elementoAlvo-Pessoal" class="btn-categoria pessoal" onclick="loadCategory('Pessoal')">
+                        <span>Pessoal</span>
+                    </div>
+                    <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
+                         onclick="loadCategory('Profissional')">
+                        <span>Profissional</span>
+                    </div>
+                    <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Academico')">
+                        <span>Acadêmico</span>
+                    </div>
 
-            <!-- Lista suspensa para status -->
-            <div class="dropdown ml-auto">
-                <button onclick="loadMetas('Todos')">
-                    <img class="height" src="~/img/filtro.png" alt="Filtro"/>
-                </button>
-                <div class="dropdown-content">
-                    <a href="#" onclick="loadMetas('Todos')">Todos</a>
-                    <a href="#" onclick="loadMetas('Andamento')">Andamento</a>
-                    <a href="#" onclick="loadMetas('Concluido')">Concluídos</a>
-                    <a href="#" onclick="loadMetas('Nenhum')">
-                        <img class="height" src="~/img/limpeza-de-dados.png" alt="Limpar" />
-                    </a>
+                    <!-- Lista suspensa para status -->
+                    <div class="dropdown ml-auto">
+                        <button onclick="loadMetas('Todos')">
+                            <img class="height" src="~/img/filtro.png" alt="Filtro" />
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="loadMetas('Todos')">Todos</a>
+                            <a href="#" onclick="loadMetas('Andamento')">Andamento</a>
+                            <a href="#" onclick="loadMetas('Concluido')">Concluídos</a>
+                            <a href="#" onclick="loadMetas('Nenhum')">Limpar filtro</a>
+                        </div>
+                        <!-- Exibe o filtro selecionado -->
+                        <span id="filtroSelecionado"></span>
+                    </div>
                 </div>
-                <!-- Exibe o filtro selecionado -->
-                <span id="filtroSelecionado"></span>
             </div>
-        </div>
 
             <div class="card-list">
                 <div class="card-list">
