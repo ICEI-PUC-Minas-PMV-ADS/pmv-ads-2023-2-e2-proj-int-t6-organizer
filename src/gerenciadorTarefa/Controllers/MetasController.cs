@@ -12,8 +12,10 @@ using Microsoft.AspNetCore.Identity;
 public class MetaController : Controller
 {
     private readonly AppDbContext _context;
-    public MetaController(AppDbContext context)
+    private readonly ILogger<MetaController> _logger;
+    public MetaController(ILogger<MetaController> logger, AppDbContext context)
     {
+        _logger = logger;
         _context = context;
     }
 
@@ -252,6 +254,49 @@ public class MetaController : Controller
 
         return RedirectToAction("Index", "Meta");
     }
+
+
+
+    [HttpPost]
+    [AutoValidateAntiforgeryToken]
+    public IActionResult ChangeTaskStatus(int taskId)
+    {
+        try
+        {
+            _logger.LogInformation($"Task status changed successfully. TaskId: {taskId}");
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("ErrorAction");
+            }
+
+            var tarefa = _context.Tarefas
+                .FirstOrDefault(t => t.Id == taskId && t.Metas.UsuarioId == userId);
+
+            if (tarefa == null)
+            {
+                return NotFound();
+            }
+
+            // Mudar o status da tarefa para true
+            //tarefa.Status = bool.Parse(status);
+            tarefa.Status = !tarefa.Status;
+
+            // Atualizar a entrada no banco de dados
+            _context.Tarefas.Update(tarefa);
+            _context.SaveChanges();
+
+           return RedirectToAction("Index", "Meta");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
 
 
 }

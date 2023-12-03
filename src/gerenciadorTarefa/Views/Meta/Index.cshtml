@@ -51,18 +51,19 @@
                         <span>Pessoal</span>
                     </div>
                     <div id="elementoAlvo-Profissional" class="btn-categoria profissional"
-                         onclick="loadCategory('Profissional')">
+                        onclick="loadCategory('Profissional')">
                         <span>Profissional</span>
                     </div>
-                    <div id="elementoAlvo-Academico" class="btn-categoria academico" onclick="loadCategory('Academico')">
+                    <div id="elementoAlvo-Academico" class="btn-categoria academico"
+                        onclick="loadCategory('Academico')">
                         <span>Acadêmico</span>
                     </div>
 
                     <!-- Lista suspensa para status -->
                     <div class="dropdown ml-auto">
-                        <button onclick="loadMetas('Todos')">
-                            <img class="height" src="~/img/filtro.png" alt="Filtro" />
-                        </button>
+                       
+                            <img onclick="loadMetas('Todos')" class="height filtro-btn" src="~/img/filtro.png" alt="Filtro" />
+                        
                         <div class="dropdown-content">
                             <a href="#" onclick="loadMetas('Todos')">Todos</a>
                             <a href="#" onclick="loadMetas('Andamento')">Andamento</a>
@@ -84,18 +85,20 @@
                     {
                         if (item != null)
                         {
-                            <div class="gap" data-category="@item.Categoria">
+                            <div class="gap" data-category="@item.Categoria" data-item-id="@item.Id">
                                 <div class="card1">
                                     <span class="titulo">@Html.DisplayFor(modelItem => item.Titulo)</span>
                                     <div class="btn-Edit-Del">
                                         <a asp-action="Edit" asp-route-id="@item.Id"></a>
                                         <a asp-action="Delete" asp-route-id="@item.Id"></a>
+
                                     </div>
                                     <div class="flex">
                                         <img class="height" src="~/img/menu.png" alt="menu" onclick="toggleOpcoesEdicao(event)">
                                         <div class="opcoes-edicao" style="display: none;">
-                                            <a asp-action="Edit" asp-route-id="@item.Id" onclick="editarMeta('@item.Id')">Editar</a>
-                                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="excluirMeta('@item.Id')">Excluir</a>
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id"
+                                                onclick="excluirMeta('@item.Id')">Excluir</a>
                                         </div>
                                     </div>
                                 </div>
@@ -111,13 +114,23 @@
                                     </div>
                                 </div>
                                 <div class="checkbox-options">
-                                    @foreach (var tarefa in item.Tarefas)
-                                    {
-                                        <div class="checkbox-option">
-                                            <input type="checkbox" id="@($"checkbox-{item.Id}")" onchange="atualizarProgresso('@item.Id')">
-                                            <label for="@($"checkbox-{item.Id}-{tarefa.Id}")">@tarefa.Nome</label>
-                                        </div>
-                                    }
+                                    <form class="form-146" id="@($"form-{item.Id}")" asp-action="ChangeTaskStatus" method="post">
+                                        <input id="@($"submit-{item.Id}")" type="submit" value="Salvar"
+                                            style="display: none;" />
+                                        <input type="hidden" name="taskId" id="@($"taskId-{item.Id}")" value="" />
+
+
+                                        @foreach (var tarefa in item.Tarefas)
+                                        {
+                                            <div class="checkbox-option">
+                                                <input type="checkbox" class="inptcolor" id="@($"checkbox-{item.Id}-{tarefa.Id}")"
+                                                    data-task-id="@tarefa.Id" checked="@tarefa.Status"
+                                                    onchange="atualizarProgresso('@tarefa.Status', '@item.Id', @tarefa.Id)">
+
+                                                <label for="@($"checkbox-{item.Id}-{tarefa.Id}")">@tarefa.Nome</label>
+                                            </div>
+                                        }
+                                    </form>
                                 </div>
                             </div>
                         }
@@ -131,14 +144,22 @@
     </div>
 </div>
 <script>
-    
-        // ... (previous script code)
 
-        // Event listener for any checkbox change
-    function checkboxChanged() {
-            loadMetas(getSelectedStatus());
-    }
 
+    window.onload = function () {
+        // Run atualizarProgresso2 when the page loads
+        setTimeout(() => {
+            var metas = document.querySelectorAll('.gap');
+            metas.forEach(function (meta) {
+                var itemId = meta.getAttribute('data-item-id');
+                console.log('meta', meta)
+                console.log('iid', itemId)
+                atualizarProgresso2(itemId);
+            });
+
+        }, 500)
+
+    };
     // Function to get the selected status from checkboxes
     function getSelectedStatus() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -163,7 +184,7 @@
                 if (checkboxes.length > 1) {
                     return checkbox.checked;
                 }
-                
+
             });
             var allCheckboxesChecked = Array.from(checkboxes).every(function (checkbox) {
                 return checkbox.checked;
@@ -198,9 +219,12 @@
     }
 
     function loadCategory(category) {
-        console.log(category)
+        // Save the selected category to localStorage
+        localStorage.setItem('selectedCategory', category);
+
+        console.log(category);
         var categoryItems = document.querySelectorAll(`.gap[data-category="${category}"]`);
-        console.log(categoryItems)
+        console.log(categoryItems);
 
         var allItems = document.querySelectorAll('.gap');
         allItems.forEach(item => {
@@ -224,15 +248,48 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        loadCategory('Profissional');
+        var selectedCategory = localStorage.getItem('selectedCategory');
+        if (selectedCategory) {
+            loadCategory(selectedCategory);
+        } else {
+            loadCategory('Profissional'); // Default category if none is saved
+        }
     });
 
-    function atualizarProgresso(itemId) {
-        console.log(itemId)
-        var checkboxes = document.querySelectorAll(`input[type="checkbox"][id="checkbox-${itemId}"]`);
+    function atualizarProgresso(status, itemId, taskId) {
+        document.getElementById(`taskId-${itemId}`).value = taskId;
+        document.getElementById('submit-' + itemId).click();
+    @* var checkboxes = document.querySelectorAll(`input[type="checkbox"][id="checkbox-${itemId}"]`);
+            var progressoId = `progresso-${itemId}`;
+            var checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+
+            console.log(checkboxesMarcados)
+            console.log(checkboxes.length)
+            var progresso = ((checkboxesMarcados / checkboxes.length) * 100).toFixed(1);
+            console.log(progresso)
+
+            // Ensure the progress bar container and text elements exist
+            var progressBar = document.getElementById(progressoId);
+            var progressText = document.querySelector(`#${progressoId} .porcentagem-text`);
+
+            if (progressBar && progressText) {
+            progressBar.style.width = progresso + '%';
+            progressText.textContent = progresso + '%';
+            } *@
+    }
+
+    function atualizarProgresso2(itemId) {
+        var checkboxes = document.querySelectorAll(`input[type="checkbox"][data-task-id][id^="checkbox-${itemId}"]`);
+
+        checkboxes.forEach(function (checkbox) {
+            var taskId = checkbox.getAttribute('data-task-id');
+            // Use taskId as needed
+        });
         var progressoId = `progresso-${itemId}`;
+        console.log(Array.from(checkboxes))
         var checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
 
+        console.log('ATUALIZAR PROGRESSO')
         console.log(checkboxesMarcados)
         console.log(checkboxes.length)
         var progresso = ((checkboxesMarcados / checkboxes.length) * 100).toFixed(1);
@@ -273,10 +330,35 @@
         }
     });
 
+
     function irParaPaginaCreate() {
         // Redireciona para a página Create
         window.location.href = '/Meta/Create'; // Substitua 'SuaController' pelo nome real do seu controller
         console.log("teste")
+    }
+
+
+    //--------//
+
+
+
+    function changeTaskStatus(taskId) {
+        // Use AJAX para chamar a ação no controlador
+        $.ajax({
+            url: "/Meta/ChangeTaskStatus",
+            //  data: { taskId: taskId },
+            type: 'POST',
+            contentType: 'application/json', // or 'application/x-www-form-urlencoded'
+            dataType: 'json', // or 'text' depending on the expected response type
+            success: function () {
+                // Success handling
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                alert('Erro ao mudar o status da tarefa.');
+                // Error handling
+            }
+        });
     }
 
 </script>

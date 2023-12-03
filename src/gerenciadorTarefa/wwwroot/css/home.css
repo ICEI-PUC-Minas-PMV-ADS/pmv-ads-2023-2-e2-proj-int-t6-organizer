@@ -383,9 +383,9 @@ input[type="checkbox"] {
 }
 
 .height {
-    height: 30px;
-    cursor: pointer;
-}
+  height: 24px;
+  cursor: pointer;
+  width: 24px;}
 
 #elementoAlvo {
   background-color: #6368d9;
@@ -459,4 +459,24 @@ input[type="checkbox"] {
 }
 button {
     border: none;
+}
+
+.form-146{
+  display:contents;
+}
+
+.background-input[type="checkbox"]:checked {
+  background-color: #4CAF50; /* Cor de fundo quando marcado */
+  color: white; /* Cor do texto quando marcado */
+}
+
+.inptcolor:checked + .checkbox-label {
+  background-color: purple; /* Cor de fundo quando marcado */
+  color: white; /* Cor do texto quando marcado */
+}
+
+.filtro-btn{
+  height:36px;
+  width:30px;
+  margin-right:10px;
 }
