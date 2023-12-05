@@ -4330,8 +4330,6 @@ Figura 22 - Estrutura de dados
 
 Após realizar os testes de usabilidade, obtém-se um relatório a partir das análises realizadas. O Registro de Testes de Usabilidade é um relatório que contém as evidências dos testes e relatos dos usuários participantes, baseado no plano de Testes de usabilidade desenvolvido nessa etapa.
 
-**Relatório de Teste de Usabilidade - Registro de Conta**
-
 Projeto: Aplicativo de Gerenciamento de Tarefas e Metas 
 
 **Resumo:** 
@@ -4433,6 +4431,56 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 **Conclusão:**
 
 * O teste de usabilidade de criação de conta no gerenciador de tarefas 'Organizer' cumpre o seu papel sendo eficiente e intuitivo para usuários de diferentes perfis. As recomendações acima podem ajudar a manter a simplicidade e clareza no seu desenvolvimento, proporcionando uma experiência de registro eficaz.
+
+**Relatório de Teste de Usabilidade**
+
+O presente relatório descreve os resultados do teste de usabilidade realizado no sistema, com foco na tarefas escritas no Plano de Testes de Usabilidade: Os testes visam avaliar a facilidade de registro, clareza nas instruções e a velocidade de conclusão do processo.
+
+O relatório dos resultados obtidos nos testes de usabilidade realizados são descritos nas Tabela a seguir.
+
+**Relatório de Teste de Usabilidade - Registro de Conta**
+
+![Teste 1](src/img/tabela1.png)
+
+**Conclusão:**
+O teste de usabilidade para o processo de criação de conta no aplicativo Organizer apresentou resultados positivos. Os participantes conseguiram realizar a tarefa de criação de conta de maneira eficiente, evidenciando a eficácia das instruções fornecidas e a facilidade de conclusão do processo.
+Não foram identificados problemas significativos durante a participação dos usuários nos testes. A experiência global de criação de conta foi bem-sucedida, com feedbacks positivos em relação à eficiência e clareza do processo.
+
+**Relatório de Teste de Usabilidade - Criação de Metas**
+
+![Teste 2](src/img/tabela2.png)
+
+
+**Conclusão:**
+O teste de usabilidade para a criação de metas no aplicativo Organizer apresentou resultados predominantemente positivos. Os participantes, em geral, conseguiram realizar a tarefa de cadastramento de metas de forma eficiente, destacando a clareza nas instruções e a intuição da interface.
+No entanto, identificamos um feedback negativo específico de Lucas Mendes, que expressou confusão ao tentar cadastrar uma tarefa. 
+
+**Proposta de correção:** Sugere uma melhoria na descrição da opção "Cadastrar Tarefa". Recomenda-se detalhar mais claramente o processo e as opções disponíveis nessa etapa, visando eliminar qualquer ambiguidade e proporcionar uma experiência mais fluida para o usuário.
+
+
+**Relatório de Teste de Usabilidade - Edição de Metas e Tarefas**
+
+![Teste 3](src/img/tabela3.png)
+
+**Conclusão:** O teste de usabilidade para a edição de metas e tarefas no aplicativo Organizer apresentou resultados majoritariamente positivos. A maioria dos participantes foi capaz de realizar a tarefa de edição de metas e tarefas de maneira eficiente, destacando a clareza nas instruções e a intuitividade da interface.
+No entanto, foi identificado um feedback negativo específico de Lucas Mendes, que expressou confusão ao tentar editar uma tarefa. 
+
+**Proposta de correção** Sugere uma melhoria na descrição da opção "Editar Tarefa", visando detalhar mais claramente o processo e as opções disponíveis nessa etapa. Isso tem como objetivo eliminar qualquer ambiguidade e proporcionar uma experiência mais fluída para o usuário.
+
+
+**Relatório de Teste de Usabilidade - Edição de Perfil**
+
+![Teste 4](src/img/tabela4.png)
+
+**Conclusão:** O teste de usabilidade para a edição de perfil no aplicativo Organizer revelou resultados amplamente positivos, com todos os participantes conseguindo realizar a tarefa de edição de perfil de forma fácil e eficiente
+
+
+
+
+
+
+
+
 
 **************************
 
