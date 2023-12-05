@@ -28,7 +28,7 @@
 
                 <div class="box-edit">
 
-                    <h1>Tem certeza que quer excluir essa meta?</h1>
+                    <h1 class="tem">Tem certeza que quer excluir essa meta?</h1>
                     <div>
                         <hr />
                         <dl class="row">
@@ -60,8 +60,8 @@
 
                         <form asp-action="Delete" class="botoes">
                             <input type="hidden" asp-for="Id" />
-                            <input type="submit" value="Sim" class="btn btn-primary w-25" />
-                            <a asp-action="Index" class="btn btn-danger w-25">Não</a>
+                            <input  type="submit" value="Sim" class="btn btn-primary w-25 sim" />
+                            <a asp-action="Index" class="btn btn-danger w-25 sim não">Não</a>
                         </form>
                     </div>
                 </div>

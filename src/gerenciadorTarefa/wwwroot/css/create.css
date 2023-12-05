@@ -16,7 +16,8 @@
     margin-right: 8px;
     border-radius: 18px;
     width: 100px;
-    height: 100vh;
+    min-height:100vh;
+    padding-top:24px
 }
 .width {
   width: auto;
@@ -39,8 +40,8 @@
 
 .box-form {
     width: 520px;
-    margin-top: 150px ;
-    max-height: calc(100vh - 150px); /* Altura máxima para o formulário (ajuste conforme necessário) */
+    margin-top: 70px ;
+    max-height: calc(100vh - 150px); /* Altura mï¿½xima para o formulï¿½rio (ajuste conforme necessï¿½rio) */
     overflow-y: auto;
     overflow-x:hidden;
 }
