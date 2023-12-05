@@ -4432,11 +4432,11 @@ Realizamos testes de usabilidade com três participantes, representando diferent
 
 * O teste de usabilidade de criação de conta no gerenciador de tarefas 'Organizer' cumpre o seu papel sendo eficiente e intuitivo para usuários de diferentes perfis. As recomendações acima podem ajudar a manter a simplicidade e clareza no seu desenvolvimento, proporcionando uma experiência de registro eficaz.
 
-**Relatório de Teste de Usabilidade**
+##**Relatórios de Teste de Usabilidade**
 
-O presente relatório descreve os resultados do teste de usabilidade realizado no sistema, com foco na tarefas escritas no Plano de Testes de Usabilidade: Os testes visam avaliar a facilidade de registro, clareza nas instruções e a velocidade de conclusão do processo.
+O presente relatório descreve os resultados do testes de usabilidade realizado no sistema, com foco nas tarefas escritas no Plano de Testes de Usabilidade: Os testes visam avaliar a facilidade de registro, clareza nas instruções e a velocidade de conclusão do processo.
 
-O relatório dos resultados obtidos nos testes de usabilidade realizados são descritos nas Tabela a seguir.
+O relatório dos resultados obtidos nos testes de usabilidade realizados são descritos nas Tabelas a seguir.
 
 **Relatório de Teste de Usabilidade - Registro de Conta**
 
