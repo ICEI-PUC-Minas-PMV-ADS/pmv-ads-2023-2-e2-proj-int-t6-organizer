@@ -4761,7 +4761,7 @@ O vídeo localizado na pasta "presentation", demonstra de forma sintetizada o pr
 
  * <div align="center">
 
-![apresentacao](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/mp4/apresentacaoSolucao.mp4)
+![Apresentacao](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/tree/main/src/mp4/apresentacaoSolucao.mp4)
 
 </div>
 
