@@ -4757,7 +4757,7 @@ O vídeo abaixo, também localizado na pasta "presentation" com alta qualidade, 
 
 ### <a name="apresentacao">Apresentação da solução</a>
 O vídeo localizado na pasta "presentation", demonstra de forma sintetizada o problema e a proposta de solução do sistema. Endereço:
- * Video: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/tree/main/presentation
+ * Video: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/tree/main/presentation/apresentacaoSolucao.mp4
 
 ## <a name="referencia">Referências</a>
 A lista a seguir traz as referências utilizadas nesse trabalho. são elas:
