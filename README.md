@@ -4759,9 +4759,9 @@ O vídeo abaixo, também localizado na pasta "presentation" com alta qualidade, 
 O vídeo localizado na pasta "presentation", demonstra de forma sintetizada o problema e a proposta de solução do sistema. Endereço:
  * Video: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/tree/main/presentation/apresentacaoSolucao.mp4
 
- * <div align="center">
+<div align="center">
 
-![Apresentacao](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/tree/main/src/mp4/apresentacaoSolucao.mp4)
+![Apresentacao](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer/blob/main/src/mp4/apresentacaoSolucao.gif)
 
 </div>
 
