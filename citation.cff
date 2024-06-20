@@ -1,0 +1,22 @@
+message: Please cite this software using these metadata.
+title: GeekBid
+authors:
+  - family-names: Soares da Silva
+    given-names: Matheus
+  - family-names: Aparecida Couto Ferraz
+    given-names: Irene
+  - family-names: de Lourdes Monteiro da Silva
+    given-names: Maria
+  - family-names: Fernandes Silva
+    given-names: Talita
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Jeunon de Alencar
+    given-names: Bernardo
+keywords:
+  - Planejamento
+  - Organizar
+  - Gerenciador
+repository-code:https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e2-proj-int-t6-organizer
+version: 1.0.0
+date-released: 2023-12-06
